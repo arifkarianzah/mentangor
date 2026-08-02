@@ -8,15 +8,32 @@
 window.Components = window.Components || {
   async load(pageName) {
     try {
+      // Helper fetch component
+      const fetchComponent = async (filename) => {
+        const paths = [
+          `components/${filename}?v=` + Date.now(),
+          `./components/${filename}?v=` + Date.now(),
+          `../admin/components/${filename}?v=` + Date.now(),
+          `/admin/components/${filename}?v=` + Date.now()
+        ];
+        for (const p of paths) {
+          try {
+            const res = await fetch(p);
+            if (res.ok) return await res.text();
+          } catch (_) {}
+        }
+        return '';
+      };
+
       // Load sidebar (with cache busting)
-      const sidebarRes = await fetch('../admin/components/sidebar.html?v=' + Date.now());
-      const sidebarHtml = await sidebarRes.text();
-      document.getElementById('sidebar-container').innerHTML = sidebarHtml;
+      const sidebarHtml = await fetchComponent('sidebar.html');
+      const sidebarContainer = document.getElementById('sidebar-container');
+      if (sidebarContainer && sidebarHtml) sidebarContainer.innerHTML = sidebarHtml;
 
       // Load navbar (with cache busting)
-      const navbarRes = await fetch('../admin/components/navbar.html?v=' + Date.now());
-      const navbarHtml = await navbarRes.text();
-      document.getElementById('navbar-container').innerHTML = navbarHtml;
+      const navbarHtml = await fetchComponent('navbar.html');
+      const navbarContainer = document.getElementById('navbar-container');
+      if (navbarContainer && navbarHtml) navbarContainer.innerHTML = navbarHtml;
 
       // Set active menu
       const activeItem = document.querySelector(`#sidebar [data-page="${pageName}"]`);
