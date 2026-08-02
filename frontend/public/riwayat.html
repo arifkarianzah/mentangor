@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riwayat Pelayanan - Info Warga RW 02 Mentangor</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../assets/css/style.css?v=4">
+    <link rel="stylesheet" href="../assets/css/responsive.css?v=4">
+    <script>if (window.location.pathname.endsWith('/public')) { window.location.replace(window.location.pathname + '/'); }</script>
+</head>
+<body class="bg-light">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary-green fixed-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-semibold d-flex align-items-center gap-2" href="index.html">
+                <i class="fa-solid fa-bullhorn text-accent-orange"></i>
+                Info Warga RW 02 Mentangor
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto fw-medium">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="pengumuman.html">Pengumuman & Agenda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="laporan.html">Lapor Keluhan</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="riwayat.html">Riwayat Info</a></li>
+                    <li class="nav-item"><a class="nav-link" href="kontak.html">Kontak Pengurus</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container" style="margin-top: 90px; padding-bottom: 80px;">
+        
+        <!-- Header & Search Filter -->
+        <div class="row mb-4 align-items-center g-3">
+            <div class="col-lg-5">
+                <h2 class="fw-bold text-primary-green mb-1 fs-3">Riwayat Laporan & Keluhan</h2>
+                <p class="text-muted mb-0 small">Pantau status penanganan laporan warga RW 02 secara transparan.</p>
+            </div>
+            <div class="col-lg-7">
+                <!-- Search & Filter Form -->
+                <form id="filterForm" class="row g-2 justify-content-lg-end">
+                    <div class="col-12 col-sm-6 col-md-5">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0 text-muted"><i class="fa-solid fa-search"></i></span>
+                            <input type="text" class="form-control border-start-0 ps-0" id="searchInput" placeholder="Cari nomor / alamat...">
+                        </div>
+                    </div>
+                    <div class="col-7 col-sm-4 col-md-4">
+                        <select class="form-select" id="statusFilter">
+                            <option value="">Semua Status</option>
+                            <option value="menunggu">Menunggu</option>
+                            <option value="diverifikasi">Diverifikasi</option>
+                            <option value="diproses">Diproses</option>
+                            <option value="selesai">Selesai</option>
+                            <option value="ditolak">Ditolak</option>
+                        </select>
+                    </div>
+                    <div class="col-5 col-sm-2 col-md-auto">
+                        <button type="submit" class="btn btn-primary-green w-100 fw-medium">
+                            <i class="fa-solid fa-filter me-1"></i> Filter
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Desktop & Laptop View: Modern Table (d-none d-md-block) -->
+        <div class="card border-0 shadow-sm rounded-4 d-none d-md-block overflow-hidden">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-4 py-3 text-secondary text-uppercase small fw-semibold" style="width: 180px;">No. Laporan</th>
+                                <th class="py-3 text-secondary text-uppercase small fw-semibold">Judul & Alamat</th>
+                                <th class="py-3 text-secondary text-uppercase small fw-semibold" style="width: 140px;">Status</th>
+                                <th class="py-3 text-secondary text-uppercase small fw-semibold" style="width: 130px;">Tanggal</th>
+                                <th class="pe-4 py-3 text-end text-secondary text-uppercase small fw-semibold" style="width: 110px;">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <!-- Loading skeleton -->
+                            <tr><td colspan="5" class="text-center py-5">
+                                <div class="spinner-border text-primary-green" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile View: Modern Cards (d-md-none) -->
+        <div class="d-md-none" id="mobileCardsContainer">
+            <div class="text-center py-5">
+                <div class="spinner-border text-primary-green" role="status"></div>
+            </div>
+        </div>
+        
+        <!-- Pagination -->
+        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3 mt-4 pt-2">
+            <div class="text-muted small order-2 order-sm-1" id="paginationInfo">Menampilkan 0 laporan</div>
+            <ul class="pagination pagination-sm mb-0 order-1 order-sm-2 flex-wrap justify-content-center" id="paginationControls">
+                <!-- Dynamic pagination -->
+            </ul>
+        </div>
+
+    </main>
+
+    <!-- Modal Detail Laporan -->
+    <div class="modal fade" id="detailModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0">
+                <div class="modal-header border-bottom-0 pb-0">
+                    <h5 class="modal-title fw-bold" id="modalReportNumber">RPT-...</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4 pt-2" id="modalBody">
+                    <div class="text-center"><div class="spinner-border text-primary-green"></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap & Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script>
+        let currentPage = 1;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Cek URL params untuk initial filter
+            const urlParams = new URLSearchParams(window.location.search);
+            const statusParam = urlParams.get('status');
+            if (statusParam) {
+                document.getElementById('statusFilter').value = statusParam;
+            }
+            
+            fetchReports();
+
+            document.getElementById('filterForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                currentPage = 1;
+                fetchReports();
+            });
+            
+            document.getElementById('statusFilter').addEventListener('change', () => {
+                currentPage = 1;
+                fetchReports();
+            });
+        });
+
+        async function fetchReports() {
+            const tbody = document.getElementById('tableBody');
+            const mobileContainer = document.getElementById('mobileCardsContainer');
+            const search = document.getElementById('searchInput').value;
+            const status = document.getElementById('statusFilter').value;
+            
+            if (tbody) tbody.innerHTML = `<tr><td colspan="5" class="text-center py-5"><div class="spinner-border text-primary-green"></div></td></tr>`;
+            if (mobileContainer) mobileContainer.innerHTML = `<div class="text-center py-5"><div class="spinner-border text-primary-green"></div></div>`;
+            
+            try {
+                const res = await API.get(`/reports?page=${currentPage}&limit=10${search ? '&search='+search : ''}${status ? '&status='+status : ''}`);
+                
+                if (res.success) {
+                    renderTable(res.data);
+                    renderPagination(res.pagination);
+                } else {
+                    const errMsg = `<div class="text-center py-4 text-danger">Gagal memuat data</div>`;
+                    if (tbody) tbody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-danger">Gagal memuat data</td></tr>`;
+                    if (mobileContainer) mobileContainer.innerHTML = errMsg;
+                }
+            } catch (error) {
+                const errMsg = `<div class="text-center py-4 text-danger">Terjadi kesalahan koneksi</div>`;
+                if (tbody) tbody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-danger">Terjadi kesalahan koneksi</td></tr>`;
+                if (mobileContainer) mobileContainer.innerHTML = errMsg;
+            }
+        }
+
+        function renderTable(data) {
+            const tbody = document.getElementById('tableBody');
+            const mobileContainer = document.getElementById('mobileCardsContainer');
+            
+            if (data.length === 0) {
+                const emptyHtml = `<tr><td colspan="5" class="text-center py-5 text-muted"><i class="fa-regular fa-folder-open fs-2 d-block mb-2 text-muted opacity-50"></i>Tidak ada laporan ditemukan</td></tr>`;
+                const emptyMobileHtml = `<div class="card border-0 shadow-sm rounded-4 p-4 text-center text-muted"><i class="fa-regular fa-folder-open fs-2 d-block mb-2 text-muted opacity-50"></i>Tidak ada laporan ditemukan</div>`;
+                if (tbody) tbody.innerHTML = emptyHtml;
+                if (mobileContainer) mobileContainer.innerHTML = emptyMobileHtml;
+                return;
+            }
+            
+            // Render Desktop Table
+            if (tbody) {
+                tbody.innerHTML = data.map(item => {
+                    const date = new Date(item.created_at).toLocaleDateString('id-ID');
+                    return `
+                        <tr>
+                            <td class="ps-4 py-3 fw-medium">
+                                <span class="report-num-badge font-monospace text-nowrap">${item.report_number}</span>
+                            </td>
+                            <td class="py-3">
+                                <div class="fw-semibold text-dark text-truncate" style="max-width: 320px;">${item.title}</div>
+                                <small class="text-muted text-truncate d-inline-block" style="max-width: 320px;">
+                                    <i class="fa-solid fa-location-dot text-danger me-1 small"></i>${item.address}
+                                </small>
+                            </td>
+                            <td class="py-3"><span class="badge ${getStatusBadgeClass(item.status)} rounded-pill px-3 py-1">${item.status.toUpperCase()}</span></td>
+                            <td class="py-3 text-muted small">${date}</td>
+                            <td class="pe-4 py-3 text-end">
+                                <button class="btn btn-sm btn-outline-primary-green rounded-pill px-3 fw-medium" onclick="showDetail(${item.id})">
+                                    Detail <i class="fa-solid fa-arrow-right ms-1 small"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+
+            // Render Mobile Cards
+            if (mobileContainer) {
+                mobileContainer.innerHTML = data.map(item => {
+                    const date = new Date(item.created_at).toLocaleDateString('id-ID');
+                    return `
+                        <div class="report-card-mobile p-3 mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="report-num-badge font-monospace">${item.report_number}</span>
+                                <span class="badge ${getStatusBadgeClass(item.status)} rounded-pill px-2 py-1">${item.status.toUpperCase()}</span>
+                            </div>
+                            <h6 class="fw-bold text-dark mb-1">${item.title}</h6>
+                            <p class="text-muted small mb-3">
+                                <i class="fa-solid fa-location-dot text-danger me-1"></i> ${item.address}
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                                <small class="text-muted"><i class="fa-regular fa-calendar me-1"></i> ${date}</small>
+                                <button class="btn btn-sm btn-primary-green rounded-pill px-3 py-1 fw-medium" onclick="showDetail(${item.id})">
+                                    Detail <i class="fa-solid fa-arrow-right ms-1"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+        }
+
+        function renderPagination(pageInfo) {
+            document.getElementById('paginationInfo').textContent = `Menampilkan ${pageInfo.total} laporan (Halaman ${pageInfo.page}/${pageInfo.totalPages})`;
+            
+            const ul = document.getElementById('paginationControls');
+            let html = '';
+            
+            html += `<li class="page-item ${pageInfo.page === 1 ? 'disabled' : ''}">
+                <a class="page-link" href="#" onclick="changePage(${pageInfo.page - 1}); return false;">Prev</a>
+            </li>`;
+            
+            for (let i = 1; i <= pageInfo.totalPages; i++) {
+                if (i === 1 || i === pageInfo.totalPages || (i >= pageInfo.page - 1 && i <= pageInfo.page + 1)) {
+                    html += `<li class="page-item ${i === pageInfo.page ? 'active' : ''}">
+                        <a class="page-link" href="#" onclick="changePage(${i}); return false;">${i}</a>
+                    </li>`;
+                } else if (i === pageInfo.page - 2 || i === pageInfo.page + 2) {
+                    html += `<li class="page-item disabled"><a class="page-link" href="#">...</a></li>`;
+                }
+            }
+            
+            html += `<li class="page-item ${pageInfo.page === pageInfo.totalPages || pageInfo.totalPages === 0 ? 'disabled' : ''}">
+                <a class="page-link" href="#" onclick="changePage(${pageInfo.page + 1}); return false;">Next</a>
+            </li>`;
+            
+            ul.innerHTML = html;
+        }
+
+        function changePage(page) {
+            currentPage = page;
+            fetchReports();
+        }
+
+        function getStatusBadgeClass(status) {
+            switch(status) {
+                case 'menunggu': return 'bg-warning text-dark';
+                case 'diverifikasi': return 'bg-info text-dark';
+                case 'diproses': return 'bg-accent-orange';
+                case 'selesai': return 'bg-success';
+                case 'ditolak': return 'bg-danger';
+                default: return 'bg-secondary';
+            }
+        }
+
+        async function showDetail(id) {
+            const modal = new bootstrap.Modal(document.getElementById('detailModal'));
+            const modalBody = document.getElementById('modalBody');
+            document.getElementById('modalReportNumber').textContent = 'Memuat...';
+            
+            modalBody.innerHTML = `<div class="text-center py-5"><div class="spinner-border text-primary-green"></div></div>`;
+            modal.show();
+            
+            try {
+                const res = await API.get(`/reports/${id}`);
+                if (res.success) {
+                    const data = res.data;
+                    document.getElementById('modalReportNumber').textContent = data.report_number;
+                    
+                    const date = new Date(data.created_at).toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'});
+                    
+                    let beforeImg = '', afterImg = '';
+                    const base = API_URL.replace('/api', '');
+                    data.images.forEach(img => {
+                        if (img.type === 'before') beforeImg = `<img src="${base}/uploads/${img.image_path}" class="img-fluid rounded border mb-2 w-100" style="height:200px; object-fit:cover;">`;
+                        if (img.type === 'after') afterImg = `<img src="${base}/uploads/${img.image_path}" class="img-fluid rounded border mb-2 w-100" style="height:200px; object-fit:cover;">`;
+                    });
+                    
+                    modalBody.innerHTML = `
+                        <div class="row">
+                            <div class="col-md-7 border-end-md mb-4 mb-md-0">
+                                <span class="badge ${getStatusBadgeClass(data.status)} mb-2">${data.status.toUpperCase()}</span>
+                                <h4 class="fw-bold">${data.title}</h4>
+                                <p class="text-muted small mb-4"><i class="fa-regular fa-calendar me-1"></i> Dilaporkan: ${date}</p>
+                                
+                                <h6 class="fw-bold">Alamat:</h6>
+                                <p>${data.address}</p>
+                                
+                                <h6 class="fw-bold">Deskripsi:</h6>
+                                <p>${data.description || '-'}</p>
+                                
+                                <h6 class="fw-bold">Catatan Petugas:</h6>
+                                <div class="bg-light p-3 rounded text-muted fst-italic">
+                                    ${data.notes || 'Belum ada catatan.'}
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <h6 class="fw-bold text-center border-bottom pb-2">Foto Sebelum</h6>
+                                ${beforeImg || '<div class="text-center text-muted p-4 bg-light rounded">Tidak ada foto</div>'}
+                                
+                                <h6 class="fw-bold text-center border-bottom pb-2 mt-4">Foto Sesudah</h6>
+                                ${afterImg || '<div class="text-center text-muted p-4 bg-light rounded">Belum ada foto sesudah</div>'}
+                            </div>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                modalBody.innerHTML = `<div class="alert alert-danger">Gagal memuat detail laporan.</div>`;
+            }
+        }
+    </script>
+</body>
+</html>

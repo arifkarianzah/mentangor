@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengumuman & Agenda - Info Warga RW 02 Mentangor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../assets/css/style.css?v=4">
+    <link rel="stylesheet" href="../assets/css/responsive.css?v=4">
+    <script>if (window.location.pathname.endsWith('/public')) { window.location.replace(window.location.pathname + '/'); }</script>
+</head>
+<body class="bg-light">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary-green fixed-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-semibold d-flex align-items-center gap-2" href="index.html">
+                <i class="fa-solid fa-bullhorn text-accent-orange"></i> Info Warga RW 02 Mentangor
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto fw-medium">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="pengumuman.html">Pengumuman & Agenda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="laporan.html">Lapor Keluhan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="riwayat.html">Riwayat Info</a></li>
+                    <li class="nav-item"><a class="nav-link" href="kontak.html">Kontak Pengurus</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container" style="margin-top: 100px; padding-bottom: 80px;">
+        
+        <div class="row mb-4 align-items-end g-3" id="listHeader">
+            <div class="col-md-7 mb-2 mb-md-0">
+                <h2 class="fw-bold text-primary-green mb-1 fs-3">Kabar & Pengumuman Warga</h2>
+                <p class="text-muted mb-0 small">Informasi resmi kegiatan, agenda posyandu, gotong royong, dan surat edaran RW 02.</p>
+            </div>
+            <div class="col-md-5 text-md-end">
+                <div class="btn-group shadow-sm flex-wrap w-100 w-md-auto" role="group">
+                    <button type="button" class="btn btn-outline-primary-green active filter-btn py-2 px-3" data-type="">Semua</button>
+                    <button type="button" class="btn btn-outline-primary-green filter-btn py-2 px-3" data-type="kegiatan">Kegiatan</button>
+                    <button type="button" class="btn btn-outline-primary-green filter-btn py-2 px-3" data-type="gotong_royong">Gotong Royong</button>
+                    <button type="button" class="btn btn-outline-primary-green filter-btn py-2 px-3" data-type="posyandu">Posyandu</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="announcementList" class="row g-4">
+            <!-- Content loaded via JS -->
+            <div class="col-12 text-center py-5">
+                <div class="spinner-border text-primary-green"></div>
+            </div>
+        </div>
+        
+        <div class="d-flex justify-content-center mt-5 d-none" id="paginationContainer">
+            <button class="btn btn-outline-primary-green rounded-pill px-4" id="btnLoadMore">Muat Lebih Banyak</button>
+        </div>
+
+        <!-- Detail View (Hidden by default) -->
+        <div id="detailView" class="d-none">
+            <button class="btn btn-link text-decoration-none text-dark mb-4 p-0" onclick="showList()"><i class="fa-solid fa-arrow-left me-2"></i> Kembali ke Daftar</button>
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                <div id="detailImage" class="w-100 bg-light d-flex align-items-center justify-content-center" style="height: 300px;"></div>
+                <div class="card-body p-4 p-md-5">
+                    <div class="mb-3" id="detailMeta"></div>
+                    <h2 class="fw-bold mb-4" id="detailTitle">Title</h2>
+                    <div class="content-body" id="detailContent" style="line-height: 1.8; white-space: pre-line;"></div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Bootstrap & Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script>
+        let currentPage = 1;
+        let currentType = '';
+        let hasMore = true;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+            
+            if (id) {
+                loadDetail(id);
+            } else {
+                loadAnnouncements(true);
+            }
+
+            // Filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                    currentType = e.target.dataset.type;
+                    currentPage = 1;
+                    loadAnnouncements(true);
+                });
+            });
+
+            document.getElementById('btnLoadMore').addEventListener('click', () => {
+                currentPage++;
+                loadAnnouncements(false);
+            });
+        });
+
+        async function loadAnnouncements(reset = false) {
+            document.getElementById('listHeader').classList.remove('d-none');
+            document.getElementById('announcementList').classList.remove('d-none');
+            document.getElementById('detailView').classList.add('d-none');
+            
+            const container = document.getElementById('announcementList');
+            const btnMore = document.getElementById('paginationContainer');
+            
+            if (reset) {
+                container.innerHTML = `<div class="col-12 text-center py-5"><div class="spinner-border text-primary-green"></div></div>`;
+                btnMore.classList.add('d-none');
+            }
+            
+            try {
+                let url = `/announcements?page=${currentPage}&limit=6`;
+                if (currentType) url += `&type=${currentType}`;
+                
+                const res = await API.get(url);
+                if (res.success) {
+                    if (reset) container.innerHTML = '';
+                    
+                    if (res.data.length === 0 && reset) {
+                        container.innerHTML = '<div class="col-12 text-center text-muted py-5">Belum ada pengumuman.</div>';
+                    } else {
+                        res.data.forEach(item => {
+                            container.innerHTML += createCardHTML(item);
+                        });
+                    }
+                    
+                    if (currentPage < res.pagination.totalPages) {
+                        btnMore.classList.remove('d-none');
+                    } else {
+                        btnMore.classList.add('d-none');
+                    }
+                }
+            } catch (err) {
+                container.innerHTML = '<div class="col-12 text-center text-danger py-5">Gagal memuat pengumuman.</div>';
+            }
+        }
+
+        function createCardHTML(item) {
+            const date = new Date(item.published_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+            
+            let badgeClass = 'bg-primary';
+            let typeName = item.type;
+            if(item.type === 'kegiatan') { badgeClass = 'bg-info'; typeName = 'Kegiatan'; }
+            else if(item.type === 'gotong_royong') { badgeClass = 'bg-success'; typeName = 'Gotong Royong'; }
+            else if(item.type === 'posyandu') { badgeClass = 'bg-warning text-dark'; typeName = 'Posyandu'; }
+            else { typeName = 'Umum'; }
+
+            const pinBadge = item.is_pinned ? `<span class="badge bg-danger ms-2"><i class="fa-solid fa-thumbtack"></i></span>` : '';
+            const img = item.image ? `<img src="${API_URL.replace('/api', '')}/uploads/${item.image}" class="card-img-top object-fit-cover" height="200">` : `<div class="bg-light d-flex align-items-center justify-content-center text-muted" style="height: 200px;"><i class="fa-solid fa-image fs-1"></i></div>`;
+
+            return `
+                <div class="col-md-6 col-lg-4">
+                    <a href="javascript:void(0)" onclick="loadDetail(${item.id})" class="text-decoration-none text-dark">
+                        <div class="card border-0 shadow-sm rounded-4 h-100 hover-lift overflow-hidden">
+                            ${img}
+                            <div class="card-body p-4">
+                                <div class="mb-2">
+                                    <span class="badge ${badgeClass} rounded-pill px-3">${typeName}</span>
+                                    ${pinBadge}
+                                </div>
+                                <h5 class="card-title fw-bold text-truncate-2">${item.title}</h5>
+                                <p class="card-text text-muted small text-truncate-3 mt-3">${item.content.replace(/<[^>]*>?/gm, '')}</p>
+                                <p class="text-muted small mb-0 mt-3"><i class="fa-regular fa-calendar me-2"></i>${date}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            `;
+        }
+
+        async function loadDetail(id) {
+            document.getElementById('listHeader').classList.add('d-none');
+            document.getElementById('announcementList').classList.add('d-none');
+            document.getElementById('paginationContainer').classList.add('d-none');
+            const view = document.getElementById('detailView');
+            view.classList.remove('d-none');
+            
+            document.getElementById('detailContent').innerHTML = '<div class="text-center"><div class="spinner-border"></div></div>';
+            
+            // Update URL without reload
+            window.history.pushState({}, '', `?id=${id}`);
+            
+            try {
+                const res = await API.get(`/announcements/${id}`);
+                if (res.success) {
+                    const item = res.data;
+                    const date = new Date(item.published_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+                    
+                    document.getElementById('detailTitle').textContent = item.title;
+                    document.getElementById('detailContent').textContent = item.content; // plain text for now
+                    
+                    let badgeClass = 'bg-primary';
+                    let typeName = item.type;
+                    if(item.type === 'kegiatan') { badgeClass = 'bg-info'; }
+                    else if(item.type === 'gotong_royong') { badgeClass = 'bg-success'; }
+                    else if(item.type === 'posyandu') { badgeClass = 'bg-warning text-dark'; }
+                    
+                    document.getElementById('detailMeta').innerHTML = `
+                        <span class="badge ${badgeClass} rounded-pill px-3 me-2">${typeName}</span>
+                        <span class="text-muted small"><i class="fa-regular fa-calendar me-1"></i> ${date}</span>
+                    `;
+                    
+                    const imgContainer = document.getElementById('detailImage');
+                    if (item.image) {
+                        imgContainer.innerHTML = `<img src="${API_URL.replace('/api', '')}/uploads/${item.image}" class="w-100 h-100 object-fit-cover">`;
+                    } else {
+                        imgContainer.innerHTML = `<i class="fa-solid fa-bullhorn text-muted" style="font-size: 5rem; opacity: 0.2;"></i>`;
+                    }
+                }
+            } catch (err) {
+                document.getElementById('detailContent').innerHTML = '<div class="alert alert-danger">Gagal memuat detail pengumuman.</div>';
+            }
+        }
+
+        function showList() {
+            window.history.pushState({}, '', window.location.pathname);
+            loadAnnouncements(true);
+        }
+    </script>
+</body>
+</html>

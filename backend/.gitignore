@@ -1,0 +1,12 @@
+node_modules/
+.env
+uploads/reports/before/*
+uploads/reports/after/*
+uploads/profile/*
+!uploads/reports/before/.gitkeep
+!uploads/reports/after/.gitkeep
+!uploads/profile/.gitkeep
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
