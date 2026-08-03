@@ -1,6 +1,6 @@
 // assets/js/main.js
 
-document.addEventListener('DOMContentLoaded', () => {
+function initApp() {
   // Navbar Scrolled Effect
   const navbar = document.querySelector('.navbar');
   if (navbar) {
@@ -22,8 +22,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (token && userStr) {
       try {
         const user = JSON.parse(userStr);
+        const adminPath = window.location.pathname.includes('/public/') ? '../admin/dashboard.html' : (window.location.pathname.includes('/admin') ? 'dashboard.html' : 'frontend/admin/dashboard.html');
         authNavContainer.innerHTML = `
-          <a href="../admin/dashboard.html" class="btn btn-outline-light btn-sm rounded-pill px-3 d-flex align-items-center gap-2">
+          <a href="${adminPath}" class="btn btn-outline-light btn-sm rounded-pill px-3 d-flex align-items-center gap-2">
             <i class="fa-solid fa-user-circle"></i> Panel ${user.role === 'admin' ? 'Admin' : 'Petugas'}
           </a>
         `;
@@ -36,7 +37,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Typing Animation for Hero Title
   initTypingEffect();
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
+}
 
 function initTypingEffect() {
   const typingEl = document.getElementById('typingText');
