@@ -16,12 +16,135 @@
     <!-- SweetAlert2 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../assets/css/style.css?v=8">
-    <link rel="stylesheet" href="../assets/css/responsive.css?v=8">
-    <link rel="stylesheet" href="assets/css/style.css?v=8">
-    <link rel="stylesheet" href="assets/css/responsive.css?v=8">
-    <link rel="stylesheet" href="/assets/css/style.css?v=8">
-    <link rel="stylesheet" href="/assets/css/responsive.css?v=8">
+    <link rel="stylesheet" href="assets/css/style.css?v=11">
+    <link rel="stylesheet" href="assets/css/responsive.css?v=11">
+    <link rel="stylesheet" href="../assets/css/style.css?v=11">
+    <link rel="stylesheet" href="../assets/css/responsive.css?v=11">
+
+    <style>
+        :root {
+            --color-primary: #1a5c38;
+            --color-primary-light: #e8f3ec;
+            --color-accent: #f59e0b;
+            --color-accent-light: #fef3c7;
+            --color-success: #10b981;
+            --color-warning: #facc15;
+            --font-family: 'Inter', sans-serif;
+        }
+        body {
+            font-family: var(--font-family);
+            font-size: 0.875rem;
+            color: #334155;
+            background-color: #f8fafc;
+            padding-top: 56px;
+        }
+        .bg-primary-green {
+            background-color: #1a5c38 !important;
+        }
+        .text-primary-green {
+            color: #1a5c38 !important;
+        }
+        .text-accent-orange {
+            color: #f59e0b !important;
+        }
+        .btn-accent-orange {
+            background-color: #f59e0b !important;
+            color: #ffffff !important;
+            border: none;
+        }
+        .btn-accent-orange:hover {
+            background-color: #d97706 !important;
+            color: #ffffff !important;
+        }
+        .text-highlight-yellow {
+            color: #facc15 !important;
+            font-weight: 700;
+        }
+        .typing-cursor {
+            display: inline-block;
+            color: #facc15;
+            font-weight: 700;
+            animation: blink 0.8s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .hero-section {
+            min-height: 85vh;
+            background: #1e293b url('assets/img/hero-bg-baru.jpg') center/cover no-repeat !important;
+            background-image: url('assets/img/hero-bg-baru.jpg'), url('../assets/img/hero-bg-baru.jpg') !important;
+            background-size: cover !important;
+            background-position: center !important;
+        }
+        .hero-section .overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(30, 41, 59, 0.78) !important;
+        }
+        .bg-glass {
+            background: rgba(255, 255, 255, 0.12) !important;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .stats-glass-card {
+            transition: transform 0.3s ease;
+        }
+        .stats-glass-card:hover {
+            transform: translateY(-3px);
+        }
+        .stats-bar {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            margin-top: -35px;
+            position: relative;
+            z-index: 10;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .stats-horizontal-row {
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            justify-content: space-around !important;
+            padding: 14px 10px;
+        }
+        .stat-col {
+            flex: 1;
+            text-align: center;
+        }
+        .stat-col .stat-icon {
+            font-size: 1.5rem;
+        }
+        .stat-col h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+        .stat-col .stat-label {
+            font-size: 0.8rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+        .stat-divider {
+            width: 1px;
+            height: 45px;
+            background-color: #e2e8f0;
+        }
+        .hover-lift {
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
+        }
+        .card-cover-img {
+            height: 180px;
+            width: 100%;
+        }
+    </style>
 </head>
 
 <body>
@@ -319,11 +442,44 @@
     <script src="assets/js/main.js?v=8"></script>
 
     <script>
-        // Animate initial counters immediately
+        // Animate initial counters and typing immediately
         document.addEventListener('DOMContentLoaded', async () => {
             // Set current year in footer
             const yearEl = document.getElementById('currentYear');
             if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+            // Auto Typing Effect
+            const typingEl = document.getElementById('typingText');
+            if (typingEl) {
+                const phrases = [
+                    "Kabar & Pengumuman Resmi RW 02 Mentangor",
+                    "Jadwal Kegiatan Gotong Royong & Posyandu",
+                    "Portal Informasi Transparan & Tepercaya"
+                ];
+                let pIndex = 0, charIndex = 0, isDeleting = false;
+                function typeLoop() {
+                    const current = phrases[pIndex];
+                    if (isDeleting) {
+                        typingEl.textContent = current.substring(0, charIndex - 1);
+                        charIndex--;
+                    } else {
+                        typingEl.textContent = current.substring(0, charIndex + 1);
+                        charIndex++;
+                    }
+
+                    let delay = isDeleting ? 40 : 80;
+                    if (!isDeleting && charIndex === current.length) {
+                        delay = 2200;
+                        isDeleting = true;
+                    } else if (isDeleting && charIndex === 0) {
+                        isDeleting = false;
+                        pIndex = (pIndex + 1) % phrases.length;
+                        delay = 500;
+                    }
+                    setTimeout(typeLoop, delay);
+                }
+                typeLoop();
+            }
 
             // Run counter animation for standard metrics
             animateCounter('statTitik', 11);

@@ -16,12 +16,135 @@
     <!-- SweetAlert2 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="assets/css/style.css?v=9">
-    <link rel="stylesheet" href="assets/css/responsive.css?v=9">
-    <link rel="stylesheet" href="frontend/assets/css/style.css?v=9">
-    <link rel="stylesheet" href="frontend/assets/css/responsive.css?v=9">
-    <link rel="stylesheet" href="../assets/css/style.css?v=9">
-    <link rel="stylesheet" href="../assets/css/responsive.css?v=9">
+    <link rel="stylesheet" href="assets/css/style.css?v=11">
+    <link rel="stylesheet" href="assets/css/responsive.css?v=11">
+    <link rel="stylesheet" href="../assets/css/style.css?v=11">
+    <link rel="stylesheet" href="../assets/css/responsive.css?v=11">
+
+    <style>
+        :root {
+            --color-primary: #1a5c38;
+            --color-primary-light: #e8f3ec;
+            --color-accent: #f59e0b;
+            --color-accent-light: #fef3c7;
+            --color-success: #10b981;
+            --color-warning: #facc15;
+            --font-family: 'Inter', sans-serif;
+        }
+        body {
+            font-family: var(--font-family);
+            font-size: 0.875rem;
+            color: #334155;
+            background-color: #f8fafc;
+            padding-top: 56px;
+        }
+        .bg-primary-green {
+            background-color: #1a5c38 !important;
+        }
+        .text-primary-green {
+            color: #1a5c38 !important;
+        }
+        .text-accent-orange {
+            color: #f59e0b !important;
+        }
+        .btn-accent-orange {
+            background-color: #f59e0b !important;
+            color: #ffffff !important;
+            border: none;
+        }
+        .btn-accent-orange:hover {
+            background-color: #d97706 !important;
+            color: #ffffff !important;
+        }
+        .text-highlight-yellow {
+            color: #facc15 !important;
+            font-weight: 700;
+        }
+        .typing-cursor {
+            display: inline-block;
+            color: #facc15;
+            font-weight: 700;
+            animation: blink 0.8s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .hero-section {
+            min-height: 85vh;
+            background: #1e293b url('assets/img/hero-bg-baru.jpg') center/cover no-repeat !important;
+            background-image: url('assets/img/hero-bg-baru.jpg'), url('../assets/img/hero-bg-baru.jpg') !important;
+            background-size: cover !important;
+            background-position: center !important;
+        }
+        .hero-section .overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(30, 41, 59, 0.78) !important;
+        }
+        .bg-glass {
+            background: rgba(255, 255, 255, 0.12) !important;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .stats-glass-card {
+            transition: transform 0.3s ease;
+        }
+        .stats-glass-card:hover {
+            transform: translateY(-3px);
+        }
+        .stats-bar {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            margin-top: -35px;
+            position: relative;
+            z-index: 10;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .stats-horizontal-row {
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            justify-content: space-around !important;
+            padding: 14px 10px;
+        }
+        .stat-col {
+            flex: 1;
+            text-align: center;
+        }
+        .stat-col .stat-icon {
+            font-size: 1.5rem;
+        }
+        .stat-col h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+        .stat-col .stat-label {
+            font-size: 0.8rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+        .stat-divider {
+            width: 1px;
+            height: 45px;
+            background-color: #e2e8f0;
+        }
+        .hover-lift {
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
+        }
+        .card-cover-img {
+            height: 180px;
+            width: 100%;
+        }
+    </style>
 </head>
 
 <body>
@@ -46,7 +169,7 @@
                 </ul>
                 <div class="d-flex ms-lg-3 mt-3 mt-lg-0 auth-buttons" id="authNavContainer">
                     <!-- Dinamis via JS -->
-                    <a href="frontend/admin/login.html" class="btn btn-outline-light btn-sm rounded-pill px-4">Login
+                    <a href="../admin/login.html" class="btn btn-outline-light btn-sm rounded-pill px-4">Login
                         Pengurus</a>
                 </div>
             </div>
@@ -190,6 +313,7 @@
                     <div class="spinner-border text-light" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
+                    <!-- Slider content akan digenerate oleh JS -->
                 </div>
             </div>
             <div class="text-center mt-4">
@@ -212,30 +336,49 @@
             </div>
 
             <div class="row g-4" id="recentAnnouncements">
+                <!-- Skeleton Loader -->
                 <div class="col-md-4">
-                    <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
+                    <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden" aria-hidden="true">
+                        <div class="placeholder-glow">
+                            <div class="placeholder bg-secondary w-100" style="height: 200px;"></div>
+                        </div>
                         <div class="card-body p-4">
-                            <span class="badge bg-success rounded-pill px-2.5 py-1 mb-2">Gotong Royong</span>
-                            <h5 class="card-title fw-semibold">Kerja Bakti Lingkungan RW 02 Mentangor</h5>
-                            <p class="text-muted small mb-0 mt-2"><i class="fa-regular fa-calendar me-2"></i>Agenda Rutin Warga</p>
+                            <h5 class="card-title placeholder-glow"><span class="placeholder col-6"></span></h5>
+                            <p class="card-text placeholder-glow">
+                                <span class="placeholder col-7"></span>
+                                <span class="placeholder col-4"></span>
+                                <span class="placeholder col-8"></span>
+                            </p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
+                    <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden" aria-hidden="true">
+                        <div class="placeholder-glow">
+                            <div class="placeholder bg-secondary w-100" style="height: 200px;"></div>
+                        </div>
                         <div class="card-body p-4">
-                            <span class="badge bg-warning text-dark rounded-pill px-2.5 py-1 mb-2">Posyandu</span>
-                            <h5 class="card-title fw-semibold">Jadwal Posyandu Balita & Lansia</h5>
-                            <p class="text-muted small mb-0 mt-2"><i class="fa-regular fa-calendar me-2"></i>Puskesmas Pembantu</p>
+                            <h5 class="card-title placeholder-glow"><span class="placeholder col-6"></span></h5>
+                            <p class="card-text placeholder-glow">
+                                <span class="placeholder col-7"></span>
+                                <span class="placeholder col-4"></span>
+                                <span class="placeholder col-8"></span>
+                            </p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
+                    <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden" aria-hidden="true">
+                        <div class="placeholder-glow">
+                            <div class="placeholder bg-secondary w-100" style="height: 200px;"></div>
+                        </div>
                         <div class="card-body p-4">
-                            <span class="badge bg-info text-dark rounded-pill px-2.5 py-1 mb-2">Kegiatan</span>
-                            <h5 class="card-title fw-semibold">Penyuluhan Kebersihan & Pengelolaan Sampah</h5>
-                            <p class="text-muted small mb-0 mt-2"><i class="fa-regular fa-calendar me-2"></i>Balai Warga RW 02</p>
+                            <h5 class="card-title placeholder-glow"><span class="placeholder col-6"></span></h5>
+                            <p class="card-text placeholder-glow">
+                                <span class="placeholder col-7"></span>
+                                <span class="placeholder col-4"></span>
+                                <span class="placeholder col-8"></span>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -259,10 +402,14 @@
                 <div class="col-md-3 mb-4 mb-md-0">
                     <h5 class="fw-semibold mb-3">Tautan Cepat</h5>
                     <ul class="list-unstyled footer-links">
-                        <li class="mb-2"><a href="index.html" class="text-white-50 text-decoration-none">Beranda</a></li>
-                        <li class="mb-2"><a href="pengumuman.html" class="text-white-50 text-decoration-none">Pengumuman & Agenda</a></li>
-                        <li class="mb-2"><a href="laporan.html" class="text-white-50 text-decoration-none">Lapor Keluhan</a></li>
-                        <li class="mb-2"><a href="riwayat.html" class="text-white-50 text-decoration-none">Riwayat Info</a></li>
+                        <li class="mb-2"><a href="index.html" class="text-white-50 text-decoration-none">Beranda</a>
+                        </li>
+                        <li class="mb-2"><a href="pengumuman.html"
+                                class="text-white-50 text-decoration-none">Pengumuman & Agenda</a></li>
+                        <li class="mb-2"><a href="laporan.html" class="text-white-50 text-decoration-none">Lapor
+                                Keluhan</a></li>
+                        <li class="mb-2"><a href="riwayat.html" class="text-white-50 text-decoration-none">Riwayat
+                                Info</a></li>
                     </ul>
                 </div>
                 <div class="col-md-4">
@@ -287,34 +434,157 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <!-- Custom Scripts -->
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/main.js?v=8"></script>
     <script src="assets/js/api.js"></script>
     <script src="assets/js/auth.js"></script>
-    <script src="assets/js/main.js?v=9"></script>
-    <script src="frontend/assets/js/api.js"></script>
-    <script src="frontend/assets/js/auth.js"></script>
-    <script src="frontend/assets/js/main.js?v=9"></script>
+    <script src="assets/js/main.js?v=8"></script>
 
     <script>
-        // Animate initial counters immediately
+        // Animate initial counters and typing immediately
         document.addEventListener('DOMContentLoaded', async () => {
+            // Set current year in footer
             const yearEl = document.getElementById('currentYear');
             if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+            // Auto Typing Effect
+            const typingEl = document.getElementById('typingText');
+            if (typingEl) {
+                const phrases = [
+                    "Kabar & Pengumuman Resmi RW 02 Mentangor",
+                    "Jadwal Kegiatan Gotong Royong & Posyandu",
+                    "Portal Informasi Transparan & Tepercaya"
+                ];
+                let pIndex = 0, charIndex = 0, isDeleting = false;
+                function typeLoop() {
+                    const current = phrases[pIndex];
+                    if (isDeleting) {
+                        typingEl.textContent = current.substring(0, charIndex - 1);
+                        charIndex--;
+                    } else {
+                        typingEl.textContent = current.substring(0, charIndex + 1);
+                        charIndex++;
+                    }
+
+                    let delay = isDeleting ? 40 : 80;
+                    if (!isDeleting && charIndex === current.length) {
+                        delay = 2200;
+                        isDeleting = true;
+                    } else if (isDeleting && charIndex === 0) {
+                        isDeleting = false;
+                        pIndex = (pIndex + 1) % phrases.length;
+                        delay = 500;
+                    }
+                    setTimeout(typeLoop, delay);
+                }
+                typeLoop();
+            }
+
+            // Run counter animation for standard metrics
             animateCounter('statTitik', 11);
             animateCounter('statSelesai', 3);
             animateCounter('statWarga', 19);
             animateCounter('heroStatSelesai', 11);
             animateCounter('heroStatProses', 3);
 
+            // Load dynamic stats if API is reachable
+            try {
+                if (typeof API !== 'undefined') {
+                    const reportsRes = await API.get('/reports?limit=1');
+                    if (reportsRes && reportsRes.success) {
+                        const totalReports = reportsRes.pagination.total;
+                        animateCounter('statTitik', Math.round(totalReports * 0.8) + 5);
+                        animateCounter('statWarga', totalReports + 12);
+                    }
+
+                    const selesaiRes = await API.get('/reports?status=selesai&limit=1');
+                    if (selesaiRes && selesaiRes.success) {
+                        animateCounter('statSelesai', selesaiRes.pagination.total);
+                        animateCounter('heroStatSelesai', selesaiRes.pagination.total);
+                    }
+
+                    const prosesRes = await API.get('/reports?status=diproses&limit=1');
+                    if (prosesRes && prosesRes.success) {
+                        animateCounter('heroStatProses', prosesRes.pagination.total);
+                    }
+                }
+            } catch (error) {
+                console.log('Using default cached metrics');
+            }
+
+            // Load Announcements
+            try {
+                const res = await API.get('/announcements?limit=3');
+                const container = document.getElementById('recentAnnouncements');
+
+                if (res.success && res.data.length > 0) {
+                    container.innerHTML = '';
+                    res.data.forEach(item => {
+                        const date = new Date(item.published_at).toLocaleDateString('id-ID', {
+                            day: 'numeric', month: 'short', year: 'numeric'
+                        });
+
+                        let badgeClass = 'bg-primary';
+                        let typeName = item.type;
+                        if (item.type === 'kegiatan') { badgeClass = 'bg-info'; typeName = 'Kegiatan'; }
+                        else if (item.type === 'gotong_royong') { badgeClass = 'bg-success'; typeName = 'Gotong Royong'; }
+                        else if (item.type === 'posyandu') { badgeClass = 'bg-warning text-dark'; typeName = 'Posyandu'; }
+                        else { typeName = 'Umum'; }
+
+                        const pinBadge = item.is_pinned ? `<span class="badge bg-danger ms-2"><i class="fa-solid fa-thumbtack"></i> Pinned</span>` : '';
+                        const img = item.image ? `<img src="${API_URL.replace('/api', '')}/uploads/${item.image}" class="card-img-top object-fit-cover card-cover-img" alt="Cover">` : `<div class="bg-light d-flex align-items-center justify-content-center text-muted card-cover-img"><i class="fa-solid fa-image fs-3"></i></div>`;
+
+                        container.innerHTML += `
+                            <div class="col-md-4">
+                                <a href="pengumuman.html?id=${item.id}" class="text-decoration-none text-dark">
+                                    <div class="card border-0 shadow-sm rounded-4 h-100 hover-lift overflow-hidden">
+                                        ${img}
+                                        <div class="card-body p-3 p-md-4">
+                                            <div class="mb-2">
+                                                <span class="badge ${badgeClass} rounded-pill px-2.5 py-1">${typeName}</span>
+                                                ${pinBadge}
+                                            </div>
+                                            <h5 class="card-title fw-semibold text-truncate-2 mb-2">${item.title}</h5>
+                                            <p class="text-muted small mb-0 mt-2"><i class="fa-regular fa-calendar me-2"></i>${date}</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        `;
+                    });
+                } else {
+                    container.innerHTML = '<div class="col-12 text-center text-muted py-4">Belum ada pengumuman.</div>';
+                }
+            } catch (error) {
+                console.error('Failed to load announcements', error);
+                document.getElementById('recentAnnouncements').innerHTML = '<div class="col-12 text-center text-danger py-4">Gagal memuat pengumuman.</div>';
+            }
+
             // Load Before/After Slider
             const baContainer = document.getElementById('beforeAfterContainer');
-            if (baContainer) {
+            try {
+                const res = await API.get('/reports?status=selesai&limit=1');
+                let imgBefore = '../assets/img/sebelum.png';
+                let imgAfter = '../assets/img/sesudah.png';
+                let lokasiTitle = 'Jl. Utama RW 02 Mentangor (Kegiatan Gotong Royong)';
+
+                if (res.success && res.data && res.data.length > 0) {
+                    const report = res.data[0];
+                    if (report.before_image && report.after_image) {
+                        const base = API_URL.replace('/api', '');
+                        imgBefore = `${base}/uploads/${report.before_image}`;
+                        imgAfter = `${base}/uploads/${report.after_image}`;
+                        lokasiTitle = `Lokasi: ${report.address || 'RW 02 Mentangor'}`;
+                    }
+                }
+
                 baContainer.innerHTML = `
                     <div class="col-lg-8 text-center position-relative">
                         <div class="ba-slider bg-white p-2 rounded-4 shadow-lg position-relative overflow-hidden" style="height: 400px; user-select: none;">
-                            <img src="assets/img/sesudah.png" onerror="this.src='frontend/assets/img/sesudah.png'" alt="Sesudah" class="w-100 h-100 object-fit-cover rounded-3" draggable="false">
+                            <img src="${imgAfter}" onerror="this.src='../assets/img/sesudah.png'" alt="Sesudah" class="w-100 h-100 object-fit-cover rounded-3" draggable="false">
                             <div class="resize" style="position: absolute; top: 0; left: 0; height: 100%; width: 50%; overflow: hidden;">
-                                <img src="assets/img/sebelum.png" onerror="this.src='frontend/assets/img/sebelum.png'" alt="Sebelum" class="object-fit-cover rounded-3" style="width: 200%; height: 100%;" draggable="false">
+                                <img src="${imgBefore}" onerror="this.src='../assets/img/sebelum.png'" alt="Sebelum" class="object-fit-cover rounded-3" style="width: 200%; height: 100%;" draggable="false">
                             </div>
                             <span class="handle" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 42px; height: 42px; background: #f59e0b; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: ew-resize; box-shadow: 0 0 12px rgba(0,0,0,0.35);"><i class="fa-solid fa-arrows-left-right text-white"></i></span>
                         </div>
@@ -322,18 +592,21 @@
                             <span class="badge bg-danger px-3 py-2 fw-semibold"><i class="fa-solid fa-clock-rotate-left me-1"></i> Sebelum</span>
                             <span class="badge bg-success px-3 py-2 fw-semibold"><i class="fa-solid fa-check-circle me-1"></i> Sesudah</span>
                         </div>
-                        <p class="text-white mt-3 fw-medium mb-0">Lokasi: Jl. Utama RW 02 Mentangor (Kegiatan Gotong Royong)</p>
+                        <p class="text-white mt-3 fw-medium mb-0">${lokasiTitle}</p>
                     </div>
                 `;
-                if (typeof initSlider === 'function') initSlider();
+                initSlider();
+            } catch (e) {
+                console.error('Error loading before/after slider:', e);
             }
         });
 
+        // Simple counter animation
         function animateCounter(id, endVal) {
             const el = document.getElementById(id);
             if (!el) return;
             let startVal = 0;
-            const duration = 1800;
+            const duration = 2000;
             const step = Math.max(1, Math.floor(endVal / (duration / 16)));
 
             const timer = setInterval(() => {
@@ -346,6 +619,33 @@
                 }
             }, 16);
         }
+
+        // Typing Effect for Hero Title
+        function typeEffect(element, speed) {
+            const text = element.innerHTML;
+            element.innerHTML = "";
+            let i = 0;
+
+            element.classList.remove('typing-effect');
+            element.style.visibility = 'visible';
+
+            function typeWriter() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, speed);
+                }
+            }
+
+            setTimeout(typeWriter, 300);
+        }
+
+        const heroTitle = document.querySelector('.typing-effect');
+        if (heroTitle) {
+            heroTitle.style.visibility = 'hidden';
+            typeEffect(heroTitle, 50);
+        }
     </script>
 </body>
+
 </html>
