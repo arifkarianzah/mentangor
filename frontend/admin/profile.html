@@ -248,6 +248,14 @@
 
                     document.getElementById('inputName').value = data.name;
                     document.getElementById('inputPhone').value = data.phone || '';
+
+                    // Set Avatar
+                    const base = API_URL.replace('/api', '');
+                    const defaultAvatar = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(data.name) + '&background=10b981&color=fff';
+                    const profileAvatar = document.getElementById('profileAvatar');
+                    if (profileAvatar) {
+                        profileAvatar.src = data.avatar ? `${base}/uploads/${data.avatar}` : defaultAvatar;
+                    }
                 }
             } catch (e) { }
         };

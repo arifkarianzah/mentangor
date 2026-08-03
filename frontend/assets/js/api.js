@@ -63,3 +63,33 @@ const API = {
     }
   }
 };
+
+// Interceptor untuk menangani token kedaluwarsa secara otomatis
+if (typeof axios !== 'undefined') {
+  axios.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      if (error.response && error.response.status === 401) {
+        if (window.location.pathname.includes('/admin/') && !window.location.pathname.includes('login.html')) {
+          localStorage.removeItem('portaldesa_token');
+          localStorage.removeItem('portaldesa_user');
+          if (typeof Swal !== 'undefined') {
+            Swal.fire({
+              title: 'Sesi Telah Berakhir',
+              text: 'Sesi login Anda telah kedaluwarsa. Silakan login kembali.',
+              icon: 'warning',
+              confirmButtonColor: '#10b981',
+              confirmButtonText: 'Login Kembali',
+              allowOutsideClick: false
+            }).then(() => {
+              window.location.href = 'login.html';
+            });
+          } else {
+            window.location.href = 'login.html';
+          }
+        }
+      }
+      return Promise.reject(error);
+    }
+  );
+}
