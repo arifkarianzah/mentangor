@@ -134,16 +134,15 @@ footer h1, footer h2, footer h3, footer h4, footer h5, footer h6 {
 
 /* --- Hero Section --- */
 .hero-section {
-  min-height: 90vh;
-  background-image: url('https://images.unsplash.com/photo-1596423735880-5c6be220f836?q=80&w=2000&auto=format&fit=crop'); /* Placeholder village */
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
+  min-height: 85vh;
+  background: url('../img/hero-bg-baru.jpg') center/cover no-repeat !important;
+  background-size: cover !important;
+  background-position: center !important;
 }
 .hero-section .overlay {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: linear-gradient(135deg, rgba(26,92,56,0.95) 0%, rgba(26,92,56,0.85) 100%);
+  background: rgba(30, 41, 59, 0.78) !important;
 }
 
 /* --- Typing Animation & Yellow Highlight --- */
