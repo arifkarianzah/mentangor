@@ -34,42 +34,12 @@ function initApp() {
 
   // Before/After Slider Logic (if exists on page)
   initSlider();
-
-  // Typing Animation for Hero Title
-  initTypingEffect();
 }
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initApp);
 } else {
   initApp();
-}
-
-function initTypingEffect() {
-  const typingEl = document.getElementById('typingText');
-  const cursorEl = document.querySelector('.typing-cursor');
-  if (!typingEl) return;
-
-  const fullText = 'Kabar & Pengumuman Resmi RW 02 Mentangor';
-  let charIdx = 0;
-
-  function typeLetter() {
-    if (charIdx <= fullText.length) {
-      typingEl.textContent = fullText.substring(0, charIdx);
-      charIdx++;
-      setTimeout(typeLetter, 70); // Keluar satu-satu huruf dengan ritme yang jelas
-    } else {
-      // Setelah selesai: Teks TETAP MENETAP (GAK HILANG)
-      if (cursorEl) {
-        setTimeout(() => {
-          cursorEl.style.display = 'none'; // Kursor menghilang otomatis setelah selesai
-        }, 3500);
-      }
-    }
-  }
-
-  // Mulai ketik huruf per huruf
-  setTimeout(typeLetter, 300);
 }
 
 function initSlider() {

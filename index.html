@@ -185,7 +185,7 @@
                 <div class="col-lg-7 text-white text-center text-lg-start mb-4 mb-lg-0">
                     <h1 class="display-5 fw-bold mb-2 line-height-tight text-white">
                         Halo Warga! <br>
-                        <span class="text-highlight-yellow fw-bold" id="typingText"></span><span class="typing-cursor">|</span>
+                        <span class="text-highlight-yellow fw-bold">Kabar & Pengumuman Resmi RW 02 Mentangor</span>
                     </h1>
                     <p class="lead mb-3 opacity-90 fw-normal text-white">
                         Pusat pengumuman resmi, jadwal kegiatan desa, dan berita penting warga. Lebih rapi, jelas, dan anti-ketinggalan info di grup WhatsApp langsung dari HP Anda.
@@ -442,44 +442,11 @@
     <script src="assets/js/main.js?v=8"></script>
 
     <script>
-        // Animate initial counters and typing immediately
+        // Animate initial counters immediately
         document.addEventListener('DOMContentLoaded', async () => {
             // Set current year in footer
             const yearEl = document.getElementById('currentYear');
             if (yearEl) yearEl.textContent = new Date().getFullYear();
-
-            // Auto Typing Effect
-            const typingEl = document.getElementById('typingText');
-            if (typingEl) {
-                const phrases = [
-                    "Kabar & Pengumuman Resmi RW 02 Mentangor",
-                    "Jadwal Kegiatan Gotong Royong & Posyandu",
-                    "Portal Informasi Transparan & Tepercaya"
-                ];
-                let pIndex = 0, charIndex = 0, isDeleting = false;
-                function typeLoop() {
-                    const current = phrases[pIndex];
-                    if (isDeleting) {
-                        typingEl.textContent = current.substring(0, charIndex - 1);
-                        charIndex--;
-                    } else {
-                        typingEl.textContent = current.substring(0, charIndex + 1);
-                        charIndex++;
-                    }
-
-                    let delay = isDeleting ? 40 : 80;
-                    if (!isDeleting && charIndex === current.length) {
-                        delay = 2200;
-                        isDeleting = true;
-                    } else if (isDeleting && charIndex === 0) {
-                        isDeleting = false;
-                        pIndex = (pIndex + 1) % phrases.length;
-                        delay = 500;
-                    }
-                    setTimeout(typeLoop, delay);
-                }
-                typeLoop();
-            }
 
             // Run counter animation for standard metrics
             animateCounter('statTitik', 11);
