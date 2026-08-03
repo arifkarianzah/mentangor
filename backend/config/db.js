@@ -1,8 +1,25 @@
 const mysql = require('mysql2/promise');
 require('dotenv').config();
 
-// Dukung koneksi Railway MySQL (MYSQL_URL, DATABASE_URL, atau variabel individu Railway)
+// Dukung koneksi Azure MySQL, Railway, dan Cloud Database lainnya
 let pool;
+const dbConfig = {
+  host: process.env.AZURE_MYSQL_HOST || process.env.MYSQLHOST || process.env.DB_HOST || 'localhost',
+  port: parseInt(process.env.AZURE_MYSQL_PORT || process.env.MYSQLPORT || process.env.DB_PORT || '3306'),
+  user: process.env.AZURE_MYSQL_USER || process.env.MYSQLUSER || process.env.DB_USER || 'root',
+  password: process.env.AZURE_MYSQL_PASSWORD || process.env.MYSQLPASSWORD || process.env.DB_PASSWORD || '',
+  database: process.env.AZURE_MYSQL_DATABASE || process.env.MYSQLDATABASE || process.env.DB_NAME || 'portal_desa',
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
+  charset: 'utf8mb4',
+};
+
+// Aktifkan SSL jika di Azure atau jika DB_SSL diset true / ada SSL flag
+if (process.env.DB_SSL === 'true' || process.env.AZURE_MYSQL_HOST || (process.env.DB_HOST && process.env.DB_HOST.includes('azure'))) {
+  dbConfig.ssl = { rejectUnauthorized: false };
+}
+
 if (process.env.MYSQL_URL || process.env.DATABASE_URL) {
   pool = mysql.createPool({
     uri: process.env.MYSQL_URL || process.env.DATABASE_URL,
@@ -10,19 +27,10 @@ if (process.env.MYSQL_URL || process.env.DATABASE_URL) {
     connectionLimit: 10,
     queueLimit: 0,
     charset: 'utf8mb4',
+    ssl: (process.env.DB_SSL === 'true' || process.env.MYSQL_URL?.includes('ssl')) ? { rejectUnauthorized: false } : undefined
   });
 } else {
-  pool = mysql.createPool({
-    host: process.env.MYSQLHOST || process.env.DB_HOST || 'localhost',
-    port: process.env.MYSQLPORT || process.env.DB_PORT || 3306,
-    user: process.env.MYSQLUSER || process.env.DB_USER || 'root',
-    password: process.env.MYSQLPASSWORD || process.env.DB_PASSWORD || '',
-    database: process.env.MYSQLDATABASE || process.env.DB_NAME || 'portal_desa',
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0,
-    charset: 'utf8mb4',
-  });
+  pool = mysql.createPool(dbConfig);
 }
 
 // Test koneksi saat startup
