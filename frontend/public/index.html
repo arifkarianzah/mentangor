@@ -71,6 +71,43 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0; }
         }
+        /* Cegah Layout Loncat/Membesar-Mengecil saat teks mengetik */
+        .hero-title-wrapper {
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        .hero-typing-box {
+            display: inline-block;
+            min-height: 2.2em;
+            vertical-align: top;
+            width: 100%;
+        }
+        @media (max-width: 991.98px) {
+            .hero-title-wrapper {
+                min-height: 105px;
+            }
+            .hero-typing-box {
+                min-height: 2.4em;
+            }
+        }
+        @media (max-width: 767.98px) {
+            .hero-title-wrapper {
+                min-height: 95px;
+            }
+            .hero-typing-box {
+                min-height: 2.6em;
+            }
+        }
+        @media (max-width: 575.98px) {
+            .hero-title-wrapper {
+                min-height: 85px;
+            }
+            .hero-typing-box {
+                min-height: 2.8em;
+            }
+        }
         /* ================= Responsif Background Foto Hero (HP, Laptop, Desktop) ================= */
         .hero-section {
             position: relative;
@@ -243,10 +280,14 @@
         <div class="container position-relative z-1">
             <div class="row align-items-center pt-3 pt-lg-5 mt-1 mt-lg-4">
                 <div class="col-lg-7 text-white text-center text-lg-start mb-4 mb-lg-0">
-                    <h1 class="display-5 fw-bold mb-2 line-height-tight text-white">
-                        Halo Warga! <br>
-                        <span class="text-highlight-yellow fw-bold" id="typingText"></span><span class="typing-cursor">|</span>
-                    </h1>
+                    <div class="hero-title-wrapper mb-2">
+                        <h1 class="display-5 fw-bold line-height-tight text-white mb-0">
+                            Halo Warga! <br>
+                            <span class="text-highlight-yellow fw-bold hero-typing-box">
+                                <span id="typingText"></span><span class="typing-cursor">|</span>
+                            </span>
+                        </h1>
+                    </div>
                     <p class="lead mb-3 opacity-90 fw-normal text-white">
                         Pusat pengumuman resmi, jadwal kegiatan desa, dan berita penting warga. Lebih rapi, jelas, dan anti-ketinggalan info di grup WhatsApp langsung dari HP Anda.
                     </p>
