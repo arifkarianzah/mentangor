@@ -60,15 +60,20 @@
             color: #facc15 !important;
             font-weight: 700;
         }
-        .typing-cursor {
+        .dynamic-smooth-text {
             display: inline-block;
-            color: #facc15;
-            font-weight: 700;
-            animation: blink 0.8s infinite;
+            transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 1;
+            transform: translateY(0);
+            will-change: transform, opacity;
         }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
+        .dynamic-smooth-text.slide-out {
+            opacity: 0;
+            transform: translateY(-12px);
+        }
+        .dynamic-smooth-text.slide-in {
+            opacity: 0;
+            transform: translateY(12px);
         }
         .hero-section {
             min-height: 85vh;
@@ -185,7 +190,7 @@
                 <div class="col-lg-7 text-white text-center text-lg-start mb-4 mb-lg-0">
                     <h1 class="display-5 fw-bold mb-2 line-height-tight text-white">
                         Halo Warga! <br>
-                        <span class="text-highlight-yellow fw-bold">Kabar & Pengumuman Resmi RW 02 Mentangor</span>
+                        <span class="text-highlight-yellow fw-bold dynamic-smooth-text" id="dynamicHeroTitle">Kabar & Pengumuman Resmi RW 02 Mentangor</span>
                     </h1>
                     <p class="lead mb-3 opacity-90 fw-normal text-white">
                         Pusat pengumuman resmi, jadwal kegiatan desa, dan berita penting warga. Lebih rapi, jelas, dan anti-ketinggalan info di grup WhatsApp langsung dari HP Anda.
@@ -442,11 +447,35 @@
     <script src="assets/js/main.js?v=8"></script>
 
     <script>
-        // Animate initial counters immediately
+        // Animate initial counters and smooth rotating text
         document.addEventListener('DOMContentLoaded', async () => {
             // Set current year in footer
             const yearEl = document.getElementById('currentYear');
             if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+            // Smooth Dynamic Text Rotator (Halus, Elegan, Tanpa Patah-patah)
+            const titleEl = document.getElementById('dynamicHeroTitle');
+            if (titleEl) {
+                const phrases = [
+                    "Kabar & Pengumuman Resmi RW 02 Mentangor",
+                    "Jadwal Kegiatan Gotong Royong & Posyandu",
+                    "Portal Informasi Transparan & Tepercaya",
+                    "Layanan Pengaduan & Aspirasi Warga Mentangor"
+                ];
+                let curIdx = 0;
+                setInterval(() => {
+                    titleEl.classList.add('slide-out');
+                    setTimeout(() => {
+                        curIdx = (curIdx + 1) % phrases.length;
+                        titleEl.textContent = phrases[curIdx];
+                        titleEl.classList.remove('slide-out');
+                        titleEl.classList.add('slide-in');
+                        setTimeout(() => {
+                            titleEl.classList.remove('slide-in');
+                        }, 50);
+                    }, 450);
+                }, 3800);
+            }
 
             // Run counter animation for standard metrics
             animateCounter('statTitik', 11);
