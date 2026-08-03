@@ -1,5 +1,4 @@
 {
-  "version": 2,
   "rewrites": [
     { "source": "/", "destination": "/frontend/public/index.html" },
     { "source": "/index.html", "destination": "/frontend/public/index.html" },
