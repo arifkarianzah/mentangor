@@ -1,8 +1,8 @@
 // assets/js/api.js
-// Otomatis gunakan URL backend sesuai environment
+// Otomatis gunakan URL backend Railway atau Localhost
 const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-  ? 'http://localhost:3001/api'
-  : 'https://BACKEND_URL_PRODUCTION/api'; // Ganti dengan URL backend Railway/Render setelah deploy
+  ? 'http://localhost:3000/api'
+  : (localStorage.getItem('CUSTOM_API_URL') || window.BACKEND_API_URL || 'https://mentangor-production.up.railway.app/api');
 
 const API = {
   getHeaders: () => {
