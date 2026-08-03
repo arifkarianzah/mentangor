@@ -172,8 +172,10 @@
   /* Hero Section */
   .hero-section {
     min-height: auto;
-    padding-top: 75px;
-    padding-bottom: 30px;
+    padding-top: 80px;
+    padding-bottom: 35px;
+    background-position: center 15% !important;
+    background-size: cover !important;
     background-attachment: scroll;
   }
 

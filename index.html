@@ -71,17 +71,76 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0; }
         }
+        /* ================= Responsif Background Foto Hero (HP, Laptop, Desktop) ================= */
         .hero-section {
-            min-height: 85vh;
-            background: #1e293b url('assets/img/hero-bg-baru.jpg?v=12') center/cover no-repeat !important;
+            position: relative;
+            background-color: #0f172a;
             background-image: url('assets/img/hero-bg-baru.jpg?v=12'), url('../assets/img/hero-bg-baru.jpg?v=12') !important;
             background-size: cover !important;
-            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-attachment: scroll;
+            display: flex;
+            align-items: center;
         }
+
+        /* Desktop & Layar Lebar (>= 1200px) */
+        @media (min-width: 1200px) {
+            .hero-section {
+                min-height: 80vh;
+                padding-top: 105px;
+                padding-bottom: 60px;
+                background-position: center 30% !important;
+            }
+        }
+
+        /* Laptop (992px - 1199.98px) */
+        @media (min-width: 992px) and (max-width: 1199.98px) {
+            .hero-section {
+                min-height: 75vh;
+                padding-top: 95px;
+                padding-bottom: 50px;
+                background-position: center 25% !important;
+            }
+        }
+
+        /* Tablet / iPad (768px - 991.98px) */
+        @media (min-width: 768px) and (max-width: 991.98px) {
+            .hero-section {
+                min-height: 65vh;
+                padding-top: 85px;
+                padding-bottom: 45px;
+                background-position: center 20% !important;
+            }
+        }
+
+        /* Smartphone / HP (< 768px) - Pas Wajah & Spanduk Acara */
+        @media (max-width: 767.98px) {
+            .hero-section {
+                min-height: auto;
+                padding-top: 80px;
+                padding-bottom: 35px;
+                background-position: center 15% !important;
+                background-size: cover !important;
+            }
+            .hero-section .overlay {
+                background: linear-gradient(180deg, rgba(15, 23, 42, 0.86) 0%, rgba(15, 23, 42, 0.72) 40%, rgba(15, 23, 42, 0.92) 100%) !important;
+            }
+        }
+
+        /* Layar HP Kecil (< 576px) */
+        @media (max-width: 575.98px) {
+            .hero-section {
+                padding-top: 75px;
+                padding-bottom: 30px;
+                background-position: center 10% !important;
+            }
+        }
+
         .hero-section .overlay {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(30, 41, 59, 0.72) !important;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.88) 0%, rgba(15, 23, 42, 0.72) 55%, rgba(15, 23, 42, 0.90) 100%);
+            z-index: 0;
         }
         .bg-glass {
             background: rgba(255, 255, 255, 0.12) !important;
