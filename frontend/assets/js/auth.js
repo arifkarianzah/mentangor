@@ -63,20 +63,53 @@ const Auth = {
   renderUserMenu: () => {
     const user = Auth.getUser();
     if (user) {
-      // Update sidebar username
+      const initial = user.name ? user.name.charAt(0).toUpperCase() : 'A';
+      const base = (typeof API_URL !== 'undefined' ? API_URL : 'http://localhost:3001/api').replace('/api', '');
+      const avatarUrl = user.avatar ? `${base}/uploads/${user.avatar}` : null;
+      const defaultAvatar = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.name) + '&background=10b981&color=fff';
+
+      // Update sidebar username & role
       const sidebarName = document.getElementById('sidebarUserName');
       if (sidebarName) sidebarName.textContent = user.name;
       
       const sidebarRole = document.getElementById('sidebarUserRole');
-      if (sidebarRole) sidebarRole.textContent = user.role === 'admin' ? 'Administrator' : 'Petugas';
+      if (sidebarRole) sidebarRole.textContent = user.role === 'admin' ? 'Administrator' : 'Petugas Lapangan';
 
-      // Update avatar
+      const sidebarInitial = document.getElementById('sidebarAvatarInitial');
+      if (sidebarInitial) {
+        if (avatarUrl) {
+          sidebarInitial.innerHTML = `<img src="${avatarUrl}" alt="${user.name}" class="w-100 h-100 rounded-circle object-fit-cover">`;
+          sidebarInitial.style.background = 'transparent';
+          sidebarInitial.style.overflow = 'hidden';
+        } else {
+          sidebarInitial.textContent = initial;
+          sidebarInitial.style.background = '';
+        }
+      }
+
+      // Update navbar
+      const navName = document.getElementById('navUserName');
+      if (navName) navName.textContent = user.name;
+
+      const navRole = document.getElementById('navUserRole');
+      if (navRole) navRole.textContent = user.role === 'admin' ? 'Administrator' : 'Petugas';
+
+      const navInitial = document.getElementById('navAvatarInitial');
+      if (navInitial) {
+        if (avatarUrl) {
+          navInitial.innerHTML = `<img src="${avatarUrl}" alt="${user.name}" class="w-100 h-100 rounded-circle object-fit-cover">`;
+          navInitial.style.background = 'transparent';
+          navInitial.style.overflow = 'hidden';
+        } else {
+          navInitial.textContent = initial;
+          navInitial.style.background = '';
+        }
+      }
+
+      // Update any other .user-avatar-img
       const avatars = document.querySelectorAll('.user-avatar-img');
-      const base = API_URL.replace('/api', '');
-      const defaultAvatar = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.name) + '&background=1a5c38&color=fff';
-      
       avatars.forEach(img => {
-        img.src = user.avatar ? `${base}/uploads/${user.avatar}` : defaultAvatar;
+        img.src = avatarUrl || defaultAvatar;
       });
     }
   }

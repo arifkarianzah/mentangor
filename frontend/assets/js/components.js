@@ -40,28 +40,21 @@ window.Components = window.Components || {
       if (activeItem) activeItem.classList.add('active');
 
       // Set user info
-      const user = Auth.getUser();
-      if (user) {
-        // Sidebar
-        const initial = user.name ? user.name.charAt(0).toUpperCase() : 'A';
-        const sidebarInitial = document.getElementById('sidebarAvatarInitial');
-        const sidebarName = document.getElementById('sidebarUserName');
-        const sidebarRole = document.getElementById('sidebarUserRole');
-        if (sidebarInitial) sidebarInitial.textContent = initial;
-        if (sidebarName)    sidebarName.textContent = user.name;
-        if (sidebarRole)    sidebarRole.textContent = user.role === 'admin' ? 'Administrator' : 'Petugas Lapangan';
-
-        // Navbar
-        const navInitial = document.getElementById('navAvatarInitial');
-        const navName    = document.getElementById('navUserName');
-        const navRole    = document.getElementById('navUserRole');
-        if (navInitial) navInitial.textContent = initial;
-        if (navName)    navName.textContent = user.name;
-        if (navRole)    navRole.textContent = user.role === 'admin' ? 'Administrator' : 'Petugas';
-
-        // Show admin-only menus
-        if (user.role === 'admin') {
+      if (typeof Auth !== 'undefined') {
+        Auth.renderUserMenu();
+        const user = Auth.getUser();
+        if (user && user.role === 'admin') {
           document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('d-none'));
+        }
+
+        // Background sync user profile to ensure avatar and name are latest
+        if (Auth.isAuthenticated() && typeof API !== 'undefined') {
+          API.get('/auth/me').then(res => {
+            if (res && res.success && res.data) {
+              localStorage.setItem('portaldesa_user', JSON.stringify(res.data));
+              Auth.renderUserMenu();
+            }
+          }).catch(() => {});
         }
       }
 

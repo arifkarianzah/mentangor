@@ -444,17 +444,27 @@ p, span, div, label, td, a {
 }
 
 .nav-avatar {
-  width: 26px;
-  height: 26px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   background: linear-gradient(135deg, #10b981, #059669);
   color: white;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 500 !important;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  overflow: hidden;
+}
+
+.nav-avatar img,
+#sidebar .sidebar-user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
 }
 
 .nav-user-name {
