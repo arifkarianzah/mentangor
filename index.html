@@ -1,12 +1,351 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0;url=frontend/public/index.html">
-  <title>Memuat Portal Desa...</title>
-  <script>window.location.replace('frontend/public/index.html');</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Info Warga RW 02 Mentangor - Pusat Pengumuman & Berita Resmi</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css?v=9">
+    <link rel="stylesheet" href="assets/css/responsive.css?v=9">
+    <link rel="stylesheet" href="frontend/assets/css/style.css?v=9">
+    <link rel="stylesheet" href="frontend/assets/css/responsive.css?v=9">
+    <link rel="stylesheet" href="../assets/css/style.css?v=9">
+    <link rel="stylesheet" href="../assets/css/responsive.css?v=9">
 </head>
+
 <body>
-  <p>Mengarahkan ke halaman utama... Jika tidak otomatis, <a href="frontend/public/index.html">klik di sini</a>.</p>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary-green fixed-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-semibold d-flex align-items-center gap-2" href="index.html">
+                <i class="fa-solid fa-bullhorn text-accent-orange"></i>
+                Info Warga RW 02 Mentangor
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto fw-medium">
+                    <li class="nav-item"><a class="nav-link active" href="index.html">Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="pengumuman.html">Pengumuman & Agenda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="laporan.html">Lapor Keluhan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="riwayat.html">Riwayat Info</a></li>
+                    <li class="nav-item"><a class="nav-link" href="kontak.html">Kontak Pengurus</a></li>
+                </ul>
+                <div class="d-flex ms-lg-3 mt-3 mt-lg-0 auth-buttons" id="authNavContainer">
+                    <!-- Dinamis via JS -->
+                    <a href="frontend/admin/login.html" class="btn btn-outline-light btn-sm rounded-pill px-4">Login
+                        Pengurus</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section d-flex align-items-center position-relative">
+        <div class="overlay"
+            style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(30, 41, 59, 0.78);"></div>
+        <div class="container position-relative z-1">
+            <div class="row align-items-center pt-3 pt-lg-5 mt-1 mt-lg-4">
+                <div class="col-lg-7 text-white text-center text-lg-start mb-4 mb-lg-0">
+                    <h1 class="display-5 fw-bold mb-2 line-height-tight text-white">
+                        Halo Warga! <br>
+                        <span class="text-highlight-yellow fw-bold" id="typingText"></span><span class="typing-cursor">|</span>
+                    </h1>
+                    <p class="lead mb-3 opacity-90 fw-normal text-white">
+                        Pusat pengumuman resmi, jadwal kegiatan desa, dan berita penting warga. Lebih rapi, jelas, dan anti-ketinggalan info di grup WhatsApp langsung dari HP Anda.
+                    </p>
+                    <div class="d-flex flex-row gap-2 justify-content-center justify-content-lg-start flex-wrap">
+                        <a href="pengumuman.html"
+                            class="btn btn-accent-orange rounded-pill px-3 py-2 shadow-sm fw-semibold d-flex align-items-center justify-content-center gap-2">
+                            <i class="fa-solid fa-bullhorn"></i> Lihat Pengumuman
+                        </a>
+                        <a href="laporan.html"
+                            class="btn btn-outline-light rounded-pill px-3 py-2 fw-semibold bg-glass hover-white d-flex align-items-center justify-content-center gap-2">
+                            <i class="fa-solid fa-pen-to-square"></i> Lapor Keluhan
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-5 d-none d-lg-block">
+                    <!-- Widget Highlight Hero -->
+                    <div class="hero-image-wrapper p-4 rounded-4 bg-glass shadow-lg">
+                        <div
+                            class="stats-glass-card d-flex align-items-center p-3 mb-3 bg-white text-dark rounded-3 shadow-sm">
+                            <div
+                                class="icon-box bg-success-light text-success me-3 fs-3 rounded-circle d-flex align-items-center justify-content-center">
+                                <i class="fa-solid fa-newspaper"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-0 fw-semibold text-muted">Pengumuman Aktif</h6>
+                                <h3 class="mb-0 fw-bold counter" id="heroStatSelesai">11</h3>
+                            </div>
+                        </div>
+                        <div
+                            class="stats-glass-card d-flex align-items-center p-3 bg-white text-dark rounded-3 shadow-sm ms-4">
+                            <div
+                                class="icon-box bg-warning-light text-warning me-3 fs-3 rounded-circle d-flex align-items-center justify-content-center">
+                                <i class="fa-solid fa-calendar-days"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-0 fw-semibold text-muted">Agenda Berjalan</h6>
+                                <h3 class="mb-0 fw-bold counter" id="heroStatProses">3</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Bar (Lurus Menyamping 1 Baris di Semua Layar) -->
+    <section class="stats-bar bg-white shadow-sm position-relative z-2">
+        <div class="container py-2 py-md-3">
+            <div class="stats-horizontal-row">
+                <div class="stat-col">
+                    <i class="fa-solid fa-bullhorn text-primary-green stat-icon mb-1"></i>
+                    <h3 class="fw-bold text-dark counter mb-0" id="statTitik">11</h3>
+                    <p class="text-muted mb-0 stat-label">Info & Warta</p>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-col">
+                    <i class="fa-solid fa-calendar-check text-accent-orange stat-icon mb-1"></i>
+                    <h3 class="fw-bold text-dark counter mb-0" id="statSelesai">3</h3>
+                    <p class="text-muted mb-0 stat-label">Agenda Kegiatan</p>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-col">
+                    <i class="fa-solid fa-users text-primary-green stat-icon mb-1"></i>
+                    <h3 class="fw-bold text-dark counter mb-0" id="statWarga">19</h3>
+                    <p class="text-muted mb-0 stat-label">Warga Terhubung</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it Works Section (Alur Akses Informasi) -->
+    <section class="py-5 bg-light position-relative">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <span class="badge bg-primary-green px-3 py-2 rounded-pill mb-2">Alur Informasi</span>
+                <h2 class="fw-semibold">Cara Mudah Mengetahui Kabar & Pengumuman Desa</h2>
+                <p class="text-muted text-center mx-auto" style="max-width: 600px;">Cukup simpan tautan portal ini di HP, seluruh pengumuman resmi dan jadwal kegiatan warga selalu tersedia rapi.</p>
+            </div>
+            <div class="row text-center g-4">
+                <div class="col-md-4">
+                    <div class="step-card p-4 bg-white rounded-4 shadow-sm h-100 hover-lift">
+                        <div class="step-icon bg-primary-green-light text-primary-green mx-auto rounded-circle d-flex align-items-center justify-content-center mb-4"
+                            style="width: 80px; height: 80px; font-size: 2rem;">
+                            <i class="fa-solid fa-mobile-screen-button"></i>
+                        </div>
+                        <h4 class="fw-semibold">1. Buka Lewat HP</h4>
+                        <p class="text-muted">Akses link website kapan saja dari browser HP Anda tanpa perlu unduh aplikasi berat.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="step-card p-4 bg-white rounded-4 shadow-sm h-100 hover-lift">
+                        <div class="step-icon bg-accent-orange-light text-accent-orange mx-auto rounded-circle d-flex align-items-center justify-content-center mb-4"
+                            style="width: 80px; height: 80px; font-size: 2rem;">
+                            <i class="fa-solid fa-newspaper"></i>
+                        </div>
+                        <h4 class="fw-semibold">2. Baca Pengumuman</h4>
+                        <p class="text-muted">Temukan info gotong royong, posyandu balita & lansia, surat edaran, dan agenda RT/RW terbaru.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="step-card p-4 bg-white rounded-4 shadow-sm h-100 hover-lift">
+                        <div class="step-icon bg-success-light text-success mx-auto rounded-circle d-flex align-items-center justify-content-center mb-4"
+                            style="width: 80px; height: 80px; font-size: 2rem;">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+                        <h4 class="fw-semibold">3. Info Jelas & Anti-Hoax</h4>
+                        <p class="text-muted">Semua kabar dirilis resmi oleh pengurus, terjamin akurat dan tidak akan tertimbun pesan grup.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Before & After Slider Section (Dynamic) -->
+    <section class="py-5 bg-primary-green text-white">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-semibold text-white">Dokumentasi & Aksi Nyata Desa</h2>
+                <p class="text-white opacity-90">Bukti foto kegiatan gotong royong dan pelayanan warga di RW 02 Mentangor.</p>
+            </div>
+
+            <div class="row justify-content-center" id="beforeAfterContainer">
+                <div class="col-lg-8 text-center">
+                    <div class="spinner-border text-light" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <a href="riwayat.html?status=selesai" class="btn btn-outline-light rounded-pill px-4">Lihat Semua Dokumentasi</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pengumuman Terbaru -->
+    <section class="py-5">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-end mb-4">
+                <div>
+                    <h2 class="fw-semibold text-primary-green">Kabar & Pengumuman Terbaru</h2>
+                    <p class="text-muted mb-0">Pemberitahuan resmi dan dokumentasi kegiatan warga RW 02 Mentangor.</p>
+                </div>
+                <a href="pengumuman.html"
+                    class="btn btn-outline-primary-green rounded-pill d-none d-md-inline-block">Lihat Semua <i
+                        class="fa-solid fa-arrow-right ms-1"></i></a>
+            </div>
+
+            <div class="row g-4" id="recentAnnouncements">
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
+                        <div class="card-body p-4">
+                            <span class="badge bg-success rounded-pill px-2.5 py-1 mb-2">Gotong Royong</span>
+                            <h5 class="card-title fw-semibold">Kerja Bakti Lingkungan RW 02 Mentangor</h5>
+                            <p class="text-muted small mb-0 mt-2"><i class="fa-regular fa-calendar me-2"></i>Agenda Rutin Warga</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
+                        <div class="card-body p-4">
+                            <span class="badge bg-warning text-dark rounded-pill px-2.5 py-1 mb-2">Posyandu</span>
+                            <h5 class="card-title fw-semibold">Jadwal Posyandu Balita & Lansia</h5>
+                            <p class="text-muted small mb-0 mt-2"><i class="fa-regular fa-calendar me-2"></i>Puskesmas Pembantu</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
+                        <div class="card-body p-4">
+                            <span class="badge bg-info text-dark rounded-pill px-2.5 py-1 mb-2">Kegiatan</span>
+                            <h5 class="card-title fw-semibold">Penyuluhan Kebersihan & Pengelolaan Sampah</h5>
+                            <p class="text-muted small mb-0 mt-2"><i class="fa-regular fa-calendar me-2"></i>Balai Warga RW 02</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-4 d-md-none">
+                <a href="pengumuman.html" class="btn btn-outline-primary-green rounded-pill w-100">Lihat Semua <i
+                        class="fa-solid fa-arrow-right ms-1"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white pt-5 pb-3">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-md-5 mb-4 mb-md-0">
+                    <h5 class="fw-semibold mb-3"><i class="fa-solid fa-bullhorn text-accent-orange me-2"></i> Info Warga RW 02 Mentangor</h5>
+                    <p class="text-white-50 pe-md-5">Pusat informasi dan portal pengumuman resmi desa terpadu untuk warga RW 02 Mentangor yang lebih transparan, rapi, dan mudah diakses langsung lewat HP.</p>
+                </div>
+                <div class="col-md-3 mb-4 mb-md-0">
+                    <h5 class="fw-semibold mb-3">Tautan Cepat</h5>
+                    <ul class="list-unstyled footer-links">
+                        <li class="mb-2"><a href="index.html" class="text-white-50 text-decoration-none">Beranda</a></li>
+                        <li class="mb-2"><a href="pengumuman.html" class="text-white-50 text-decoration-none">Pengumuman & Agenda</a></li>
+                        <li class="mb-2"><a href="laporan.html" class="text-white-50 text-decoration-none">Lapor Keluhan</a></li>
+                        <li class="mb-2"><a href="riwayat.html" class="text-white-50 text-decoration-none">Riwayat Info</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="fw-semibold mb-3">Kontak Pengurus</h5>
+                    <ul class="list-unstyled text-white-50">
+                        <li class="mb-2"><i class="fa-solid fa-location-dot me-2"></i> Pos RW 02 Mentangor, Jl. Utama</li>
+                        <li class="mb-2"><i class="fa-solid fa-envelope me-2"></i> infowarga@mentangor.desa.id</li>
+                        <li class="mb-2"><i class="fa-solid fa-phone me-2"></i> 0812-3456-7890</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="border-secondary opacity-50">
+            <div class="text-center text-white-50 small">
+                &copy; <span id="currentYear"></span> Info Warga RW 02 Mentangor. Portal Informasi & Pengumuman Resmi Desa.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <!-- Custom Scripts -->
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/main.js?v=9"></script>
+    <script src="frontend/assets/js/api.js"></script>
+    <script src="frontend/assets/js/auth.js"></script>
+    <script src="frontend/assets/js/main.js?v=9"></script>
+
+    <script>
+        // Animate initial counters immediately
+        document.addEventListener('DOMContentLoaded', async () => {
+            const yearEl = document.getElementById('currentYear');
+            if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+            animateCounter('statTitik', 11);
+            animateCounter('statSelesai', 3);
+            animateCounter('statWarga', 19);
+            animateCounter('heroStatSelesai', 11);
+            animateCounter('heroStatProses', 3);
+
+            // Load Before/After Slider
+            const baContainer = document.getElementById('beforeAfterContainer');
+            if (baContainer) {
+                baContainer.innerHTML = `
+                    <div class="col-lg-8 text-center position-relative">
+                        <div class="ba-slider bg-white p-2 rounded-4 shadow-lg position-relative overflow-hidden" style="height: 400px; user-select: none;">
+                            <img src="assets/img/sesudah.png" onerror="this.src='frontend/assets/img/sesudah.png'" alt="Sesudah" class="w-100 h-100 object-fit-cover rounded-3" draggable="false">
+                            <div class="resize" style="position: absolute; top: 0; left: 0; height: 100%; width: 50%; overflow: hidden;">
+                                <img src="assets/img/sebelum.png" onerror="this.src='frontend/assets/img/sebelum.png'" alt="Sebelum" class="object-fit-cover rounded-3" style="width: 200%; height: 100%;" draggable="false">
+                            </div>
+                            <span class="handle" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 42px; height: 42px; background: #f59e0b; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: ew-resize; box-shadow: 0 0 12px rgba(0,0,0,0.35);"><i class="fa-solid fa-arrows-left-right text-white"></i></span>
+                        </div>
+                        <div class="d-flex justify-content-between mt-3 px-3">
+                            <span class="badge bg-danger px-3 py-2 fw-semibold"><i class="fa-solid fa-clock-rotate-left me-1"></i> Sebelum</span>
+                            <span class="badge bg-success px-3 py-2 fw-semibold"><i class="fa-solid fa-check-circle me-1"></i> Sesudah</span>
+                        </div>
+                        <p class="text-white mt-3 fw-medium mb-0">Lokasi: Jl. Utama RW 02 Mentangor (Kegiatan Gotong Royong)</p>
+                    </div>
+                `;
+                if (typeof initSlider === 'function') initSlider();
+            }
+        });
+
+        function animateCounter(id, endVal) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            let startVal = 0;
+            const duration = 1800;
+            const step = Math.max(1, Math.floor(endVal / (duration / 16)));
+
+            const timer = setInterval(() => {
+                startVal += step;
+                if (startVal >= endVal) {
+                    el.textContent = endVal;
+                    clearInterval(timer);
+                } else {
+                    el.textContent = startVal;
+                }
+            }, 16);
+        }
+    </script>
 </body>
 </html>
