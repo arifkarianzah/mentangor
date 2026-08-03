@@ -1,7 +1,5 @@
 {
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/index.js" },
-    { "source": "/api", "destination": "/api/index.js" },
     { "source": "/", "destination": "/frontend/public/index.html" },
     { "source": "/index.html", "destination": "/frontend/public/index.html" },
     { "source": "/pengumuman.html", "destination": "/frontend/public/pengumuman.html" },
