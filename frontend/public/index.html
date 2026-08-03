@@ -60,20 +60,16 @@
             color: #facc15 !important;
             font-weight: 700;
         }
-        .dynamic-smooth-text {
+        .typing-cursor {
             display: inline-block;
-            transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-            opacity: 1;
-            transform: translateY(0);
-            will-change: transform, opacity;
+            color: #facc15;
+            font-weight: 700;
+            margin-left: 2px;
+            animation: cursorBlink 0.8s infinite;
         }
-        .dynamic-smooth-text.slide-out {
-            opacity: 0;
-            transform: translateY(-12px);
-        }
-        .dynamic-smooth-text.slide-in {
-            opacity: 0;
-            transform: translateY(12px);
+        @keyframes cursorBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
         .hero-section {
             min-height: 85vh;
@@ -190,7 +186,7 @@
                 <div class="col-lg-7 text-white text-center text-lg-start mb-4 mb-lg-0">
                     <h1 class="display-5 fw-bold mb-2 line-height-tight text-white">
                         Halo Warga! <br>
-                        <span class="text-highlight-yellow fw-bold dynamic-smooth-text" id="dynamicHeroTitle">Kabar & Pengumuman Resmi RW 02 Mentangor</span>
+                        <span class="text-highlight-yellow fw-bold" id="typingText"></span><span class="typing-cursor">|</span>
                     </h1>
                     <p class="lead mb-3 opacity-90 fw-normal text-white">
                         Pusat pengumuman resmi, jadwal kegiatan desa, dan berita penting warga. Lebih rapi, jelas, dan anti-ketinggalan info di grup WhatsApp langsung dari HP Anda.
@@ -447,34 +443,52 @@
     <script src="assets/js/main.js?v=8"></script>
 
     <script>
-        // Animate initial counters and smooth rotating text
+        // Animate initial counters and typewriter text
         document.addEventListener('DOMContentLoaded', async () => {
             // Set current year in footer
             const yearEl = document.getElementById('currentYear');
             if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-            // Smooth Dynamic Text Rotator (Halus, Elegan, Tanpa Patah-patah)
-            const titleEl = document.getElementById('dynamicHeroTitle');
-            if (titleEl) {
+            // Typewriter Effect (Timbul Satu Per Satu Huruf dengan Mulus)
+            const typingEl = document.getElementById('typingText');
+            if (typingEl && !typingEl.dataset.initialized) {
+                typingEl.dataset.initialized = 'true';
                 const phrases = [
                     "Kabar & Pengumuman Resmi RW 02 Mentangor",
                     "Jadwal Kegiatan Gotong Royong & Posyandu",
                     "Portal Informasi Transparan & Tepercaya",
                     "Layanan Pengaduan & Aspirasi Warga Mentangor"
                 ];
-                let curIdx = 0;
-                setInterval(() => {
-                    titleEl.classList.add('slide-out');
-                    setTimeout(() => {
-                        curIdx = (curIdx + 1) % phrases.length;
-                        titleEl.textContent = phrases[curIdx];
-                        titleEl.classList.remove('slide-out');
-                        titleEl.classList.add('slide-in');
-                        setTimeout(() => {
-                            titleEl.classList.remove('slide-in');
-                        }, 50);
-                    }, 450);
-                }, 3800);
+                let pIndex = 0;
+                let charIndex = 0;
+                let isDeleting = false;
+
+                function typeLoop() {
+                    const currentPhrase = phrases[pIndex];
+
+                    if (isDeleting) {
+                        charIndex--;
+                        typingEl.textContent = currentPhrase.substring(0, charIndex);
+                    } else {
+                        charIndex++;
+                        typingEl.textContent = currentPhrase.substring(0, charIndex);
+                    }
+
+                    let speed = isDeleting ? 30 : 65; // Ketik huruf demi huruf dengan ritme pas
+
+                    if (!isDeleting && charIndex === currentPhrase.length) {
+                        speed = 3000; // Diam 3 detik saat kalimat lengkap agar nyaman dibaca
+                        isDeleting = true;
+                    } else if (isDeleting && charIndex === 0) {
+                        isDeleting = false;
+                        pIndex = (pIndex + 1) % phrases.length;
+                        speed = 400; // Jeda singkat sebelum kalimat berikutnya
+                    }
+
+                    setTimeout(typeLoop, speed);
+                }
+
+                setTimeout(typeLoop, 300);
             }
 
             // Run counter animation for standard metrics
