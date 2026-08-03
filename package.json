@@ -1,0 +1,9 @@
+{
+  "name": "desa-mentangor",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Portal Informasi Desa Mentangor",
+  "scripts": {
+    "build": "echo 'Static build ready'"
+  }
+}
