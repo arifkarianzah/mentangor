@@ -2,8 +2,16 @@
   "version": 2,
   "rewrites": [
     { "source": "/", "destination": "/frontend/public/index.html" },
+    { "source": "/index.html", "destination": "/frontend/public/index.html" },
+    { "source": "/pengumuman.html", "destination": "/frontend/public/pengumuman.html" },
+    { "source": "/laporan.html", "destination": "/frontend/public/laporan.html" },
+    { "source": "/riwayat.html", "destination": "/frontend/public/riwayat.html" },
+    { "source": "/kontak.html", "destination": "/frontend/public/kontak.html" },
+    { "source": "/assets/(.*)", "destination": "/frontend/assets/$1" },
     { "source": "/admin", "destination": "/frontend/admin/dashboard.html" },
     { "source": "/admin/", "destination": "/frontend/admin/dashboard.html" },
+    { "source": "/admin/(.*)", "destination": "/frontend/admin/$1" },
+    { "source": "/public/(.*)", "destination": "/frontend/public/$1" },
     { "source": "/login", "destination": "/frontend/admin/login.html" }
   ]
 }
