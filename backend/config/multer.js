@@ -3,7 +3,9 @@ const path = require('path');
 const fs = require('fs');
 require('dotenv').config();
 
-const UPLOAD_PATH = process.env.UPLOAD_PATH || './uploads';
+const UPLOAD_PATH = process.env.UPLOAD_PATH 
+  ? path.resolve(process.env.UPLOAD_PATH) 
+  : path.join(__dirname, '..', 'uploads');
 const MAX_FILE_SIZE = parseInt(process.env.MAX_FILE_SIZE) || 5 * 1024 * 1024; // 5MB
 
 // Pastikan folder upload ada

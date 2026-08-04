@@ -10,6 +10,8 @@ if (!fs.existsSync(DATA_DIR)) {
   fs.mkdirSync(DATA_DIR, { recursive: true });
 }
 
+const nowIso = new Date().toISOString();
+
 // Inisialisasi data awal (Seed)
 const defaultData = {
   users: [
@@ -22,7 +24,7 @@ const defaultData = {
       phone: '08100000001',
       avatar: null,
       is_active: 1,
-      created_at: new Date().toISOString()
+      created_at: nowIso
     },
     {
       id: 2,
@@ -33,7 +35,7 @@ const defaultData = {
       phone: '08100000002',
       avatar: null,
       is_active: 1,
-      created_at: new Date().toISOString()
+      created_at: nowIso
     }
   ],
   announcements: [
@@ -42,22 +44,26 @@ const defaultData = {
       title: 'Selamat Datang di Portal Desa Mentangor',
       content: 'Portal Desa ini hadir untuk memudahkan warga dalam mengakses informasi pengumuman dan melaporkan keluhan lingkungan sekitar secara online 24 jam.',
       type: 'umum',
+      image: null,
       is_pinned: 1,
       is_active: 1,
       created_by: 1,
       author_name: 'Administrator',
-      created_at: new Date().toISOString()
+      published_at: nowIso,
+      created_at: nowIso
     },
     {
       id: 2,
       title: 'Jadwal Posyandu Balita & Lansia RW 02',
       content: 'Kegiatan posyandu rutin akan diadakan pada hari Sabtu pekan depan di Balai RW 02 mulai pukul 08.30 WIB. Mohon kehadiran ibu dan balita.',
-      type: 'kesehatan',
+      type: 'posyandu',
+      image: null,
       is_pinned: 1,
       is_active: 1,
       created_by: 1,
       author_name: 'Administrator',
-      created_at: new Date().toISOString()
+      published_at: nowIso,
+      created_at: nowIso
     }
   ],
   reports: [
@@ -74,7 +80,7 @@ const defaultData = {
       reporter_phone: '08123456789',
       reporter_email: 'warga@gmail.com',
       assigned_to: null,
-      created_at: new Date().toISOString()
+      created_at: nowIso
     }
   ],
   report_images: [],
@@ -85,7 +91,14 @@ function loadStore() {
   try {
     if (fs.existsSync(DATA_FILE)) {
       const content = fs.readFileSync(DATA_FILE, 'utf8');
-      return JSON.parse(content);
+      const parsed = JSON.parse(content);
+      // Ensure all announcements have published_at
+      if (parsed.announcements) {
+        parsed.announcements.forEach(a => {
+          if (!a.published_at) a.published_at = a.created_at || new Date().toISOString();
+        });
+      }
+      return parsed;
     }
   } catch (err) {
     console.error('Error loading mock database store:', err);
@@ -114,7 +127,8 @@ async function mockQuery(sql, params = []) {
       return [[{ total: store.users.length }]];
     }
     if (upper.includes('FROM ANNOUNCEMENTS')) {
-      return [[{ total: store.announcements.length }]];
+      const activeAnn = store.announcements.filter(a => a.is_active === 1 || !upper.includes('IS_ACTIVE = 1'));
+      return [[{ total: activeAnn.length }]];
     }
     if (upper.includes('FROM REPORTS')) {
       return [[{ total: store.reports.length }]];
@@ -214,27 +228,101 @@ async function mockQuery(sql, params = []) {
     return [{ affectedRows: 1 }];
   }
 
-  // 4. ANNOUNCEMENTS
-  if (upper.startsWith('SELECT') && upper.includes('FROM ANNOUNCEMENTS')) {
-    if (upper.includes('WHERE ID = ?')) {
-      const id = parseInt(params[0]);
-      const found = store.announcements.filter(a => a.id === id);
-      return [found];
+  // 4. ANNOUNCEMENTS - TOGGLES & DELETE
+  if (upper.includes('UPDATE ANNOUNCEMENTS SET IS_PINNED = NOT IS_PINNED')) {
+    const id = parseInt(params[0]);
+    const item = store.announcements.find(a => a.id === id);
+    if (item) {
+      item.is_pinned = item.is_pinned ? 0 : 1;
+      saveStore();
     }
-    return [store.announcements];
+    return [{ affectedRows: 1 }];
   }
 
+  if (upper.includes('UPDATE ANNOUNCEMENTS SET IS_ACTIVE = NOT IS_ACTIVE')) {
+    const id = parseInt(params[0]);
+    const item = store.announcements.find(a => a.id === id);
+    if (item) {
+      item.is_active = item.is_active ? 0 : 1;
+      saveStore();
+    }
+    return [{ affectedRows: 1 }];
+  }
+
+  if (upper.startsWith('DELETE FROM ANNOUNCEMENTS')) {
+    const id = parseInt(params[0]);
+    store.announcements = store.announcements.filter(a => a.id !== id);
+    saveStore();
+    return [{ affectedRows: 1 }];
+  }
+
+  // ANNOUNCEMENTS - UPDATE
+  if (upper.startsWith('UPDATE ANNOUNCEMENTS')) {
+    // [title, content, type, is_pinned, published_at, image, id]
+    const title = params[0];
+    const content = params[1];
+    const type = params[2];
+    const is_pinned = (params[3] === true || params[3] === '1' || params[3] === 1) ? 1 : 0;
+    const published_at = params[4] ? new Date(params[4]).toISOString() : new Date().toISOString();
+    const image = params[5];
+    const id = parseInt(params[6]);
+
+    const item = store.announcements.find(a => a.id === id);
+    if (item) {
+      item.title = title;
+      item.content = content;
+      item.type = type;
+      item.is_pinned = is_pinned;
+      item.published_at = published_at;
+      if (image) item.image = image;
+      saveStore();
+    }
+    return [{ affectedRows: 1 }];
+  }
+
+  // ANNOUNCEMENTS - SELECT SINGLE
+  if (upper.startsWith('SELECT') && upper.includes('FROM ANNOUNCEMENTS WHERE ID = ?')) {
+    const id = parseInt(params[0]);
+    const found = store.announcements.filter(a => a.id === id);
+    return [found];
+  }
+
+  // ANNOUNCEMENTS - SELECT LIST
+  if (upper.startsWith('SELECT') && upper.includes('FROM ANNOUNCEMENTS')) {
+    let list = [...store.announcements];
+    if (upper.includes('IS_ACTIVE = 1')) {
+      list = list.filter(a => a.is_active === 1);
+    }
+    list.sort((a, b) => {
+      if (b.is_pinned !== a.is_pinned) return b.is_pinned - a.is_pinned;
+      return new Date(b.published_at || b.created_at) - new Date(a.published_at || a.created_at);
+    });
+    return [list];
+  }
+
+  // ANNOUNCEMENTS - INSERT
   if (upper.startsWith('INSERT INTO ANNOUNCEMENTS')) {
     const newId = (store.announcements.length ? Math.max(...store.announcements.map(a => a.id)) : 0) + 1;
+    // [title, content, type, image, pinnedVal, req.user.id, published_at]
+    const title = params[0];
+    const content = params[1];
+    const type = params[2] || 'umum';
+    const image = params[3] || null;
+    const is_pinned = (params[4] === true || params[4] === '1' || params[4] === 1) ? 1 : 0;
+    const created_by = params[5] || 1;
+    const published_at = params[6] ? new Date(params[6]).toISOString() : new Date().toISOString();
+
     const newAnn = {
       id: newId,
-      title: params[0],
-      content: params[1],
-      type: params[2] || 'umum',
-      is_pinned: params[3] ? 1 : 0,
+      title,
+      content,
+      type,
+      image,
+      is_pinned,
       is_active: 1,
-      created_by: params[4] || 1,
+      created_by,
       author_name: 'Administrator',
+      published_at,
       created_at: new Date().toISOString()
     };
     store.announcements.unshift(newAnn);

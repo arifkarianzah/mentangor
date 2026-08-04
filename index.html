@@ -630,7 +630,9 @@
                 if (res.success && res.data.length > 0) {
                     container.innerHTML = '';
                     res.data.forEach(item => {
-                        const date = new Date(item.published_at).toLocaleDateString('id-ID', {
+                        const rawDate = item.published_at || item.created_at || new Date();
+                        const parsedDate = new Date(rawDate);
+                        const date = isNaN(parsedDate.getTime()) ? 'Baru saja' : parsedDate.toLocaleDateString('id-ID', {
                             day: 'numeric', month: 'short', year: 'numeric'
                         });
 
@@ -642,7 +644,9 @@
                         else { typeName = 'Umum'; }
 
                         const pinBadge = item.is_pinned ? `<span class="badge bg-danger ms-2"><i class="fa-solid fa-thumbtack"></i> Pinned</span>` : '';
-                        const img = item.image ? `<img src="${API_URL.replace('/api', '')}/uploads/${item.image}" class="card-img-top object-fit-cover card-cover-img" alt="Cover">` : `<div class="bg-light d-flex align-items-center justify-content-center text-muted card-cover-img"><i class="fa-solid fa-image fs-3"></i></div>`;
+                        const defaultImg = '../assets/img/hari-jadi-mentangor.jpg';
+                        const imgSrc = item.image ? `${API_URL.replace('/api', '')}/uploads/${item.image}` : defaultImg;
+                        const img = `<img src="${imgSrc}" class="card-img-top object-fit-cover card-cover-img" alt="${item.title}" onerror="this.src='${defaultImg}'">`;
 
                         container.innerHTML += `
                             <div class="col-md-4">
