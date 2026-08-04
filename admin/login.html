@@ -105,7 +105,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             // Check if already logged in
             if (Auth.isAuthenticated()) {
-                window.location.href = 'dashboard.html';
+                window.location.href = '/admin/dashboard.html';
             }
 
             // Toggle password
@@ -135,7 +135,7 @@
 
                 try {
                     await Auth.login(email, password);
-                    window.location.href = 'dashboard.html';
+                    window.location.href = '/admin/dashboard.html';
                 } catch (err) {
                     Swal.fire({
                         title: 'Login Gagal',

@@ -26,7 +26,7 @@ const Auth = {
   logout: () => {
     localStorage.removeItem('portaldesa_token');
     localStorage.removeItem('portaldesa_user');
-    window.location.href = '../admin/login.html';
+    window.location.href = '/admin/login.html';
   },
 
   getUser: () => {
@@ -40,7 +40,7 @@ const Auth = {
 
   requireAuth: () => {
     if (!Auth.isAuthenticated()) {
-      window.location.href = '../admin/login.html';
+      window.location.href = '/admin/login.html';
     }
   },
 
@@ -55,7 +55,7 @@ const Auth = {
         confirmButtonText: 'Kembali ke Dashboard',
         allowOutsideClick: false
       }).then(() => {
-        window.location.href = '../admin/dashboard.html';
+        window.location.href = '/admin/dashboard.html';
       });
     }
   },

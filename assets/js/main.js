@@ -22,7 +22,7 @@ function initApp() {
     if (token && userStr) {
       try {
         const user = JSON.parse(userStr);
-        const adminPath = window.location.pathname.includes('/public/') ? '../admin/dashboard.html' : (window.location.pathname.includes('/admin') ? 'dashboard.html' : 'frontend/admin/dashboard.html');
+        const adminPath = '/admin/dashboard.html';
         authNavContainer.innerHTML = `
           <a href="${adminPath}" class="btn btn-outline-light btn-sm rounded-pill px-3 d-flex align-items-center gap-2">
             <i class="fa-solid fa-user-circle"></i> Panel ${user.role === 'admin' ? 'Admin' : 'Petugas'}
