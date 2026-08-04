@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Laporan - Posyandu RW 02 Mentangor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css?v=4">
+    <link rel="stylesheet" href="../assets/css/admin.css?v=10">
+</head>
+<body class="admin-body">
+
+    <div class="wrapper">
+                <!-- Sidebar (loaded dynamically) -->
+        <div id="sidebar-container"></div>
+
+        <div id="content">
+            <!-- Navbar (loaded dynamically) -->
+            <div id="navbar-container"></div>
+
+            <div class="main-content">
+                <a href="reports.html" class="text-decoration-none text-muted mb-4 d-inline-block"><i class="fa-solid fa-arrow-left me-2"></i> Kembali ke Daftar Laporan</a>
+                
+                <div id="loadingIndicator" class="text-center py-5">
+                    <div class="spinner-border text-primary-green"></div>
+                    <p class="mt-2 text-muted">Memuat data laporan...</p>
+                </div>
+
+                <div id="reportContent" class="d-none">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h3 class="fw-medium mb-1" id="detailTitle">Judul Laporan</h3>
+                            <p class="text-muted mb-0"><span class="font-monospace fw-medium me-2" id="detailNumber">RPT-XXX</span> <i class="fa-regular fa-calendar me-1"></i> <span id="detailDate"></span></p>
+                        </div>
+                        <div id="statusBadgeContainer"></div>
+                    </div>
+
+                    <div class="row g-4">
+                        <!-- Left Column: Info & Action -->
+                        <div class="col-lg-7">
+                            <div class="admin-card p-4 mb-4">
+                                <h5 class="fw-medium border-bottom pb-2 mb-3">Informasi Pelapor</h5>
+                                <div class="row">
+                                    <div class="col-sm-6 mb-3">
+                                        <label class="text-muted small">Nama</label>
+                                        <div class="fw-medium" id="detailReporterName">-</div>
+                                    </div>
+                                    <div class="col-sm-6 mb-3">
+                                        <label class="text-muted small">Nomor HP</label>
+                                        <div class="fw-medium" id="detailReporterPhone">-</div>
+                                    </div>
+                                </div>
+
+                                <h5 class="fw-medium border-bottom pb-2 mb-3 mt-3">Detail Kejadian</h5>
+                                <div class="mb-3">
+                                    <label class="text-muted small">Lokasi</label>
+                                    <div class="fw-medium" id="detailAddress">-</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="text-muted small">Deskripsi Tambahan</label>
+                                    <div class="bg-light p-3 rounded mt-1" id="detailDescription">-</div>
+                                </div>
+                            </div>
+
+                            <!-- Form Tindak Lanjut -->
+                            <div class="admin-card p-4">
+                                <h5 class="fw-medium border-bottom pb-2 mb-3"><i class="fa-solid fa-pen-to-square text-primary-green me-2"></i> Tindak Lanjut</h5>
+                                <form id="formUpdateStatus">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-medium">Ubah Status</label>
+                                        <select class="form-select" id="inputStatus" name="status">
+                                            <option value="menunggu">Menunggu</option>
+                                            <option value="diverifikasi">Diverifikasi (Data Valid)</option>
+                                            <option value="diproses">Sedang Diproses (Petugas Turun)</option>
+                                            <option value="selesai">Selesai (Telah Dibersihkan)</option>
+                                            <option value="ditolak">Ditolak (Spam / Tidak Valid)</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-medium">Catatan Petugas (Opsional)</label>
+                                        <textarea class="form-control" id="inputNotes" name="notes" rows="3" placeholder="Contoh: Tim sudah meluncur ke lokasi..."></textarea>
+                                    </div>
+                                    
+                                    <!-- Upload After (Hanya tampil jika status selesai/diproses, tapi kita sediakan div nya) -->
+                                    <div id="uploadAfterContainer" class="mb-4 d-none p-3 border rounded bg-light">
+                                        <label class="form-label fw-medium"><i class="fa-solid fa-camera text-success me-2"></i> Upload Foto Penanganan (Sesudah)</label>
+                                        <input class="form-control" type="file" id="inputAfterImages" multiple accept="image/jpeg, image/png">
+                                        <div class="form-text">Bisa lebih dari 1 foto. Wajib jika menandai status sebagai Selesai namun belum ada foto penanganan.</div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary-green rounded-pill px-4" id="btnUpdateStatus">Simpan Perubahan</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Photos -->
+                        <div class="col-lg-5">
+                            <div class="admin-card p-0 overflow-hidden h-100">
+                                <ul class="nav nav-tabs nav-fill bg-light border-bottom" id="photoTabs" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active fw-medium text-dark rounded-0 border-0 border-end" data-bs-toggle="tab" data-bs-target="#tabBefore" type="button">Foto Sebelum</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link fw-medium text-dark rounded-0 border-0" data-bs-toggle="tab" data-bs-target="#tabAfter" type="button">Foto Sesudah</button>
+                                    </li>
+                                </ul>
+                                <div class="tab-content p-4" id="photoTabsContent">
+                                    <div class="tab-pane fade show active" id="tabBefore" role="tabpanel">
+                                        <div id="galleryBefore" class="d-flex flex-column gap-3"></div>
+                                    </div>
+                                    <div class="tab-pane fade" id="tabAfter" role="tabpanel">
+                                        <div id="galleryAfter" class="d-flex flex-column gap-3"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/components.js?v=12"></script>
+    <script src="../assets/js/dashboard.js"></script>
+    
+    <script>
+        window.currentReportId = null;
+
+        window.initPage = async (isSPA = false) => {
+            if (!Auth.isAuthenticated()) { window.location.href = 'login.html'; return; }
+            if (!isSPA) await Components.load('report-detail');
+            const urlParams = new URLSearchParams(window.location.search);
+            window.currentReportId = urlParams.get('id');
+            
+            if (!window.currentReportId) {
+                window.location.href = 'reports.html';
+                return;
+            }
+
+            window.loadReport();
+
+            // Toggle Upload Input based on Status Select
+            const statusSelect = document.getElementById('inputStatus');
+            const uploadContainer = document.getElementById('uploadAfterContainer');
+            
+            if (statusSelect && uploadContainer) {
+                statusSelect.addEventListener('change', (e) => {
+                    if (e.target.value === 'selesai' || e.target.value === 'diproses') {
+                        uploadContainer.classList.remove('d-none');
+                    } else {
+                        uploadContainer.classList.add('d-none');
+                    }
+                });
+            }
+
+            // Handle Submit Form
+            const formUpdateStatus = document.getElementById('formUpdateStatus');
+            if (formUpdateStatus) {
+                formUpdateStatus.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    
+                    const status = statusSelect.value;
+                    const notes = document.getElementById('inputNotes').value;
+                    const afterInput = document.getElementById('inputAfterImages');
+                    
+                    const btn = document.getElementById('btnUpdateStatus');
+                    btn.disabled = true;
+                    btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Menyimpan...';
+                    
+                    try {
+                        await API.patch(`/reports/admin/${window.currentReportId}/status`, { status, notes });
+                        
+                        if (afterInput && afterInput.files.length > 0) {
+                            const formData = new FormData();
+                            Array.from(afterInput.files).forEach(f => formData.append('images', f));
+                            
+                            await API.post(`/reports/admin/${window.currentReportId}/images`, formData, true);
+                        }
+                        
+                        Swal.fire('Sukses', 'Status laporan berhasil diperbarui', 'success').then(() => {
+                            window.loadReport(); // Reload content instead of window.location.reload()
+                            // Scroll up
+                            window.scrollTo(0,0);
+                        });
+                    } catch (err) {
+                        Swal.fire('Gagal', err.message || 'Terjadi kesalahan', 'error');
+                    } finally {
+                        btn.disabled = false;
+                        btn.innerHTML = 'Simpan Perubahan';
+                    }
+                });
+            }
+        };
+
+        window.loadReport = async function() {
+            try {
+                const res = await API.get(`/reports/admin/${window.currentReportId}`);
+                if (res.success) {
+                    window.renderReportDetail(res.data);
+                    document.getElementById('loadingIndicator').classList.add('d-none');
+                    document.getElementById('reportContent').classList.remove('d-none');
+                }
+            } catch (err) {
+                Swal.fire('Error', 'Gagal memuat detail laporan', 'error').then(() => {
+                    document.querySelector(`a[href="reports.html"]`).click(); // use SPA navigation fallback
+                });
+            }
+        };
+
+        window.renderReportDetail = function(data) {
+            document.getElementById('detailTitle').textContent = data.title;
+            document.getElementById('detailNumber').textContent = data.report_number;
+            document.getElementById('detailDate').textContent = new Date(data.created_at).toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit'});
+            
+            document.getElementById('detailReporterName').textContent = data.reporter_name || 'Anonim';
+            document.getElementById('detailReporterPhone').textContent = data.reporter_phone || '-';
+            document.getElementById('detailAddress').textContent = data.address;
+            document.getElementById('detailDescription').textContent = data.description || '-';
+            
+            document.getElementById('inputStatus').value = data.status;
+            document.getElementById('inputNotes').value = data.notes || '';
+            
+            if (data.status === 'selesai' || data.status === 'diproses') {
+                document.getElementById('uploadAfterContainer').classList.remove('d-none');
+            } else {
+                document.getElementById('uploadAfterContainer').classList.add('d-none');
+            }
+            
+            let badgeClass = 'bg-secondary';
+            switch(data.status) {
+                case 'menunggu': badgeClass = 'bg-warning text-dark'; break;
+                case 'diverifikasi': badgeClass = 'bg-info text-dark'; break;
+                case 'diproses': badgeClass = 'bg-accent-orange'; break;
+                case 'selesai': badgeClass = 'bg-success'; break;
+                case 'ditolak': badgeClass = 'bg-danger'; break;
+            }
+            document.getElementById('statusBadgeContainer').innerHTML = `<span class="badge ${badgeClass} fs-6 px-3 py-2 rounded-pill">${data.status.toUpperCase()}</span>`;
+
+            const base = typeof API_URL !== 'undefined' ? API_URL.replace('/api', '') : 'http://localhost:3000';
+            let beforeHtml = '';
+            let afterHtml = '';
+            
+            if (data.images && data.images.length > 0) {
+                data.images.forEach(img => {
+                    const imgTag = `<img src="${base}/uploads/${img.image_path}" class="w-100 rounded border shadow-sm object-fit-cover" style="max-height: 400px;">
+                                    <div class="text-muted small mt-1 text-center"><i class="fa-regular fa-clock me-1"></i> ${new Date(img.uploaded_at).toLocaleString('id-ID')}</div>`;
+                    if (img.type === 'before') beforeHtml += `<div>${imgTag}</div>`;
+                    if (img.type === 'after') afterHtml += `<div>${imgTag}</div>`;
+                });
+            }
+            
+            document.getElementById('galleryBefore').innerHTML = beforeHtml || '<div class="text-center text-muted p-5 bg-light rounded">Tidak ada foto sebelum</div>';
+            document.getElementById('galleryAfter').innerHTML = afterHtml || '<div class="text-center text-muted p-5 bg-light rounded">Belum ada foto penanganan</div>';
+        };
+
+        document.addEventListener('DOMContentLoaded', () => window.initPage(false));
+    </script>
+</body>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelola Pengguna - Posyandu RW 02 Mentangor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css?v=4">
+    <link rel="stylesheet" href="../assets/css/admin.css?v=10">
+</head>
+<body class="admin-body">
+
+    <div class="wrapper">
+        <!-- Sidebar -->
+                <!-- Sidebar (loaded dynamically) -->
+        <div id="sidebar-container"></div>
+
+        <!-- Page Content -->
+        <div id="content">
+            <!-- Navbar (loaded dynamically) -->
+            <div id="navbar-container"></div>
+
+            <div class="main-content">
+                <div class="d-flex justify-content-between align-items-end mb-4 flex-wrap gap-3">
+                    <div>
+                        <h3 class="fw-medium text-dark mb-1">Kelola Pengguna</h3>
+                        <p class="text-muted mb-0">Manajemen akun admin dan petugas desa.</p>
+                    </div>
+                    
+                    <button class="btn btn-primary-green" onclick="showFormModal()">
+                        <i class="fa-solid fa-plus me-2"></i> Tambah Pengguna
+                    </button>
+                </div>
+
+                <div class="admin-card p-0">
+                    <div class="table-responsive p-3">
+                        <table class="table table-custom mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="ps-3">Nama Lengkap</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Status</th>
+                                    <th class="text-end pe-3">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody">
+                                <tr><td colspan="5" class="text-center py-5"><div class="spinner-border text-primary-green"></div></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div class="d-flex justify-content-between align-items-center mt-3 px-2">
+                    <span class="text-muted small" id="pageInfo">Menampilkan 0 data</span>
+                    <ul class="pagination pagination-sm mb-0" id="paginationControls"></ul>
+                </div>
+            <!-- Modal Form -->
+    <div class="modal fade" id="formModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content border-0 rounded-4">
+                <div class="modal-header border-bottom-0">
+                    <h5 class="modal-title fw-medium" id="modalTitle">Tambah Pengguna</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body px-4 pb-4">
+                    <form id="userForm">
+                        <input type="hidden" id="inputId">
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-medium">Nama Lengkap <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="inputName" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-medium">Email <span class="text-danger">*</span></label>
+                            <input type="email" class="form-control" id="inputEmail" required>
+                        </div>
+                        
+                        <div class="mb-3" id="passwordGroup">
+                            <label class="form-label fw-medium">Password <span class="text-danger">*</span></label>
+                            <input type="password" class="form-control" id="inputPassword" minlength="6">
+                            <div class="form-text">Minimal 6 karakter.</div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label fw-medium">Role <span class="text-danger">*</span></label>
+                                <select class="form-select" id="inputRole" required>
+                                    <option value="petugas">Petugas</option>
+                                    <option value="admin">Administrator</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-medium">Nomor HP</label>
+                                <input type="text" class="form-control" id="inputPhone">
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <button type="button" class="btn btn-light rounded-pill" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary-green rounded-pill px-4" id="btnSubmitForm">Simpan</button>
+                        </div></form>
+                </div>
+            </div>
+        </div>
+    </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/components.js?v=12"></script>
+    <script src="../assets/js/dashboard.js"></script>
+    
+    <script>
+        window.currentPage = 1;
+        window.formModal = null;
+        window.currentUser = null;
+
+        window.initPage = async (isSPA = false) => {
+            if (!Auth.isAuthenticated()) { window.location.href = 'login.html'; return; }
+            if (!isSPA) await Components.load('users');
+            Auth.requireAdmin();
+            window.currentUser = Auth.getUser();
+            
+            document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('d-none'));
+
+            window.formModal = new bootstrap.Modal(document.getElementById('formModal'));
+            window.fetchData();
+
+            const form = document.getElementById('userForm');
+            if (form) {
+                form.removeEventListener('submit', window.handleFormSubmit);
+                form.addEventListener('submit', window.handleFormSubmit);
+            }
+        };
+
+        window.fetchData = async function() {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = `<tr><td colspan="5" class="text-center py-5"><div class="spinner-border text-primary-green"></div></td></tr>`;
+            
+            try {
+                const res = await API.get(`/users?page=${window.currentPage}&limit=10`);
+                if (res.success) {
+                    window.renderTable(res.data);
+                    window.renderPagination(res.pagination);
+                }
+            } catch (err) {
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-danger">Gagal memuat data</td></tr>`;
+            }
+        }
+
+        window.renderTable = function(data) {
+            const tbody = document.getElementById('tableBody');
+            
+            if (data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center py-5 text-muted">Tidak ada pengguna</td></tr>`;
+                return;
+            }
+            
+            const base = API_URL.replace('/api', '');
+            
+            tbody.innerHTML = data.map(item => {
+                const roleBadge = item.role === 'admin' 
+                    ? '<span class="badge bg-primary">Admin</span>' 
+                    : '<span class="badge bg-info text-dark">Petugas</span>';
+                    
+                const statusBadge = item.is_active 
+                    ? '<span class="badge bg-success">Aktif</span>' 
+                    : '<span class="badge bg-secondary">Nonaktif</span>';
+
+                const avatarUrl = item.avatar ? `${base}/uploads/${item.avatar}` : `https://ui-avatars.com/api/?name=${encodeURIComponent(item.name)}&background=1a5c38&color=fff`;
+
+                // Cek apakah ini diri sendiri
+                const isSelf = window.currentUser && window.currentUser.id === item.id;
+                
+                let actionBtns = `
+                    <div class="btn-group">
+                        <button class="btn btn-sm btn-outline-secondary" onclick='window.editItem(${JSON.stringify(item).replace(/'/g, "&apos;")})' title="Edit"><i class="fa-solid fa-pen"></i></button>
+                        <button class="btn btn-sm btn-outline-warning" onclick="window.toggleActive(${item.id})" title="Toggle Aktif" ${isSelf ? 'disabled' : ''}><i class="fa-solid fa-power-off"></i></button>
+                        <button class="btn btn-sm btn-outline-danger" onclick="window.deleteItem(${item.id})" title="Hapus" ${isSelf ? 'disabled' : ''}>
+                            <i class="fa-solid fa-trash"></i></button>
+                    </div>
+                `;
+
+                return `
+                    <tr>
+                        <td class="ps-3">
+                            <div class="d-flex align-items-center gap-3">
+                                <img src="${avatarUrl}" class="rounded-circle" style="width:36px;height:36px;object-fit:cover;">
+                                <div>
+                                    <h6 class="mb-0 fw-medium">${item.name} ${isSelf ? '<span class="badge bg-light text-dark ms-1 border">Anda</span>' : ''}</h6>
+                                    <small class="text-muted">${item.phone || '-'}</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td>${item.email}</td>
+                        <td>${roleBadge}</td>
+                        <td>${statusBadge}</td>
+                        <td class="text-end pe-3">
+                            ${actionBtns}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        window.showFormModal = function() {
+            document.getElementById('userForm').reset();
+            document.getElementById('inputId').value = '';
+            document.getElementById('modalTitle').textContent = 'Tambah Pengguna';
+            
+            // Password wajib saat tambah
+            document.getElementById('passwordGroup').classList.remove('d-none');
+            document.getElementById('inputPassword').required = true;
+            
+            if(window.formModal) window.formModal.show();
+        }
+
+        window.editItem = function(item) {
+            document.getElementById('userForm').reset();
+            document.getElementById('inputId').value = item.id;
+            document.getElementById('modalTitle').textContent = 'Edit Pengguna';
+            
+            document.getElementById('inputName').value = item.name;
+            document.getElementById('inputEmail').value = item.email;
+            document.getElementById('inputRole').value = item.role;
+            document.getElementById('inputPhone').value = item.phone || '';
+            
+            // Password tidak wajib diisi saat edit (untuk admin tidak bisa ubah password user lain lewat form ini di MVP, 
+            // biarkan API abaikan jika ada atau hide saja)
+            document.getElementById('passwordGroup').classList.add('d-none');
+            document.getElementById('inputPassword').required = false;
+
+            if(window.formModal) window.formModal.show();
+        }
+
+        window.handleFormSubmit = async function(e) {
+            e.preventDefault();
+            
+            const btn = document.getElementById('btnSubmitForm');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Menyimpan...';
+            
+            const id = document.getElementById('inputId').value;
+            const data = {
+                name: document.getElementById('inputName').value,
+                email: document.getElementById('inputEmail').value,
+                role: document.getElementById('inputRole').value,
+                phone: document.getElementById('inputPhone').value
+            };
+
+            try {
+                if (id) {
+                    await API.put(`/users/${id}`, data);
+                    Swal.fire('Sukses', 'Pengguna diperbarui', 'success');
+                } else {
+                    data.password = document.getElementById('inputPassword').value;
+                    await API.post('/users', data);
+                    Swal.fire('Sukses', 'Pengguna berhasil ditambahkan', 'success');
+                }
+                if(window.formModal) window.formModal.hide();
+                window.fetchData();
+            } catch (err) {
+                // Handle express-validator errors
+                let msg = err.message || 'Terjadi kesalahan';
+                if (err.errors) {
+                    msg = err.errors.map(e => e.message).join('<br>');
+                }
+                Swal.fire({ title: 'Gagal', html: msg, icon: 'error' });
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Simpan';
+            }
+        }
+
+        window.toggleActive = async function(id) {
+            try {
+                await API.patch(`/users/${id}/toggle`);
+                window.fetchData();
+            } catch (err) {
+                Swal.fire('Gagal', err.message || 'Gagal update status', 'error');
+            }
+        }
+
+        window.deleteItem = async function(id) {
+            const res = await Swal.fire({
+                title: 'Hapus Pengguna?',
+                text: 'Data tidak dapat dikembalikan!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                confirmButtonText: 'Ya, Hapus'
+            });
+
+            if (res.isConfirmed) {
+                try {
+                    await API.delete(`/users/${id}`);
+                    window.fetchData();
+                } catch(err) {
+                    Swal.fire('Gagal', err.message || 'Gagal menghapus pengguna', 'error');
+                }
+            }
+        }
+
+        window.renderPagination = function(pageInfo) {
+            document.getElementById('pageInfo').textContent = `Menampilkan ${pageInfo.total} data (Hal ${pageInfo.page}/${pageInfo.totalPages})`;
+            const ul = document.getElementById('paginationControls');
+            let html = '';
+            
+            if (pageInfo.totalPages <= 1) {
+                ul.innerHTML = ''; return;
+            }
+
+            html += `<li class="page-item ${pageInfo.page === 1 ? 'disabled' : ''}">
+                <a class="page-link" href="#" onclick="window.changePage(${pageInfo.page - 1}); return false;">Prev</a>
+            </li>`;
+            
+            for (let i = 1; i <= pageInfo.totalPages; i++) {
+                if (i === 1 || i === pageInfo.totalPages || (i >= pageInfo.page - 1 && i <= pageInfo.page + 1)) {
+                    html += `<li class="page-item ${i === pageInfo.page ? 'active' : ''}">
+                        <a class="page-link" href="#" onclick="window.changePage(${i}); return false;">${i}</a>
+                    </li>`;
+                } else if (i === pageInfo.page - 2 || i === pageInfo.page + 2) {
+                    html += `<li class="page-item disabled"><a class="page-link" href="#">...</a></li>`;
+                }
+            }
+            
+            html += `<li class="page-item ${pageInfo.page === pageInfo.totalPages ? 'disabled' : ''}">
+                <a class="page-link" href="#" onclick="window.changePage(${pageInfo.page + 1}); return false;">Next</a>
+            </li>`;
+            
+            ul.innerHTML = html;
+        }
+
+        window.changePage = function(page) {
+            window.currentPage = page;
+            window.fetchData();
+        }
+    document.addEventListener('DOMContentLoaded', () => window.initPage(false));
+    </script>
+</body>
+</html>
