@@ -22,7 +22,8 @@ const API = {
   post: async (endpoint, data, isMultipart = false) => {
     try {
       const headers = API.getHeaders();
-      if (isMultipart) {
+      // Jangan timpa Content-Type jika data adalah FormData agar browser/axios membuat boundary multipart secara otomatis
+      if (isMultipart && !(data instanceof FormData)) {
         headers['Content-Type'] = 'multipart/form-data';
       }
       const res = await axios.post(`${API_URL}${endpoint}`, data, { headers });
@@ -35,7 +36,7 @@ const API = {
   put: async (endpoint, data, isMultipart = false) => {
     try {
       const headers = API.getHeaders();
-      if (isMultipart) {
+      if (isMultipart && !(data instanceof FormData)) {
         headers['Content-Type'] = 'multipart/form-data';
       }
       const res = await axios.put(`${API_URL}${endpoint}`, data, { headers });
@@ -47,7 +48,8 @@ const API = {
 
   patch: async (endpoint, data = {}) => {
     try {
-      const res = await axios.patch(`${API_URL}${endpoint}`, data, { headers: API.getHeaders() });
+      const headers = API.getHeaders();
+      const res = await axios.patch(`${API_URL}${endpoint}`, data, { headers });
       return res.data;
     } catch (err) {
       throw err.response ? err.response.data : new Error('Koneksi terputus');

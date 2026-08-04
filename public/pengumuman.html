@@ -212,16 +212,19 @@
                 const res = await API.get(`/announcements/${id}`);
                 if (res.success) {
                     const item = res.data;
-                    const date = new Date(item.published_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+                    const rawDate = item.published_at || item.created_at || new Date();
+                    const parsedDate = new Date(rawDate);
+                    const date = isNaN(parsedDate.getTime()) ? 'Baru saja' : parsedDate.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
                     
                     document.getElementById('detailTitle').textContent = item.title;
                     document.getElementById('detailContent').textContent = item.content; // plain text for now
                     
                     let badgeClass = 'bg-primary';
                     let typeName = item.type;
-                    if(item.type === 'kegiatan') { badgeClass = 'bg-info'; }
-                    else if(item.type === 'gotong_royong') { badgeClass = 'bg-success'; }
-                    else if(item.type === 'posyandu') { badgeClass = 'bg-warning text-dark'; }
+                    if(item.type === 'kegiatan') { badgeClass = 'bg-info'; typeName = 'Kegiatan'; }
+                    else if(item.type === 'gotong_royong') { badgeClass = 'bg-success'; typeName = 'Gotong Royong'; }
+                    else if(item.type === 'posyandu') { badgeClass = 'bg-warning text-dark'; typeName = 'Posyandu'; }
+                    else { typeName = 'Umum'; }
                     
                     document.getElementById('detailMeta').innerHTML = `
                         <span class="badge ${badgeClass} rounded-pill px-3 me-2">${typeName}</span>
@@ -229,11 +232,9 @@
                     `;
                     
                     const imgContainer = document.getElementById('detailImage');
-                    if (item.image) {
-                        imgContainer.innerHTML = `<img src="${API_URL.replace('/api', '')}/uploads/${item.image}" class="w-100 h-100 object-fit-cover">`;
-                    } else {
-                        imgContainer.innerHTML = `<i class="fa-solid fa-bullhorn text-muted" style="font-size: 5rem; opacity: 0.2;"></i>`;
-                    }
+                    const defaultImg = '../assets/img/hari-jadi-mentangor.jpg';
+                    const imgSrc = item.image ? `${API_URL.replace('/api', '')}/uploads/${item.image}` : defaultImg;
+                    imgContainer.innerHTML = `<img src="${imgSrc}" class="w-100 h-100 object-fit-cover rounded-4 shadow-sm" alt="${item.title}" onerror="this.src='${defaultImg}'">`;
                 }
             } catch (err) {
                 document.getElementById('detailContent').innerHTML = '<div class="alert alert-danger">Gagal memuat detail pengumuman.</div>';

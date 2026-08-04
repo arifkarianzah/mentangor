@@ -246,7 +246,7 @@
                     : '<span class="badge bg-secondary">Nonaktif</span>';
 
                 const thumb = item.image 
-                    ? `<img src="${apiBase}/uploads/${item.image}" class="rounded-3 object-fit-cover shadow-sm border" style="width: 48px; height: 48px;" alt="Foto">` 
+                    ? `<img src="${apiBase}/uploads/${item.image}" class="rounded-3 object-fit-cover shadow-sm border" style="width: 48px; height: 48px;" alt="Foto" onerror="this.src='../assets/img/hari-jadi-mentangor.jpg'">` 
                     : `<div class="bg-light rounded-3 d-flex align-items-center justify-content-center border text-muted shadow-sm" style="width: 48px; height: 48px;"><i class="fa-regular fa-image"></i></div>`;
 
                 let actionBtns = '';
@@ -334,7 +334,10 @@
             formData.append('is_pinned', document.getElementById('inputPin').checked);
             formData.append('published_at', document.getElementById('inputDate').value);
 
-            if (window.selectedImageFile) {
+            const fileInput = document.getElementById('inputImage');
+            if (fileInput && fileInput.files && fileInput.files[0]) {
+                formData.append('image', fileInput.files[0]);
+            } else if (window.selectedImageFile) {
                 formData.append('image', window.selectedImageFile);
             }
 
