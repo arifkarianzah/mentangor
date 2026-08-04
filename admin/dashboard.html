@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Posyandu RW 02 Mentangor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css?v=4">
+    <link rel="stylesheet" href="../assets/css/admin.css?v=10">
+</head>
+<body class="admin-body">
+
+<div class="wrapper">
+    <!-- Sidebar (loaded dynamically) -->
+    <div id="sidebar-container"></div>
+
+    <!-- Page Content -->
+    <div id="content">
+        <!-- Navbar (loaded dynamically) -->
+        <div id="navbar-container"></div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+
+            <!-- Page Header -->
+            <div class="page-header mb-4">
+                <h4>Dashboard Overview</h4>
+                <p>Ringkasan statistik penanganan laporan keluhan kesehatan desa.</p>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="d-flex gap-2 mb-4 flex-wrap">
+                <a href="announcements.html" class="quick-action-btn">
+                    <div class="qa-icon" style="background:#dcfce7; color:#16a34a;"><i class="fa-solid fa-plus"></i></div>
+                    <span>Tambah Pengumuman</span>
+                </a>
+                <a href="reports.html" class="quick-action-btn">
+                    <div class="qa-icon" style="background:#dbeafe; color:#2563eb;"><i class="fa-solid fa-clipboard-list"></i></div>
+                    <span>Semua Laporan</span>
+                </a>
+                <a href="reports.html?status=menunggu" class="quick-action-btn" id="qaMenunggu">
+                    <div class="qa-icon" style="background:#fef9c3; color:#a16207;"><i class="fa-solid fa-bell"></i></div>
+                    <span>Laporan Menunggu</span>
+                </a>
+                <a href="users.html" class="quick-action-btn admin-only d-none">
+                    <div class="qa-icon" style="background:#ede9fe; color:#7c3aed;"><i class="fa-solid fa-users"></i></div>
+                    <span>Kelola Pengguna</span>
+                </a>
+            </div>
+
+            <!-- Stat Cards Row -->
+            <div class="row g-3 mb-4">
+                <!-- Total Laporan -->
+                <div class="col-6 col-md">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-card-label">Total Laporan</div>
+                                <div class="stat-card-value" id="statTotal">—</div>
+                                <div class="stat-card-trend">Seluruh waktu</div>
+                            </div>
+                            <div class="stat-icon green"><i class="fa-solid fa-file-lines"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Menunggu -->
+                <div class="col-6 col-md">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-card-label">Menunggu</div>
+                                <div class="stat-card-value" id="statMenunggu">—</div>
+                                <div class="stat-card-trend">Perlu tindakan</div>
+                            </div>
+                            <div class="stat-icon yellow"><i class="fa-solid fa-clock"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Diproses -->
+                <div class="col-6 col-md">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-card-label">Diproses</div>
+                                <div class="stat-card-value" id="statProses">—</div>
+                                <div class="stat-card-trend">Sedang ditangani</div>
+                            </div>
+                            <div class="stat-icon blue"><i class="fa-solid fa-person-digging"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Selesai -->
+                <div class="col-6 col-md">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-card-label">Selesai</div>
+                                <div class="stat-card-value" id="statSelesai">—</div>
+                                <div class="stat-card-trend">Berhasil dibersihkan</div>
+                            </div>
+                            <div class="stat-icon emerald"><i class="fa-solid fa-check-double"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Bulan Ini -->
+                <div class="col-6 col-md">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-card-label">Bulan Ini</div>
+                                <div class="stat-card-value" id="statBulanIni">—</div>
+                                <div class="stat-card-trend">Laporan baru</div>
+                            </div>
+                            <div class="stat-icon purple"><i class="fa-solid fa-calendar-day"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Grid -->
+            <div class="row g-3">
+                <!-- Laporan Terbaru -->
+                <div class="col-lg-8">
+                    <div class="admin-card">
+                        <div class="admin-card-header">
+                            <h6><i class="fa-solid fa-list-ul me-2 text-primary-green"></i>Laporan Terbaru</h6>
+                            <a href="reports.html" class="btn btn-sm btn-outline-primary-green">Lihat Semua →</a>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-custom">
+                                <thead>
+                                    <tr>
+                                        <th>ID Laporan</th>
+                                        <th>Status</th>
+                                        <th>Lokasi</th>
+                                        <th>Tanggal</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recentReportsBody">
+                                    <tr><td colspan="5" class="text-center py-4"><div class="spinner-border spinner-border-sm text-primary-green"></div></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Banner Kontribusi -->
+                    <div class="admin-card p-0 overflow-hidden">
+                        <div class="d-flex align-items-center p-3 gap-3" style="background: linear-gradient(135deg, #f0fdf4, #dcfce7);">
+                            <div style="flex-shrink:0; font-size: 2.5rem;">🧹</div>
+                            <div>
+                                <div style="font-size:0.85rem; font-weight:600; color:#14532d;">Terima kasih atas kontribusi warga!</div>
+                                <div style="font-size:0.75rem; color:#16a34a;">Setiap laporan membantu desa menjadi lebih bersih, indah, dan nyaman.</div>
+                            </div>
+                            <div class="d-flex gap-3 ms-auto">
+                                <div class="text-center">
+                                    <div style="font-size:1rem; font-weight:700; color:#16a34a;" id="bannerSelesai">—</div>
+                                    <div style="font-size:0.65rem; color:#64748b;">Titik Dibersihkan</div>
+                                </div>
+                                <div class="text-center">
+                                    <div style="font-size:1rem; font-weight:700; color:#16a34a;" id="bannerTotal">—</div>
+                                    <div style="font-size:0.65rem; color:#64748b;">Total Laporan</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="col-lg-4 d-flex flex-column gap-3">
+                    <!-- Hotspots Lokasi -->
+                    <div class="admin-card flex-grow-0">
+                        <div class="admin-card-header">
+                            <h6><i class="fa-solid fa-fire me-2" style="color:#ef4444;"></i>Hotspots Lokasi</h6>
+                            <a href="reports.html" class="btn btn-sm btn-outline-secondary" style="font-size:0.7rem;">Lihat Peta →</a>
+                        </div>
+                        <div class="p-3">
+                            <p class="mb-3" style="font-size:0.75rem; color:#94a3b8;">Lokasi yang paling sering dilaporkan.</p>
+                            <div id="hotspotList">
+                                <div class="text-center py-3"><div class="spinner-border spinner-border-sm text-primary-green"></div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Statistik Status (Pie Chart) -->
+                    <div class="admin-card flex-grow-1">
+                        <div class="admin-card-header">
+                            <h6><i class="fa-solid fa-chart-pie me-2 text-primary-green"></i>Statistik Status</h6>
+                        </div>
+                        <div class="p-3">
+                            <div class="chart-container">
+                                <canvas id="statusPieChart"></canvas>
+                            </div>
+                            <div id="chartLegend" class="mt-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="../assets/js/api.js"></script>
+<script src="../assets/js/auth.js"></script>
+<script src="../assets/js/components.js?v=12"></script>
+<script src="../assets/js/dashboard.js"></script>
+
+<script>
+window.initPage = async (isSPA = false) => {
+    if (!Auth.isAuthenticated()) { window.location.href = 'login.html'; return; }
+    if (!isSPA) await Components.load('dashboard');
+    Dashboard.init();
+};
+
+document.addEventListener('DOMContentLoaded', () => window.initPage(false));
+</script>
+
+</body>
+</html>
