@@ -174,25 +174,30 @@
                     
                     const btn = document.getElementById('btnUpdateStatus');
                     btn.disabled = true;
-                    btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Menyimpan...';
+                    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Menyimpan...';
                     
                     try {
-                        await API.patch(`/reports/admin/${window.currentReportId}/status`, { status, notes });
+                        await API.patch(`/reports/${window.currentReportId}/status`, { status, notes });
                         
                         if (afterInput && afterInput.files.length > 0) {
                             const formData = new FormData();
                             Array.from(afterInput.files).forEach(f => formData.append('images', f));
-                            
-                            await API.post(`/reports/admin/${window.currentReportId}/images`, formData, true);
+                            await API.post(`/reports/${window.currentReportId}/images`, formData, true);
                         }
                         
-                        Swal.fire('Sukses', 'Status laporan berhasil diperbarui', 'success').then(() => {
-                            window.loadReport(); // Reload content instead of window.location.reload()
-                            // Scroll up
-                            window.scrollTo(0,0);
+                        await Swal.fire({
+                            title: 'Berhasil!',
+                            text: 'Status laporan berhasil diperbarui ke "' + status.toUpperCase() + '".',
+                            icon: 'success',
+                            confirmButtonColor: '#10b981',
+                            confirmButtonText: 'Kembali ke Daftar Laporan',
+                            timer: 2500,
+                            timerProgressBar: true
                         });
+                        
+                        window.location.href = 'reports.html';
                     } catch (err) {
-                        Swal.fire('Gagal', err.message || 'Terjadi kesalahan', 'error');
+                        Swal.fire('Gagal', err.message || 'Terjadi kesalahan saat memperbarui status', 'error');
                     } finally {
                         btn.disabled = false;
                         btn.innerHTML = 'Simpan Perubahan';
@@ -203,63 +208,96 @@
 
         window.loadReport = async function() {
             try {
-                const res = await API.get(`/reports/admin/${window.currentReportId}`);
-                if (res.success) {
+                const res = await API.get(`/reports/${window.currentReportId}`);
+                if (res.success && res.data) {
                     window.renderReportDetail(res.data);
                     document.getElementById('loadingIndicator').classList.add('d-none');
                     document.getElementById('reportContent').classList.remove('d-none');
+                } else {
+                    throw new Error('Data laporan tidak ditemukan');
                 }
             } catch (err) {
-                Swal.fire('Error', 'Gagal memuat detail laporan', 'error').then(() => {
-                    document.querySelector(`a[href="reports.html"]`).click(); // use SPA navigation fallback
+                Swal.fire('Error', err.message || 'Gagal memuat detail laporan', 'error').then(() => {
+                    window.location.href = 'reports.html';
                 });
             }
         };
 
         window.renderReportDetail = function(data) {
-            document.getElementById('detailTitle').textContent = data.title;
-            document.getElementById('detailNumber').textContent = data.report_number;
-            document.getElementById('detailDate').textContent = new Date(data.created_at).toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit'});
+            const reportNum = data.report_number || data.ticket_num || (`RPT-${String(data.id).padStart(4, '0')}`);
+            document.getElementById('detailTitle').textContent = data.title || 'Laporan Warga';
+            document.getElementById('detailNumber').textContent = reportNum;
             
-            document.getElementById('detailReporterName').textContent = data.reporter_name || 'Anonim';
+            const rawDate = data.created_at || new Date();
+            const parsedDate = new Date(rawDate);
+            const dateStr = isNaN(parsedDate.getTime()) ? 'Baru saja' : parsedDate.toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit'});
+            document.getElementById('detailDate').textContent = dateStr;
+            
+            document.getElementById('detailReporterName').textContent = data.reporter_name || 'Warga Mentangor';
             document.getElementById('detailReporterPhone').textContent = data.reporter_phone || '-';
-            document.getElementById('detailAddress').textContent = data.address;
+            document.getElementById('detailAddress').textContent = data.address || 'RW 02 Mentangor';
             document.getElementById('detailDescription').textContent = data.description || '-';
             
-            document.getElementById('inputStatus').value = data.status;
+            const currentStatus = data.status || 'menunggu';
+            document.getElementById('inputStatus').value = currentStatus;
             document.getElementById('inputNotes').value = data.notes || '';
             
-            if (data.status === 'selesai' || data.status === 'diproses') {
+            if (currentStatus === 'selesai' || currentStatus === 'diproses') {
                 document.getElementById('uploadAfterContainer').classList.remove('d-none');
             } else {
                 document.getElementById('uploadAfterContainer').classList.add('d-none');
             }
             
             let badgeClass = 'bg-secondary';
-            switch(data.status) {
+            switch(currentStatus) {
                 case 'menunggu': badgeClass = 'bg-warning text-dark'; break;
                 case 'diverifikasi': badgeClass = 'bg-info text-dark'; break;
-                case 'diproses': badgeClass = 'bg-accent-orange'; break;
+                case 'diproses': badgeClass = 'bg-primary'; break;
                 case 'selesai': badgeClass = 'bg-success'; break;
                 case 'ditolak': badgeClass = 'bg-danger'; break;
             }
-            document.getElementById('statusBadgeContainer').innerHTML = `<span class="badge ${badgeClass} fs-6 px-3 py-2 rounded-pill">${data.status.toUpperCase()}</span>`;
+            document.getElementById('statusBadgeContainer').innerHTML = `<span class="badge ${badgeClass} fs-6 px-3 py-2 rounded-pill shadow-sm">${currentStatus.toUpperCase()}</span>`;
 
-            const base = typeof API_URL !== 'undefined' ? API_URL.replace('/api', '') : 'http://localhost:3000';
+            const base = (typeof API_URL !== 'undefined' ? API_URL.replace(/\/api$/, '') : 'https://mentangor-rg-ejftf2a4cxd8hhgj.southeastasia-01.azurewebsites.net').replace(/\/$/, '');
             let beforeHtml = '';
             let afterHtml = '';
             
             if (data.images && data.images.length > 0) {
                 data.images.forEach(img => {
-                    const imgTag = `<img src="${base}/uploads/${img.image_path}" class="w-100 rounded border shadow-sm object-fit-cover" style="max-height: 400px;">
-                                    <div class="text-muted small mt-1 text-center"><i class="fa-regular fa-clock me-1"></i> ${new Date(img.uploaded_at).toLocaleString('id-ID')}</div>`;
-                    if (img.type === 'before') beforeHtml += `<div>${imgTag}</div>`;
-                    if (img.type === 'after') afterHtml += `<div>${imgTag}</div>`;
+                    const cleanPath = (img.image_path || '').replace(/^\/+/, '').replace(/^uploads\//, '');
+                    const imgUrl = (img.image_path && img.image_path.startsWith('http')) 
+                        ? img.image_path 
+                        : `${base}/uploads/${cleanPath}`;
+                    
+                    const imgDate = img.uploaded_at ? new Date(img.uploaded_at).toLocaleString('id-ID') : 'Baru saja';
+                    const imgTag = `
+                        <div class="mb-3">
+                            <img src="${imgUrl}" onerror="this.onerror=null; this.src='../assets/img/kegiatan-posyandu.png'" class="w-100 rounded-3 border shadow-sm object-fit-cover" style="max-height: 380px; min-height: 200px;" alt="Foto Laporan">
+                            <div class="text-muted small mt-1 text-center"><i class="fa-regular fa-clock me-1"></i> Diunggah: ${imgDate}</div>
+                        </div>
+                    `;
+                    if (img.type === 'after') {
+                        afterHtml += imgTag;
+                    } else {
+                        beforeHtml += imgTag;
+                    }
                 });
             }
             
-            document.getElementById('galleryBefore').innerHTML = beforeHtml || '<div class="text-center text-muted p-5 bg-light rounded">Tidak ada foto sebelum</div>';
-            document.getElementById('galleryAfter').innerHTML = afterHtml || '<div class="text-center text-muted p-5 bg-light rounded">Belum ada foto penanganan</div>';
+            // Default placeholder jika tidak ada foto
+            document.getElementById('galleryBefore').innerHTML = beforeHtml || `
+                <div class="text-center text-muted p-5 bg-light rounded-3 border border-dashed">
+                    <i class="fa-regular fa-image fa-3x mb-2 text-secondary opacity-50"></i>
+                    <div>Tidak ada foto sebelum</div>
+                </div>
+            `;
+            document.getElementById('galleryAfter').innerHTML = afterHtml || `
+                <div class="text-center text-muted p-5 bg-light rounded-3 border border-dashed">
+                    <i class="fa-regular fa-images fa-3x mb-2 text-secondary opacity-50"></i>
+                    <div>Belum ada foto penanganan sesudah</div>
+                    <small class="text-muted">Dapat diunggah saat status diubah ke Diproses/Selesai</small>
+                </div>
+            `;
         };
 
         document.addEventListener('DOMContentLoaded', () => window.initPage(false));

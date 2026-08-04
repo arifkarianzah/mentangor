@@ -80,11 +80,21 @@ const defaultData = {
       reporter_name: 'Warga Mentangor',
       reporter_phone: '08123456789',
       reporter_email: 'warga@gmail.com',
+      notes: '',
       assigned_to: null,
       created_at: nowIso
     }
   ],
-  report_images: [],
+  report_images: [
+    {
+      id: 1,
+      report_id: 1,
+      image_path: 'announcements/lampu-jalan.jpg',
+      type: 'before',
+      uploaded_by: null,
+      uploaded_at: nowIso
+    }
+  ],
   report_logs: []
 };
 
@@ -99,6 +109,7 @@ function normalizeReport(r) {
     address: r.address || 'RW 02 Mentangor',
     title: r.title || 'Laporan Warga',
     status: r.status || 'menunggu',
+    notes: r.notes || '',
     created_at: r.created_at || new Date().toISOString()
   };
 }
@@ -115,6 +126,9 @@ function loadStore() {
       }
       if (parsed.reports) {
         parsed.reports = parsed.reports.map(normalizeReport);
+      }
+      if (!parsed.report_images) {
+        parsed.report_images = [];
       }
       return parsed;
     }
@@ -364,7 +378,7 @@ async function mockQuery(sql, params = []) {
     const report = store.reports.find(r => r.id === id);
     if (report) {
       if (status) report.status = status;
-      if (notes) report.notes = notes;
+      if (notes !== undefined && notes !== null) report.notes = notes;
       saveStore();
     }
     return [{ affectedRows: 1 }];
@@ -405,6 +419,7 @@ async function mockQuery(sql, params = []) {
       category: 'fasilitas_umum',
       status: 'menunggu',
       priority: 'sedang',
+      notes: '',
       created_at: new Date().toISOString()
     };
     store.reports.unshift(newReport);
@@ -412,16 +427,59 @@ async function mockQuery(sql, params = []) {
     return [{ insertId: newId, affectedRows: 1 }];
   }
 
-  // REPORT IMAGES
+  // REPORT IMAGES - SELECT
   if (upper.startsWith('SELECT') && upper.includes('FROM REPORT_IMAGES WHERE REPORT_ID = ?')) {
     const reportId = parseInt(params[0]);
-    const list = (store.report_images || []).filter(img => img.report_id === reportId);
+    let list = (store.report_images || []).filter(img => img.report_id === reportId);
+    
+    // Jika belum ada foto di mock, pasangkan foto contoh agar tidak kosong
+    if (list.length === 0) {
+      list = [
+        {
+          id: 990 + reportId,
+          report_id: reportId,
+          image_path: 'announcements/kerja-bakti.jpg',
+          type: 'before',
+          uploaded_by: null,
+          uploaded_at: new Date().toISOString()
+        }
+      ];
+    }
     return [list];
   }
 
+  // REPORT IMAGES - INSERT
   if (upper.startsWith('INSERT INTO REPORT_IMAGES')) {
     if (!store.report_images) store.report_images = [];
-    return [{ insertId: 1, affectedRows: 1 }];
+    const rows = Array.isArray(params[0]) ? params[0] : [params];
+    let insertedCount = 0;
+    
+    rows.forEach(row => {
+      if (Array.isArray(row)) {
+        store.report_images.push({
+          id: (store.report_images.length ? Math.max(...store.report_images.map(img => img.id || 0)) : 0) + 1,
+          report_id: parseInt(row[0]),
+          image_path: row[1],
+          type: row[2] || 'before',
+          uploaded_by: row[3] || null,
+          uploaded_at: new Date().toISOString()
+        });
+        insertedCount++;
+      } else if (typeof row === 'object' && row !== null) {
+        store.report_images.push({
+          id: (store.report_images.length ? Math.max(...store.report_images.map(img => img.id || 0)) : 0) + 1,
+          report_id: parseInt(row.report_id || params[0]),
+          image_path: row.image_path || row.filename || '',
+          type: row.type || 'before',
+          uploaded_by: row.uploaded_by || null,
+          uploaded_at: new Date().toISOString()
+        });
+        insertedCount++;
+      }
+    });
+    
+    saveStore();
+    return [{ insertId: 1, affectedRows: insertedCount || 1 }];
   }
 
   // Generic fallback

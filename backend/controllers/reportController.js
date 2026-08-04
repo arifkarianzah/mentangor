@@ -304,17 +304,14 @@ const updateReportStatus = async (req, res) => {
     if (reports.length === 0) return notFound(res, 'Laporan tidak ditemukan');
 
     const currentStatus = reports[0].status;
-    const allowed = STATUS_TRANSITIONS[currentStatus];
 
-    if (!allowed.includes(status)) {
-      return error(res,
-        `Tidak bisa ubah status dari "${currentStatus}" ke "${status}"`, 400
-      );
+    if (status && !Object.values(REPORT_STATUS).includes(status)) {
+      return error(res, `Status "${status}" tidak valid`, 400);
     }
 
-    // Jika diverifikasi, catat siapa yang memverifikasi
-    const verifiedBy = (status === REPORT_STATUS.DIVERIFIKASI) ? req.user.id : undefined;
-    const verifiedAt = (status === REPORT_STATUS.DIVERIFIKASI) ? new Date() : undefined;
+    const newStatus = status || currentStatus;
+    const verifiedBy = req.user ? req.user.id : 1;
+    const verifiedAt = new Date();
 
     await db.query(
       `UPDATE reports SET
@@ -323,10 +320,10 @@ const updateReportStatus = async (req, res) => {
         verified_by = COALESCE(?, verified_by),
         verified_at = COALESCE(?, verified_at)
        WHERE id = ?`,
-      [status, notes || null, verifiedBy || null, verifiedAt || null, id]
+      [newStatus, notes !== undefined ? notes : null, verifiedBy, verifiedAt, id]
     );
 
-    return success(res, null, 'Status laporan berhasil diperbarui');
+    return success(res, { id, status: newStatus }, 'Status laporan berhasil diperbarui');
   } catch (err) {
     console.error('updateReportStatus error:', err);
     return error(res, 'Terjadi kesalahan server');
