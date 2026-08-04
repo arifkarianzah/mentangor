@@ -51,16 +51,17 @@
                         <table class="table table-custom mb-0">
                             <thead>
                                 <tr>
-                                    <th class="ps-3">ID Laporan</th>
+                                    <th class="ps-3 text-center" style="width: 60px;">No</th>
+                                    <th>No. Tiket</th>
+                                    <th>Judul & Lokasi</th>
                                     <th>Pelapor</th>
-                                    <th>Alamat/Lokasi</th>
                                     <th>Status</th>
                                     <th>Tanggal</th>
-                                    <th class="text-end pe-3">Aksi</th>
+                                    <th class="text-end pe-3" style="width: 120px;">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody id="tableBody">
-                                <tr><td colspan="6" class="text-center py-5"><div class="spinner-border text-primary-green"></div></td></tr>
+                                <tr><td colspan="7" class="text-center py-5"><div class="spinner-border text-primary-green"></div></td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -116,7 +117,7 @@
         window.fetchData = async function() {
             const tbody = document.getElementById('tableBody');
             if (!tbody) return;
-            tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4"><div class="spinner-border text-primary-green" role="status"></div></td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="7" class="text-center py-4"><div class="spinner-border text-primary-green" role="status"></div></td></tr>`;
             
             const keyword = document.getElementById('searchInput') ? document.getElementById('searchInput').value : '';
             const status = document.getElementById('statusFilter') ? document.getElementById('statusFilter').value : '';
@@ -128,7 +129,7 @@
                     window.renderPagination(res.pagination);
                 }
             } catch (err) {
-                tbody.innerHTML = `<tr><td colspan="6" class="text-center text-danger py-4">Gagal memuat data laporan</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="7" class="text-center text-danger py-4">Gagal memuat data laporan</td></tr>`;
             }
         };
 
@@ -136,33 +137,43 @@
             const tbody = document.getElementById('tableBody');
             if (!tbody) return;
             if (data.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted py-4">Tidak ada laporan ditemukan</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="7" class="text-center text-muted py-4">Tidak ada laporan ditemukan</td></tr>`;
                 return;
             }
             
             const statusLabels = {
-                'menunggu': '<span class="badge-status badge-menunggu">Menunggu</span>',
-                'diverifikasi': '<span class="badge-status badge-diverifikasi">Diverifikasi</span>',
-                'diproses': '<span class="badge-status badge-diproses">Diproses</span>',
-                'selesai': '<span class="badge-status badge-selesai">Selesai</span>',
-                'ditolak': '<span class="badge-status badge-ditolak">Ditolak</span>'
+                'menunggu': '<span class="badge bg-warning text-dark px-2 py-1 rounded-pill">Menunggu</span>',
+                'diverifikasi': '<span class="badge bg-info px-2 py-1 rounded-pill">Diverifikasi</span>',
+                'diproses': '<span class="badge bg-primary px-2 py-1 rounded-pill">Diproses</span>',
+                'selesai': '<span class="badge bg-success px-2 py-1 rounded-pill">Selesai</span>',
+                'ditolak': '<span class="badge bg-danger px-2 py-1 rounded-pill">Ditolak</span>'
             };
 
             tbody.innerHTML = data.map((item, index) => {
-                const date = new Date(item.created_at).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
+                const rawDate = item.created_at || new Date();
+                const parsedDate = new Date(rawDate);
+                const date = isNaN(parsedDate.getTime()) ? 'Baru saja' : parsedDate.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
+                
+                const reportNum = item.report_number || item.ticket_num || (`RPT-${String(item.id).padStart(4, '0')}`);
+                const reporter = item.reporter_name || 'Warga Mentangor';
+                const address = item.address || 'RW 02 Mentangor';
+
                 return `
                     <tr>
-                        <td class="text-center">${(window.currentPage - 1) * 10 + index + 1}</td>
-                        <td class="font-monospace text-muted small">${item.report_number}</td>
+                        <td class="ps-3 text-center text-muted fw-semibold">${(window.currentPage - 1) * 10 + index + 1}</td>
+                        <td class="font-monospace text-primary fw-semibold small">${reportNum}</td>
                         <td>
-                            <div class="fw-medium text-dark">${item.title}</div>
-                            <div class="small text-muted text-truncate" style="max-width:200px;">${item.address}</div>
+                            <div class="fw-semibold text-dark mb-0">${item.title}</div>
+                            <small class="text-muted text-truncate d-inline-block" style="max-width: 220px;"><i class="fa-solid fa-location-dot me-1 text-danger"></i>${address}</small>
                         </td>
-                        <td>${date}</td>
+                        <td class="fw-medium text-dark"><i class="fa-regular fa-user me-1 text-muted"></i>${reporter}</td>
                         <td>${statusLabels[item.status] || item.status}</td>
-                        <td>
-                            <a href="report-detail.html?id=${item.id}" class="btn btn-sm btn-outline-primary-green me-1" title="Lihat Detail"><i class="fa-solid fa-eye"></i></a>
-                            <button class="btn btn-sm btn-outline-danger" title="Hapus" onclick="window.confirmDelete(${item.id})"><i class="fa-solid fa-trash"></i></button>
+                        <td class="small text-muted">${date}</td>
+                        <td class="text-end pe-3">
+                            <div class="btn-group btn-group-sm">
+                                <a href="report-detail.html?id=${item.id}" class="btn btn-outline-primary" title="Lihat Detail & Tindak Lanjut"><i class="fa-solid fa-eye"></i></a>
+                                <button class="btn btn-outline-danger" title="Hapus Laporan" onclick="window.confirmDelete(${item.id})"><i class="fa-solid fa-trash"></i></button>
+                            </div>
                         </td>
                     </tr>
                 `;

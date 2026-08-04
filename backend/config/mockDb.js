@@ -69,7 +69,8 @@ const defaultData = {
   reports: [
     {
       id: 1,
-      ticket_num: 'LAP-20260804-001',
+      report_number: 'RPT-20260804-0001',
+      ticket_num: 'RPT-20260804-0001',
       title: 'Lampu Penerangan Jalan Padam di RT 03',
       description: 'Lampu jalan utama di depan pos ronda RT 03 sudah 3 hari padam menyebabkan jalanan gelap.',
       category: 'fasilitas_umum',
@@ -87,16 +88,33 @@ const defaultData = {
   report_logs: []
 };
 
+function normalizeReport(r) {
+  if (!r) return r;
+  const num = r.report_number || r.ticket_num || `RPT-20260804-${String(r.id).padStart(4, '0')}`;
+  return {
+    ...r,
+    report_number: num,
+    ticket_num: num,
+    reporter_name: r.reporter_name || 'Warga Mentangor',
+    address: r.address || 'RW 02 Mentangor',
+    title: r.title || 'Laporan Warga',
+    status: r.status || 'menunggu',
+    created_at: r.created_at || new Date().toISOString()
+  };
+}
+
 function loadStore() {
   try {
     if (fs.existsSync(DATA_FILE)) {
       const content = fs.readFileSync(DATA_FILE, 'utf8');
       const parsed = JSON.parse(content);
-      // Ensure all announcements have published_at
       if (parsed.announcements) {
         parsed.announcements.forEach(a => {
           if (!a.published_at) a.published_at = a.created_at || new Date().toISOString();
         });
+      }
+      if (parsed.reports) {
+        parsed.reports = parsed.reports.map(normalizeReport);
       }
       return parsed;
     }
@@ -116,7 +134,7 @@ function saveStore() {
   }
 }
 
-// Minimal SQL Query Parser & Execution Engine for fallback
+// SQL Query Parser & Execution Engine for persistent data store
 async function mockQuery(sql, params = []) {
   const cleanSql = sql.trim().replace(/\s+/g, ' ');
   const upper = cleanSql.toUpperCase();
@@ -178,7 +196,6 @@ async function mockQuery(sql, params = []) {
     const newId = (store.users.length ? Math.max(...store.users.map(u => u.id)) : 0) + 1;
     let name = params[0], email = params[1], password = params[2], role = params[3] || 'petugas', phone = params[4] || '';
     
-    // Hash password if not hashed yet
     if (!password.startsWith('$2')) {
       password = bcrypt.hashSync(password, 10);
     }
@@ -258,7 +275,6 @@ async function mockQuery(sql, params = []) {
 
   // ANNOUNCEMENTS - UPDATE
   if (upper.startsWith('UPDATE ANNOUNCEMENTS')) {
-    // [title, content, type, is_pinned, published_at, image, id]
     const title = params[0];
     const content = params[1];
     const type = params[2];
@@ -303,7 +319,6 @@ async function mockQuery(sql, params = []) {
   // ANNOUNCEMENTS - INSERT
   if (upper.startsWith('INSERT INTO ANNOUNCEMENTS')) {
     const newId = (store.announcements.length ? Math.max(...store.announcements.map(a => a.id)) : 0) + 1;
-    // [title, content, type, image, pinnedVal, req.user.id, published_at]
     const title = params[0];
     const content = params[1];
     const type = params[2] || 'umum';
@@ -330,37 +345,66 @@ async function mockQuery(sql, params = []) {
     return [{ insertId: newId, affectedRows: 1 }];
   }
 
-  // 5. REPORTS
+  // 5. REPORTS - DELETE
+  if (upper.startsWith('DELETE FROM REPORTS')) {
+    const id = parseInt(params[0]);
+    store.reports = store.reports.filter(r => r.id !== id);
+    if (store.report_images) {
+      store.report_images = store.report_images.filter(img => img.report_id !== id);
+    }
+    saveStore();
+    return [{ affectedRows: 1 }];
+  }
+
+  // REPORTS - UPDATE STATUS
+  if (upper.startsWith('UPDATE REPORTS')) {
+    const status = params[0];
+    const notes = params[1];
+    const id = parseInt(params[params.length - 1]);
+    const report = store.reports.find(r => r.id === id);
+    if (report) {
+      if (status) report.status = status;
+      if (notes) report.notes = notes;
+      saveStore();
+    }
+    return [{ affectedRows: 1 }];
+  }
+
+  // REPORTS - SELECT
   if (upper.startsWith('SELECT') && upper.includes('FROM REPORTS')) {
-    if (upper.includes('WHERE TICKET_NUM = ?') || upper.includes('TICKET_NUM = ?')) {
+    if (upper.includes('WHERE REPORT_NUMBER = ?') || upper.includes('WHERE TICKET_NUM = ?') || upper.includes('REPORT_NUMBER = ?')) {
       const ticket = params[0];
-      const found = store.reports.filter(r => r.ticket_num === ticket);
+      const found = store.reports.map(normalizeReport).filter(r => r.report_number === ticket || r.ticket_num === ticket);
       return [found];
     }
     if (upper.includes('WHERE ID = ?') || upper.includes('R.ID = ?')) {
       const id = parseInt(params[0]);
-      const found = store.reports.filter(r => r.id === id);
+      const found = store.reports.map(normalizeReport).filter(r => r.id === id);
       return [found];
     }
-    return [store.reports];
+    let list = store.reports.map(normalizeReport);
+    list.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    return [list];
   }
 
+  // REPORTS - INSERT
   if (upper.startsWith('INSERT INTO REPORTS')) {
     const newId = (store.reports.length ? Math.max(...store.reports.map(r => r.id)) : 0) + 1;
     const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
-    const ticket_num = params[0] || `LAP-${dateStr}-${String(newId).padStart(3, '0')}`;
+    const num = params[0] || `RPT-${dateStr}-${String(newId).padStart(4, '0')}`;
     const newReport = {
       id: newId,
-      ticket_num,
-      title: params[1] || params[0],
-      description: params[2] || '',
-      category: params[3] || 'fasilitas_umum',
+      report_number: num,
+      ticket_num: num,
+      reporter_name: params[1] || 'Warga Mentangor',
+      reporter_phone: params[2] || '',
+      reporter_email: '',
+      title: params[3] || 'Laporan Warga',
+      description: params[4] || '',
+      address: params[5] || 'RW 02 Mentangor',
+      category: 'fasilitas_umum',
       status: 'menunggu',
       priority: 'sedang',
-      address: params[4] || '',
-      reporter_name: params[5] || 'Warga',
-      reporter_phone: params[6] || '',
-      reporter_email: params[7] || '',
       created_at: new Date().toISOString()
     };
     store.reports.unshift(newReport);
@@ -368,7 +412,15 @@ async function mockQuery(sql, params = []) {
     return [{ insertId: newId, affectedRows: 1 }];
   }
 
-  if (upper.startsWith('INSERT INTO REPORT_IMAGES') || upper.startsWith('INSERT INTO REPORT_LOGS')) {
+  // REPORT IMAGES
+  if (upper.startsWith('SELECT') && upper.includes('FROM REPORT_IMAGES WHERE REPORT_ID = ?')) {
+    const reportId = parseInt(params[0]);
+    const list = (store.report_images || []).filter(img => img.report_id === reportId);
+    return [list];
+  }
+
+  if (upper.startsWith('INSERT INTO REPORT_IMAGES')) {
+    if (!store.report_images) store.report_images = [];
     return [{ insertId: 1, affectedRows: 1 }];
   }
 
