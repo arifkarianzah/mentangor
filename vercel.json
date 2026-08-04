@@ -1,7 +1,7 @@
 {
-  "routes": [
-    { "handle": "filesystem" },
-    { "src": "/login", "dest": "/admin/login.html" },
-    { "src": "/admin/?$", "dest": "/admin/dashboard.html" }
+  "rewrites": [
+    { "source": "/login", "destination": "/admin/login.html" },
+    { "source": "/admin", "destination": "/admin/dashboard.html" },
+    { "source": "/admin/", "destination": "/admin/dashboard.html" }
   ]
 }

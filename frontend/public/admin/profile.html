@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Saya - Posyandu RW 02 Mentangor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css?v=4">
+    <link rel="stylesheet" href="../assets/css/admin.css?v=10">
+</head>
+
+<body class="admin-body">
+
+    <div class="wrapper">
+        <!-- Sidebar (loaded dynamically) -->
+        <div id="sidebar-container"></div>
+
+        <div id="content">
+            <!-- Navbar (loaded dynamically) -->
+            <div id="navbar-container"></div>
+
+            <div class="main-content">
+                <div class="d-flex justify-content-between align-items-end mb-4 flex-wrap gap-3">
+                    <div>
+                        <h3 class="fw-medium text-dark mb-1">Profil Saya</h3>
+                        <p class="text-muted mb-0">Kelola informasi pribadi dan keamanan akun Anda.</p>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <!-- Left: Profile Info -->
+                    <div class="col-lg-4">
+                        <div class="admin-card p-4 text-center">
+                            <div class="position-relative d-inline-block mb-3">
+                                <img src="" id="profileAvatar"
+                                    class="rounded-circle border shadow-sm object-fit-cover user-avatar-img"
+                                    style="width: 120px; height: 120px;">
+                                <button
+                                    class="btn btn-primary-green btn-sm rounded-circle position-absolute bottom-0 end-0"
+                                    style="width: 35px; height: 35px;"
+                                    onclick="document.getElementById('inputAvatar').click()">
+                                    <i class="fa-solid fa-camera"></i>
+                                </button>
+                                <input type="file" id="inputAvatar" class="d-none" accept="image/jpeg, image/png">
+                            </div>
+
+                            <h4 class="fw-medium mb-1" id="profileName">...</h4>
+                            <p class="text-muted mb-2" id="profileEmail">...</p>
+                            <span class="badge bg-primary-green px-3 py-1 rounded-pill" id="profileRole">...</span>
+                        </div>
+                    </div>
+
+                    <!-- Right: Forms -->
+                    <div class="col-lg-8">
+                        <div class="admin-card p-4 mb-4">
+                            <h5 class="fw-medium border-bottom pb-2 mb-4">Ubah Data Profil</h5>
+                            <form id="formProfile">
+                                <div class="row mb-3">
+                                    <div class="col-md-6 mb-3 mb-md-0">
+                                        <label class="form-label fw-medium">Nama Lengkap</label>
+                                        <input type="text" class="form-control" id="inputName" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-medium">Nomor HP</label>
+                                        <input type="text" class="form-control" id="inputPhone">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary-green rounded-pill px-4"
+                                    id="btnUpdateProfile">Simpan Profil</button>
+                            </form>
+                        </div>
+
+                        <div class="admin-card p-4">
+                            <h5 class="fw-medium border-bottom pb-2 mb-4">Ganti Password</h5>
+                            <form id="formPassword">
+                                <div class="mb-3">
+                                    <label class="form-label fw-medium">Password Lama</label>
+                                    <input type="password" class="form-control" id="inputOldPassword" required>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-md-6 mb-3 mb-md-0">
+                                        <label class="form-label fw-medium">Password Baru</label>
+                                        <input type="password" class="form-control" id="inputNewPassword" required
+                                            minlength="6">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-medium">Konfirmasi Password Baru</label>
+                                        <input type="password" class="form-control" id="inputConfirmPassword" required
+                                            minlength="6">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-warning text-dark fw-medium rounded-pill px-4"
+                                    id="btnUpdatePassword">Ubah Password</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/components.js?v=12"></script>
+    <script src="../assets/js/dashboard.js"></script>
+
+    <script>
+        window.initPage = async (isSPA = false) => {
+            if (!Auth.isAuthenticated()) { window.location.href = 'login.html'; return; }
+            if (!isSPA) await Components.load('profile');
+            const user = Auth.getUser();
+            if (user && user.role === 'admin') {
+                document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('d-none'));
+            }
+
+            window.loadProfileData();
+
+            // Handle Avatar Upload
+            const inputAvatar = document.getElementById('inputAvatar');
+            if (inputAvatar) {
+                // Remove old listener if exists by cloning node or just replacing it in init, but actually addEventListener on elements that are freshly injected via PJAX is safe since they are new DOM nodes.
+                inputAvatar.addEventListener('change', async (e) => {
+                    const file = e.target.files[0];
+                    if (!file) return;
+
+                    if (file.size > 5 * 1024 * 1024) {
+                        Swal.fire('Error', 'Ukuran foto maksimal 5MB', 'error');
+                        return;
+                    }
+
+                    const formData = new FormData();
+                    formData.append('avatar', file);
+
+                    try {
+                        const res = await API.post('/users/profile/avatar', formData, true);
+                        if (res.success) {
+                            const currentUser = Auth.getUser();
+                            currentUser.avatar = res.data.avatar;
+                            localStorage.setItem('portaldesa_user', JSON.stringify(currentUser));
+
+                            Auth.renderUserMenu();
+                            window.loadProfileData();
+
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil',
+                                text: 'Foto profil berhasil diperbarui',
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000
+                            });
+                        }
+                    } catch (err) {
+                        Swal.fire('Gagal', err.message || 'Gagal mengunggah foto', 'error');
+                    }
+                });
+            }
+
+            // Handle Update Profile
+            const formProfile = document.getElementById('formProfile');
+            if (formProfile) {
+                formProfile.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const btn = document.getElementById('btnUpdateProfile');
+                    btn.disabled = true;
+
+                    try {
+                        const data = {
+                            name: document.getElementById('inputName').value,
+                            phone: document.getElementById('inputPhone').value
+                        };
+
+                        const res = await API.put('/users/profile/me', data);
+                        if (res.success) {
+                            const currentUser = Auth.getUser();
+                            currentUser.name = data.name;
+                            localStorage.setItem('portaldesa_user', JSON.stringify(currentUser));
+
+                            Auth.renderUserMenu();
+                            window.loadProfileData();
+
+                            Swal.fire('Sukses', 'Profil berhasil diperbarui', 'success');
+                        }
+                    } catch (err) {
+                        Swal.fire('Gagal', err.message || 'Gagal memperbarui profil', 'error');
+                    } finally {
+                        btn.disabled = false;
+                    }
+                });
+            }
+
+            // Handle Update Password
+            const formPassword = document.getElementById('formPassword');
+            if (formPassword) {
+                formPassword.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+
+                    const oldPass = document.getElementById('inputOldPassword').value;
+                    const newPass = document.getElementById('inputNewPassword').value;
+                    const confirmPass = document.getElementById('inputConfirmPassword').value;
+
+                    if (newPass !== confirmPass) {
+                        Swal.fire('Error', 'Konfirmasi password baru tidak cocok', 'error');
+                        return;
+                    }
+
+                    const btn = document.getElementById('btnUpdatePassword');
+                    btn.disabled = true;
+
+                    try {
+                        const res = await API.put('/users/profile/password', {
+                            current_password: oldPass,
+                            new_password: newPass
+                        });
+
+                        if (res.success) {
+                            Swal.fire('Sukses', 'Password berhasil diubah. Silakan login kembali.', 'success').then(() => {
+                                Auth.logout();
+                            });
+                        }
+                    } catch (err) {
+                        Swal.fire('Gagal', err.message || 'Gagal mengubah password', 'error');
+                    } finally {
+                        btn.disabled = false;
+                        document.getElementById('formPassword').reset();
+                    }
+                });
+            }
+        };
+
+        window.loadProfileData = async function() {
+            try {
+                const res = await API.get('/auth/me');
+                if (res.success) {
+                    const data = res.data;
+                    document.getElementById('profileName').textContent = data.name;
+                    document.getElementById('profileEmail').textContent = data.email;
+                    document.getElementById('profileRole').textContent = data.role === 'admin' ? 'Administrator' : 'Petugas';
+
+                    document.getElementById('inputName').value = data.name;
+                    document.getElementById('inputPhone').value = data.phone || '';
+
+                    // Set Avatar
+                    const base = API_URL.replace('/api', '');
+                    const defaultAvatar = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(data.name) + '&background=10b981&color=fff';
+                    const profileAvatar = document.getElementById('profileAvatar');
+                    if (profileAvatar) {
+                        profileAvatar.src = data.avatar ? `${base}/uploads/${data.avatar}` : defaultAvatar;
+                    }
+                }
+            } catch (e) { }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => window.initPage(false));
+    </script>
+</body>
+
+</html>
