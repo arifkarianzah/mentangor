@@ -1,73 +1,80 @@
 // assets/js/api.js
 // Otomatis gunakan URL backend Azure App Service atau Localhost
-const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-  ? 'http://localhost:3000/api'
-  : 'https://mentangor-rg-ejftf2a4cxd8hhgj.southeastasia-01.azurewebsites.net/api';
+if (typeof window.API_URL === 'undefined') {
+  window.API_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    ? 'http://localhost:3000/api'
+    : 'https://mentangor-rg-ejftf2a4cxd8hhgj.southeastasia-01.azurewebsites.net/api';
+}
+var API_URL = window.API_URL;
 
-const API = {
-  getHeaders: () => {
-    const token = localStorage.getItem('portaldesa_token');
-    return token ? { 'Authorization': `Bearer ${token}` } : {};
-  },
+if (typeof window.API === 'undefined') {
+  window.API = {
+    getHeaders: () => {
+      const token = localStorage.getItem('portaldesa_token');
+      return token ? { 'Authorization': `Bearer ${token}` } : {};
+    },
 
-  get: async (endpoint) => {
-    try {
-      const res = await axios.get(`${API_URL}${endpoint}`, { headers: API.getHeaders() });
-      return res.data;
-    } catch (err) {
-      throw err.response ? err.response.data : new Error('Koneksi terputus');
-    }
-  },
-
-  post: async (endpoint, data, isMultipart = false) => {
-    try {
-      const headers = API.getHeaders();
-      // Jangan timpa Content-Type jika data adalah FormData agar browser/axios membuat boundary multipart secara otomatis
-      if (isMultipart && !(data instanceof FormData)) {
-        headers['Content-Type'] = 'multipart/form-data';
+    get: async (endpoint) => {
+      try {
+        const res = await axios.get(`${window.API_URL}${endpoint}`, { headers: window.API.getHeaders() });
+        return res.data;
+      } catch (err) {
+        throw err.response ? err.response.data : new Error('Koneksi terputus');
       }
-      const res = await axios.post(`${API_URL}${endpoint}`, data, { headers });
-      return res.data;
-    } catch (err) {
-      throw err.response ? err.response.data : new Error('Koneksi terputus');
-    }
-  },
+    },
 
-  put: async (endpoint, data, isMultipart = false) => {
-    try {
-      const headers = API.getHeaders();
-      if (isMultipart && !(data instanceof FormData)) {
-        headers['Content-Type'] = 'multipart/form-data';
+    post: async (endpoint, data, isMultipart = false) => {
+      try {
+        const headers = window.API.getHeaders();
+        // Jangan timpa Content-Type jika data adalah FormData agar browser/axios membuat boundary multipart secara otomatis
+        if (isMultipart && !(data instanceof FormData)) {
+          headers['Content-Type'] = 'multipart/form-data';
+        }
+        const res = await axios.post(`${window.API_URL}${endpoint}`, data, { headers });
+        return res.data;
+      } catch (err) {
+        throw err.response ? err.response.data : new Error('Koneksi terputus');
       }
-      const res = await axios.put(`${API_URL}${endpoint}`, data, { headers });
-      return res.data;
-    } catch (err) {
-      throw err.response ? err.response.data : new Error('Koneksi terputus');
-    }
-  },
+    },
 
-  patch: async (endpoint, data = {}) => {
-    try {
-      const headers = API.getHeaders();
-      const res = await axios.patch(`${API_URL}${endpoint}`, data, { headers });
-      return res.data;
-    } catch (err) {
-      throw err.response ? err.response.data : new Error('Koneksi terputus');
-    }
-  },
+    put: async (endpoint, data, isMultipart = false) => {
+      try {
+        const headers = window.API.getHeaders();
+        if (isMultipart && !(data instanceof FormData)) {
+          headers['Content-Type'] = 'multipart/form-data';
+        }
+        const res = await axios.put(`${window.API_URL}${endpoint}`, data, { headers });
+        return res.data;
+      } catch (err) {
+        throw err.response ? err.response.data : new Error('Koneksi terputus');
+      }
+    },
 
-  delete: async (endpoint) => {
-    try {
-      const res = await axios.delete(`${API_URL}${endpoint}`, { headers: API.getHeaders() });
-      return res.data;
-    } catch (err) {
-      throw err.response ? err.response.data : new Error('Koneksi terputus');
+    patch: async (endpoint, data = {}) => {
+      try {
+        const headers = window.API.getHeaders();
+        const res = await axios.patch(`${window.API_URL}${endpoint}`, data, { headers });
+        return res.data;
+      } catch (err) {
+        throw err.response ? err.response.data : new Error('Koneksi terputus');
+      }
+    },
+
+    delete: async (endpoint) => {
+      try {
+        const res = await axios.delete(`${window.API_URL}${endpoint}`, { headers: window.API.getHeaders() });
+        return res.data;
+      } catch (err) {
+        throw err.response ? err.response.data : new Error('Koneksi terputus');
+      }
     }
-  }
-};
+  };
+}
+var API = window.API;
 
 // Interceptor untuk menangani token kedaluwarsa secara otomatis
-if (typeof axios !== 'undefined') {
+if (typeof axios !== 'undefined' && !window._axiosInterceptorAttached) {
+  window._axiosInterceptorAttached = true;
   axios.interceptors.response.use(
     (response) => response,
     (error) => {
