@@ -558,24 +558,24 @@
 
     <!-- Modal Detail & Pemberitahuan Alur Informasi -->
     <div class="modal fade" id="stepDetailModal" tabindex="-1" aria-labelledby="stepDetailModalTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
-                <div class="modal-header border-0 pb-0 px-4 pt-4 position-relative">
-                    <div class="d-flex align-items-center gap-3">
-                        <div id="stepModalIconBox" class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 54px; height: 54px; font-size: 1.5rem;">
+                <div class="modal-header border-0 pb-0 px-3 px-sm-4 pt-3 pt-sm-4 position-relative">
+                    <div class="d-flex align-items-center gap-2 gap-sm-3">
+                        <div id="stepModalIconBox" class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 44px; height: 44px; font-size: 1.25rem;">
                             <i id="stepModalIcon" class="fa-solid fa-mobile-screen-button"></i>
                         </div>
                         <div>
-                            <span id="stepModalBadge" class="badge rounded-pill px-3 py-1 mb-1 fw-semibold" style="font-size: 0.75rem;">Panduan Akses</span>
-                            <h4 class="modal-title fw-bold text-dark mb-0" id="stepDetailModalTitle">1. Buka Lewat HP</h4>
+                            <span id="stepModalBadge" class="badge rounded-pill px-2.5 py-1 mb-1 fw-medium" style="font-size: 0.7rem;">Panduan Akses</span>
+                            <h5 class="modal-title text-dark mb-0 fw-semibold" id="stepDetailModalTitle" style="font-size: 1.05rem;">1. Buka Lewat HP</h5>
                         </div>
                     </div>
                     <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Tutup"></button>
                 </div>
-                <div class="modal-body p-4" id="stepModalBody">
+                <div class="modal-body px-3 px-sm-4 py-3" id="stepModalBody">
                     <!-- Dynamic Body -->
                 </div>
-                <div class="modal-footer border-top-0 pt-0 px-4 pb-4 d-flex justify-content-between flex-wrap gap-2" id="stepModalFooter">
+                <div class="modal-footer border-top-0 pt-0 px-3 px-sm-4 pb-3 pb-sm-4 d-flex justify-content-between flex-wrap gap-2" id="stepModalFooter">
                     <!-- Dynamic Actions -->
                 </div>
             </div>
@@ -834,57 +834,68 @@
                 iconBoxClass: 'bg-primary-green-light text-primary-green',
                 title: '1. Buka & Simpan Website di Layar HP',
                 content: `
-                    <div class="alert alert-success bg-light border border-success-subtle rounded-3 p-3 mb-3">
-                        <div class="d-flex gap-2">
-                            <i class="fa-solid fa-circle-check text-success fs-5 mt-1 flex-shrink-0"></i>
+                    <div class="alert alert-success bg-light border border-success-subtle rounded-3 p-2.5 p-sm-3 mb-3">
+                        <div class="d-flex gap-2 align-items-start">
+                            <i class="fa-solid fa-circle-check text-success fs-6 mt-1 flex-shrink-0"></i>
                             <div>
-                                <strong class="text-success-emphasis">Website Ringan, Cepat & Hemat Kuota</strong>
-                                <p class="small text-muted mb-0">Portal Desa Mentangor dirancang responsif dan fleksibel. Anda dapat mengakses seluruh layanan, informasi, dan pelaporan langsung dari browser HP tanpa harus download aplikasi berat.</p>
+                                <div class="text-success-emphasis fw-semibold small mb-1">Website Ringan, Cepat & Hemat Kuota</div>
+                                <p class="text-muted mb-0" style="font-size: 0.8125rem; line-height: 1.45; font-weight: 400;">Portal Desa Mentangor dirancang responsif dan fleksibel. Anda dapat mengakses seluruh layanan, informasi, dan pelaporan langsung dari browser HP tanpa harus download aplikasi berat.</p>
                             </div>
                         </div>
                     </div>
                     
-                    <h6 class="fw-bold text-dark mb-2"><i class="fa-solid fa-wand-magic-sparkles text-warning me-1"></i> Cara Pasang Pintasan di Layar Utama HP:</h6>
+                    <div class="text-dark mb-2 fw-medium small d-flex align-items-center gap-1.5" style="font-size: 0.825rem;">
+                        <i class="fa-solid fa-wand-magic-sparkles text-warning"></i>
+                        <span>Cara Pasang Pintasan di Layar Utama HP:</span>
+                    </div>
                     <div class="row g-2 mb-3">
-                        <div class="col-md-6">
-                            <div class="p-3 rounded-3 border bg-white h-100">
-                                <div class="fw-semibold text-success mb-2"><i class="fa-brands fa-android me-1"></i> Pengguna Android (Chrome):</div>
-                                <ol class="small text-muted ps-3 mb-0">
-                                    <li>Buka website ini di <strong>Google Chrome</strong>.</li>
-                                    <li>Ketuk ikon menu <strong>titik tiga (⋮)</strong> di pojok kanan atas.</li>
-                                    <li>Pilih <strong>"Tambahkan ke Layar Utama"</strong> (Add to Home screen).</li>
-                                    <li>Ketuk <strong>Tambah</strong>. Ikon Portal Desa siap digunakan!</li>
+                        <div class="col-12 col-md-6">
+                            <div class="p-2.5 p-sm-3 rounded-3 border bg-white h-100">
+                                <div class="fw-semibold text-success mb-2 small d-flex align-items-center gap-1.5">
+                                    <i class="fa-brands fa-android"></i>
+                                    <span>Pengguna Android (Chrome):</span>
+                                </div>
+                                <ol class="text-muted ps-3 mb-0" style="font-size: 0.8rem; line-height: 1.5; font-weight: 400;">
+                                    <li class="mb-1">Buka website ini di browser Chrome.</li>
+                                    <li class="mb-1">Ketuk ikon menu titik tiga (⋮) di kanan atas.</li>
+                                    <li class="mb-1">Pilih "Tambahkan ke Layar Utama".</li>
+                                    <li>Ketuk Tambah. Ikon website siap digunakan.</li>
                                 </ol>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="p-3 rounded-3 border bg-white h-100">
-                                <div class="fw-semibold text-dark mb-2"><i class="fa-brands fa-apple me-1"></i> Pengguna iPhone (Safari):</div>
-                                <ol class="small text-muted ps-3 mb-0">
-                                    <li>Buka website ini di <strong>Safari</strong>.</li>
-                                    <li>Ketuk ikon <strong>Bagikan / Share</strong> (kotak panah ke atas di bawah).</li>
-                                    <li>Gulir dan pilih <strong>"Add to Home Screen"</strong> (+).</li>
-                                    <li>Ketuk <strong>Add</strong> di kanan atas. Selesai!</li>
+                        <div class="col-12 col-md-6">
+                            <div class="p-2.5 p-sm-3 rounded-3 border bg-white h-100">
+                                <div class="fw-semibold text-dark mb-2 small d-flex align-items-center gap-1.5">
+                                    <i class="fa-brands fa-apple"></i>
+                                    <span>Pengguna iPhone (Safari):</span>
+                                </div>
+                                <ol class="text-muted ps-3 mb-0" style="font-size: 0.8rem; line-height: 1.5; font-weight: 400;">
+                                    <li class="mb-1">Buka website ini di browser Safari.</li>
+                                    <li class="mb-1">Ketuk ikon Bagikan / Share (panah ke atas).</li>
+                                    <li class="mb-1">Gulir dan pilih "Add to Home Screen" (+).</li>
+                                    <li>Ketuk Add di kanan atas. Selesai.</li>
                                 </ol>
                             </div>
                         </div>
                     </div>
 
-                    <div class="p-3 bg-light rounded-3 d-flex align-items-center justify-content-between flex-wrap gap-2 border">
-                        <div class="small">
-                            <span class="text-muted d-block" style="font-size: 0.75rem;">Tautan Cepat Website:</span>
-                            <code class="text-primary-green fw-bold" id="stepWebUrl">${window.location.origin || window.location.href}</code>
+                    <div class="p-2.5 p-sm-3 bg-light rounded-3 d-flex align-items-center justify-content-between flex-wrap gap-2 border">
+                        <div>
+                            <span class="text-muted d-block" style="font-size: 0.725rem;">Tautan Cepat Website:</span>
+                            <code class="text-primary-green fw-medium" style="font-size: 0.8rem;" id="stepWebUrl">${window.location.origin || window.location.href}</code>
                         </div>
-                        <button class="btn btn-sm btn-primary-green rounded-pill px-3" onclick="copyPortalLink()">
+                        <button class="btn btn-sm btn-primary-green rounded-pill px-3 py-1.5" style="font-size: 0.8rem;" onclick="copyPortalLink()">
                             <i class="fa-solid fa-copy me-1"></i> Salin Tautan
                         </button>
                     </div>
                 `,
                 actions: `
-                    <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Tutup</button>
-                    <button type="button" class="btn btn-primary-green rounded-pill px-4" onclick="copyPortalLink()">
-                        <i class="fa-solid fa-share-nodes me-1"></i> Bagikan Link ke Warga
-                    </button>
+                    <div class="d-flex flex-column-reverse flex-sm-row justify-content-between align-items-stretch align-items-sm-center gap-2 w-100">
+                        <button type="button" class="btn btn-sm btn-light rounded-pill px-3.5 py-2 text-muted fw-normal" data-bs-dismiss="modal" style="font-size: 0.85rem;">Tutup</button>
+                        <button type="button" class="btn btn-sm btn-primary-green rounded-pill px-3.5 py-2 fw-medium" style="font-size: 0.85rem;" onclick="copyPortalLink()">
+                            <i class="fa-solid fa-share-nodes me-1"></i> Bagikan Link ke Warga
+                        </button>
+                    </div>
                 `
             },
             2: {
@@ -894,62 +905,70 @@
                 iconBoxClass: 'bg-accent-orange-light text-accent-orange',
                 title: '2. Baca Pengumuman & Agenda Lingkungan',
                 content: `
-                    <div class="alert alert-warning bg-light border border-warning-subtle rounded-3 p-3 mb-3">
-                        <div class="d-flex gap-2">
-                            <i class="fa-solid fa-bullhorn text-warning fs-5 mt-1 flex-shrink-0"></i>
+                    <div class="alert alert-warning bg-light border border-warning-subtle rounded-3 p-2.5 p-sm-3 mb-3">
+                        <div class="d-flex gap-2 align-items-start">
+                            <i class="fa-solid fa-bullhorn text-warning fs-6 mt-1 flex-shrink-0"></i>
                             <div>
-                                <strong class="text-dark">Pemberitahuan Resmi Selalu Diperbarui</strong>
-                                <p class="small text-muted mb-0">Seluruh jadwal gotong royong, posyandu balita & lansia, surat edaran, serta pengumuman penting lingkungan RW 02 Mentangor disajikan secara terbuka dan teratur.</p>
+                                <div class="text-dark fw-semibold small mb-1">Pemberitahuan Resmi Selalu Diperbarui</div>
+                                <p class="text-muted mb-0" style="font-size: 0.8125rem; line-height: 1.45; font-weight: 400;">Seluruh jadwal gotong royong, posyandu balita & lansia, surat edaran, serta pengumuman penting lingkungan RW 02 Mentangor disajikan secara terbuka dan teratur.</p>
                             </div>
                         </div>
                     </div>
 
-                    <h6 class="fw-bold text-dark mb-2"><i class="fa-solid fa-list-check text-primary-green me-1"></i> Kategori Informasi yang Tersedia:</h6>
+                    <div class="text-dark mb-2 fw-medium small d-flex align-items-center gap-1.5" style="font-size: 0.825rem;">
+                        <i class="fa-solid fa-list-check text-primary-green"></i>
+                        <span>Kategori Informasi yang Tersedia:</span>
+                    </div>
                     <div class="row g-2 mb-3">
-                        <div class="col-sm-6">
-                            <div class="d-flex gap-2 p-2 px-3 rounded-3 border bg-white align-items-center h-100">
-                                <span class="badge bg-success-light text-success p-2 rounded-circle"><i class="fa-solid fa-broom"></i></span>
-                                <div class="small">
-                                    <span class="fw-semibold text-dark d-block">Gotong Royong & Kerja Bakti</span>
-                                    <span class="text-muted" style="font-size: 0.75rem;">Jadwal bersih selokan & fasilitas warga</span>
+                        <div class="col-12 col-sm-6">
+                            <div class="d-flex gap-2.5 p-2 px-2.5 rounded-3 border bg-white align-items-center h-100">
+                                <span class="badge bg-success-light text-success p-2 rounded-circle flex-shrink-0"><i class="fa-solid fa-broom"></i></span>
+                                <div>
+                                    <span class="text-dark d-block fw-medium" style="font-size: 0.8125rem;">Gotong Royong & Kerja Bakti</span>
+                                    <span class="text-muted d-block" style="font-size: 0.725rem; font-weight: 400;">Jadwal bersih selokan & fasilitas</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6">
-                            <div class="d-flex gap-2 p-2 px-3 rounded-3 border bg-white align-items-center h-100">
-                                <span class="badge bg-primary-green-light text-primary-green p-2 rounded-circle"><i class="fa-solid fa-heart-pulse"></i></span>
-                                <div class="small">
-                                    <span class="fw-semibold text-dark d-block">Posyandu Balita & Lansia</span>
-                                    <span class="text-muted" style="font-size: 0.75rem;">Imunisasi, vitamin & cek kesehatan</span>
+                        <div class="col-12 col-sm-6">
+                            <div class="d-flex gap-2.5 p-2 px-2.5 rounded-3 border bg-white align-items-center h-100">
+                                <span class="badge bg-primary-green-light text-primary-green p-2 rounded-circle flex-shrink-0"><i class="fa-solid fa-heart-pulse"></i></span>
+                                <div>
+                                    <span class="text-dark d-block fw-medium" style="font-size: 0.8125rem;">Posyandu Balita & Lansia</span>
+                                    <span class="text-muted d-block" style="font-size: 0.725rem; font-weight: 400;">Imunisasi, vitamin & cek kesehatan</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6">
-                            <div class="d-flex gap-2 p-2 px-3 rounded-3 border bg-white align-items-center h-100">
-                                <span class="badge bg-accent-orange-light text-accent-orange p-2 rounded-circle"><i class="fa-solid fa-file-lines"></i></span>
-                                <div class="small">
-                                    <span class="fw-semibold text-dark d-block">Surat Edaran RT / RW</span>
-                                    <span class="text-muted" style="font-size: 0.75rem;">Kebijakan resmi pengurus desa</span>
+                        <div class="col-12 col-sm-6">
+                            <div class="d-flex gap-2.5 p-2 px-2.5 rounded-3 border bg-white align-items-center h-100">
+                                <span class="badge bg-accent-orange-light text-accent-orange p-2 rounded-circle flex-shrink-0"><i class="fa-solid fa-file-lines"></i></span>
+                                <div>
+                                    <span class="text-dark d-block fw-medium" style="font-size: 0.8125rem;">Surat Edaran RT / RW</span>
+                                    <span class="text-muted d-block" style="font-size: 0.725rem; font-weight: 400;">Kebijakan resmi pengurus desa</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6">
-                            <div class="d-flex gap-2 p-2 px-3 rounded-3 border bg-white align-items-center h-100">
-                                <span class="badge bg-danger-subtle text-danger p-2 rounded-circle"><i class="fa-solid fa-shield-halved"></i></span>
-                                <div class="small">
-                                    <span class="fw-semibold text-dark d-block">Ronda Malam & Keamanan</span>
-                                    <span class="text-muted" style="font-size: 0.75rem;">Jadwal ronda & kontak pengurus</span>
+                        <div class="col-12 col-sm-6">
+                            <div class="d-flex gap-2.5 p-2 px-2.5 rounded-3 border bg-white align-items-center h-100">
+                                <span class="badge bg-danger-subtle text-danger p-2 rounded-circle flex-shrink-0"><i class="fa-solid fa-shield-halved"></i></span>
+                                <div>
+                                    <span class="text-dark d-block fw-medium" style="font-size: 0.8125rem;">Ronda Malam & Keamanan</span>
+                                    <span class="text-muted d-block" style="font-size: 0.725rem; font-weight: 400;">Jadwal ronda & kontak jaga</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <p class="small text-muted mb-0"><i class="fa-solid fa-lightbulb text-warning me-1"></i> Anda juga dapat melihat foto dokumentasi kegiatan dan mengunduh berkas surat edaran resmi.</p>
+                    <p class="text-muted mb-0 d-flex align-items-center gap-1.5" style="font-size: 0.775rem; font-weight: 400;">
+                        <i class="fa-solid fa-lightbulb text-warning flex-shrink-0"></i>
+                        <span>Anda juga dapat melihat foto dokumentasi kegiatan dan mengunduh berkas surat resmi.</span>
+                    </p>
                 `,
                 actions: `
-                    <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Tutup</button>
-                    <a href="pengumuman.html" class="btn btn-primary-green rounded-pill px-4">
-                        <i class="fa-solid fa-newspaper me-1"></i> Buka Halaman Pengumuman ➔
-                    </a>
+                    <div class="d-flex flex-column-reverse flex-sm-row justify-content-between align-items-stretch align-items-sm-center gap-2 w-100">
+                        <button type="button" class="btn btn-sm btn-light rounded-pill px-3.5 py-2 text-muted fw-normal" data-bs-dismiss="modal" style="font-size: 0.85rem;">Tutup</button>
+                        <a href="pengumuman.html" class="btn btn-sm btn-primary-green rounded-pill px-3.5 py-2 fw-medium" style="font-size: 0.85rem;">
+                            <i class="fa-solid fa-newspaper me-1"></i> Buka Halaman Pengumuman ➔
+                        </a>
+                    </div>
                 `
             },
             3: {
@@ -959,53 +978,61 @@
                 iconBoxClass: 'bg-success-light text-success',
                 title: '3. Informasi Jelas, Akurat & Bebas Hoax',
                 content: `
-                    <div class="alert alert-success bg-light border border-success-subtle rounded-3 p-3 mb-3">
-                        <div class="d-flex gap-2">
-                            <i class="fa-solid fa-shield-halved text-success fs-5 mt-1 flex-shrink-0"></i>
+                    <div class="alert alert-success bg-light border border-success-subtle rounded-3 p-2.5 p-sm-3 mb-3">
+                        <div class="d-flex gap-2 align-items-start">
+                            <i class="fa-solid fa-shield-halved text-success fs-6 mt-1 flex-shrink-0"></i>
                             <div>
-                                <strong class="text-success-emphasis">Sumber Informasi Resmi & Terverifikasi</strong>
-                                <p class="small text-muted mb-0">Setiap data, laporan aksi, dan pemberitahuan dirilis secara resmi oleh pengurus RW 02 Mentangor melalui akun pengurus berotoritas.</p>
+                                <div class="text-success-emphasis fw-semibold small mb-1">Sumber Informasi Resmi & Terverifikasi</div>
+                                <p class="text-muted mb-0" style="font-size: 0.8125rem; line-height: 1.45; font-weight: 400;">Setiap data, laporan aksi, dan pemberitahuan dirilis secara resmi oleh pengurus RW 02 Mentangor melalui akun pengurus berotoritas.</p>
                             </div>
                         </div>
                     </div>
 
-                    <h6 class="fw-bold text-dark mb-2"><i class="fa-solid fa-star text-warning me-1"></i> Keunggulan Portal Dibandingkan Grup Obrolan:</h6>
+                    <div class="text-dark mb-2 fw-medium small d-flex align-items-center gap-1.5" style="font-size: 0.825rem;">
+                        <i class="fa-solid fa-star text-warning"></i>
+                        <span>Keunggulan Portal Dibandingkan Grup Obrolan:</span>
+                    </div>
                     <div class="row g-2 mb-3">
                         <div class="col-12">
-                            <div class="p-2 px-3 rounded-3 border bg-white d-flex align-items-start gap-2">
-                                <i class="fa-solid fa-circle-check text-success mt-1"></i>
-                                <div class="small">
-                                    <strong>Tidak Tertimbun Pesan:</strong> Informasi penting tersusun rapi berdasarkan tanggal & kategori, tidak akan hilang tertimbun obrolan chat grup WhatsApp.
+                            <div class="p-2.5 px-3 rounded-3 border bg-white d-flex align-items-start gap-2.5">
+                                <i class="fa-solid fa-circle-check text-success fs-6 mt-0.5 flex-shrink-0"></i>
+                                <div style="font-size: 0.8rem; line-height: 1.45;">
+                                    <span class="text-dark fw-medium">Tidak Tertimbun Pesan:</span>
+                                    <span class="text-muted fw-normal"> Informasi penting tersusun rapi berdasarkan tanggal & kategori, tidak hilang tertimbun obrolan chat.</span>
                                 </div>
                             </div>
                         </div>
                         <div class="col-12">
-                            <div class="p-2 px-3 rounded-3 border bg-white d-flex align-items-start gap-2">
-                                <i class="fa-solid fa-circle-check text-success mt-1"></i>
-                                <div class="small">
-                                    <strong>Transparansi Aksi Lingkungan:</strong> Laporan warga terkait fasilitas atau coretan liar dapat dipantau status penanganannya secara terbuka dari <em>Menunggu</em>, <em>Diproses</em>, hingga <em>Selesai</em>.
+                            <div class="p-2.5 px-3 rounded-3 border bg-white d-flex align-items-start gap-2.5">
+                                <i class="fa-solid fa-circle-check text-success fs-6 mt-0.5 flex-shrink-0"></i>
+                                <div style="font-size: 0.8rem; line-height: 1.45;">
+                                    <span class="text-dark fw-medium">Transparansi Aksi Lingkungan:</span>
+                                    <span class="text-muted fw-normal"> Laporan warga dapat dipantau status penanganannya dari <em>Menunggu</em>, <em>Diproses</em>, hingga <em>Selesai</em>.</span>
                                 </div>
                             </div>
                         </div>
                         <div class="col-12">
-                            <div class="p-2 px-3 rounded-3 border bg-white d-flex align-items-start gap-2">
-                                <i class="fa-solid fa-circle-check text-success mt-1"></i>
-                                <div class="small">
-                                    <strong>Privasi Warga Terlindungi:</strong> Identitas pelapor dijaga dengan aman sesuai standar perlindungan data privasi.
+                            <div class="p-2.5 px-3 rounded-3 border bg-white d-flex align-items-start gap-2.5">
+                                <i class="fa-solid fa-circle-check text-success fs-6 mt-0.5 flex-shrink-0"></i>
+                                <div style="font-size: 0.8rem; line-height: 1.45;">
+                                    <span class="text-dark fw-medium">Privasi Warga Terlindungi:</span>
+                                    <span class="text-muted fw-normal"> Identitas pelapor dijaga dengan aman sesuai standar perlindungan data privasi.</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 `,
                 actions: `
-                    <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Tutup</button>
-                    <div class="d-flex gap-2">
-                        <a href="riwayat.html" class="btn btn-outline-success rounded-pill px-3">
-                            <i class="fa-solid fa-clock-rotate-left me-1"></i> Riwayat Aksi
-                        </a>
-                        <a href="laporan.html" class="btn btn-primary-green rounded-pill px-3">
-                            <i class="fa-solid fa-paper-plane me-1"></i> Buat Laporan
-                        </a>
+                    <div class="d-flex flex-column-reverse flex-sm-row justify-content-between align-items-stretch align-items-sm-center gap-2 w-100">
+                        <button type="button" class="btn btn-sm btn-light rounded-pill px-3.5 py-2 text-muted fw-normal" data-bs-dismiss="modal" style="font-size: 0.85rem;">Tutup</button>
+                        <div class="d-flex flex-column flex-sm-row gap-2">
+                            <a href="riwayat.html" class="btn btn-sm btn-outline-success rounded-pill px-3 py-2 fw-medium text-center" style="font-size: 0.85rem;">
+                                <i class="fa-solid fa-clock-rotate-left me-1"></i> Riwayat Aksi
+                            </a>
+                            <a href="laporan.html" class="btn btn-sm btn-primary-green rounded-pill px-3.5 py-2 fw-medium text-center" style="font-size: 0.85rem;">
+                                <i class="fa-solid fa-paper-plane me-1"></i> Buat Laporan
+                            </a>
+                        </div>
                     </div>
                 `
             }
@@ -1026,7 +1053,7 @@
 
             if (titleEl) titleEl.textContent = data.title;
             if (badgeEl) {
-                badgeEl.className = `badge rounded-pill px-3 py-1 mb-1 fw-semibold ${data.badgeClass}`;
+                badgeEl.className = `badge rounded-pill px-2.5 py-1 mb-1 fw-medium ${data.badgeClass}`;
                 badgeEl.textContent = data.badge;
             }
             if (iconBox) iconBox.className = `rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 ${data.iconBoxClass}`;

@@ -447,3 +447,70 @@
   }
 }
 
+/* ---------------------------------------------------------------------
+   Interactive Step Detail Modal - Compact, Elegant & Fully Responsive
+   --------------------------------------------------------------------- */
+#stepDetailModal .modal-dialog {
+  max-width: 620px;
+  margin: 1.25rem auto;
+}
+
+#stepDetailModal .modal-content {
+  border-radius: 18px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+#stepDetailModal .modal-body {
+  font-size: 0.85rem;
+}
+
+#stepDetailModal .alert {
+  font-size: 0.825rem;
+}
+
+#stepDetailModal ol li,
+#stepDetailModal ul li {
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+#stepDetailModal code {
+  word-break: break-all;
+}
+
+@media (max-width: 575.98px) {
+  #stepDetailModal .modal-dialog {
+    margin: 0.5rem;
+    max-width: calc(100% - 1rem);
+  }
+
+  #stepDetailModal .modal-header {
+    padding: 1rem 1rem 0.25rem 1rem !important;
+  }
+
+  #stepDetailModal .modal-body {
+    padding: 1rem !important;
+  }
+
+  #stepDetailModal .modal-footer {
+    padding: 0 1rem 1rem 1rem !important;
+  }
+
+  #stepModalIconBox {
+    width: 40px !important;
+    height: 40px !important;
+    font-size: 1.1rem !important;
+  }
+
+  #stepDetailModalTitle {
+    font-size: 0.95rem !important;
+  }
+
+  #stepDetailModal .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+
