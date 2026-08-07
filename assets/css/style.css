@@ -347,3 +347,31 @@ footer h1, footer h2, footer h3, footer h4, footer h5, footer h6 {
   transform: translateY(0);
 }
 
+/* --- Interactive Step Cards --- */
+.step-card-interactive {
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1.5px solid transparent;
+  user-select: none;
+}
+
+.step-card-interactive:hover {
+  transform: translateY(-8px);
+  border-color: rgba(26, 92, 56, 0.3);
+  box-shadow: 0 16px 32px rgba(26, 92, 56, 0.12) !important;
+}
+
+.step-card-interactive:active {
+  transform: translateY(-2px) scale(0.99);
+}
+
+.step-card-interactive .step-icon {
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.step-card-interactive:hover .step-icon {
+  transform: scale(1.12);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+

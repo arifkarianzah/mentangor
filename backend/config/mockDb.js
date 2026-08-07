@@ -98,13 +98,20 @@ const defaultData = {
   report_logs: []
 };
 
-function normalizeReport(r) {
+function normalizeReport(r, imagesList = null) {
   if (!r) return r;
   const num = r.report_number || r.ticket_num || `RPT-20260804-${String(r.id).padStart(4, '0')}`;
+  const allImages = (Array.isArray(imagesList) ? imagesList : null) || ((typeof store !== 'undefined' && store && Array.isArray(store.report_images)) ? store.report_images : []);
+  const images = allImages.filter(img => img && img.report_id === r.id);
+  const beforeImg = images.find(img => img && img.type === 'before');
+  const afterImg = images.find(img => img && img.type === 'after');
   return {
     ...r,
     report_number: num,
     ticket_num: num,
+    photo_before: beforeImg ? beforeImg.image_path : (r.photo_before || null),
+    photo_after: afterImg ? afterImg.image_path : (r.photo_after || null),
+    images: images.length > 0 ? images : (r.images || []),
     reporter_name: r.reporter_name || 'Warga Mentangor',
     address: r.address || 'RW 02 Mentangor',
     title: r.title || 'Laporan Warga',
@@ -113,6 +120,8 @@ function normalizeReport(r) {
     created_at: r.created_at || new Date().toISOString()
   };
 }
+
+let store = null;
 
 function loadStore() {
   try {
@@ -124,11 +133,11 @@ function loadStore() {
           if (!a.published_at) a.published_at = a.created_at || new Date().toISOString();
         });
       }
-      if (parsed.reports) {
-        parsed.reports = parsed.reports.map(normalizeReport);
-      }
       if (!parsed.report_images) {
         parsed.report_images = [];
+      }
+      if (parsed.reports) {
+        parsed.reports = parsed.reports.map(r => normalizeReport(r, parsed.report_images));
       }
       return parsed;
     }
@@ -138,7 +147,7 @@ function loadStore() {
   return defaultData;
 }
 
-let store = loadStore();
+store = loadStore();
 
 function saveStore() {
   try {
@@ -146,6 +155,57 @@ function saveStore() {
   } catch (err) {
     console.error('Error saving mock database store:', err);
   }
+}
+
+function queryFilterReports(upperSql, params = []) {
+  let list = store.reports.map(r => normalizeReport(r));
+  const validStatuses = ['menunggu', 'diverifikasi', 'diproses', 'selesai', 'ditolak'];
+
+  // Handle WHERE ticket/number/id
+  if (upperSql.includes('WHERE REPORT_NUMBER = ?') || upperSql.includes('WHERE TICKET_NUM = ?') || upperSql.includes('REPORT_NUMBER = ?')) {
+    const ticket = params[0];
+    return list.filter(r => r.report_number === ticket || r.ticket_num === ticket);
+  }
+  if (upperSql.includes('WHERE ID = ?') || upperSql.includes('R.ID = ?') || upperSql.includes('WHERE R.ID = ?')) {
+    const id = parseInt(params[0]);
+    return list.filter(r => r.id === id);
+  }
+
+  // Handle status != and status =
+  const hasNotEqual = upperSql.includes('STATUS != ?') || upperSql.includes('STATUS!= ?') || upperSql.includes('STATUS !=?');
+  const hasEqual = upperSql.includes('STATUS = ?') || upperSql.includes('STATUS= ?') || upperSql.includes('STATUS =?');
+
+  if (hasNotEqual && hasEqual) {
+    const notStatus = params[0];
+    const eqStatus = params.slice(1).find(p => validStatuses.includes(String(p).toLowerCase()));
+    if (notStatus) list = list.filter(r => r.status !== String(notStatus).toLowerCase());
+    if (eqStatus) list = list.filter(r => r.status === String(eqStatus).toLowerCase());
+  } else if (hasNotEqual) {
+    const notStatus = params.find(p => validStatuses.includes(String(p).toLowerCase()));
+    if (notStatus) list = list.filter(r => r.status !== String(notStatus).toLowerCase());
+  } else if (hasEqual) {
+    const eqStatus = params.find(p => validStatuses.includes(String(p).toLowerCase()));
+    if (eqStatus) list = list.filter(r => r.status === String(eqStatus).toLowerCase());
+  }
+
+  // Handle search LIKE
+  if (upperSql.includes('LIKE ?')) {
+    const searchParams = params.filter(p => typeof p === 'string' && p.startsWith('%') && p.endsWith('%'));
+    if (searchParams.length > 0) {
+      const term = searchParams[0].replace(/%/g, '').toLowerCase();
+      if (term) {
+        list = list.filter(r => 
+          (r.title && r.title.toLowerCase().includes(term)) ||
+          (r.address && r.address.toLowerCase().includes(term)) ||
+          (r.report_number && r.report_number.toLowerCase().includes(term)) ||
+          (r.description && r.description.toLowerCase().includes(term))
+        );
+      }
+    }
+  }
+
+  list.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+  return list;
 }
 
 // SQL Query Parser & Execution Engine for persistent data store
@@ -163,7 +223,8 @@ async function mockQuery(sql, params = []) {
       return [[{ total: activeAnn.length }]];
     }
     if (upper.includes('FROM REPORTS')) {
-      return [[{ total: store.reports.length }]];
+      const filtered = queryFilterReports(upper, params);
+      return [[{ total: filtered.length }]];
     }
   }
 
@@ -386,18 +447,31 @@ async function mockQuery(sql, params = []) {
 
   // REPORTS - SELECT
   if (upper.startsWith('SELECT') && upper.includes('FROM REPORTS')) {
-    if (upper.includes('WHERE REPORT_NUMBER = ?') || upper.includes('WHERE TICKET_NUM = ?') || upper.includes('REPORT_NUMBER = ?')) {
-      const ticket = params[0];
-      const found = store.reports.map(normalizeReport).filter(r => r.report_number === ticket || r.ticket_num === ticket);
-      return [found];
+    let list = queryFilterReports(upper, params);
+
+    // Populate before_image and after_image fields if requested
+    if (upper.includes('BEFORE_IMAGE') || upper.includes('AFTER_IMAGE')) {
+      list = list.map(r => ({
+        ...r,
+        before_image: r.photo_before || (r.images && r.images.find(img => img.type === 'before')?.image_path) || null,
+        after_image: r.photo_after || (r.images && r.images.find(img => img.type === 'after')?.image_path) || null
+      }));
     }
-    if (upper.includes('WHERE ID = ?') || upper.includes('R.ID = ?')) {
-      const id = parseInt(params[0]);
-      const found = store.reports.map(normalizeReport).filter(r => r.id === id);
-      return [found];
+
+    // Pagination limit / offset
+    if (upper.includes('LIMIT ? OFFSET ?')) {
+      const limitVal = parseInt(params[params.length - 2]);
+      const offsetVal = parseInt(params[params.length - 1]);
+      if (!isNaN(limitVal) && !isNaN(offsetVal)) {
+        list = list.slice(offsetVal, offsetVal + limitVal);
+      }
+    } else if (upper.includes('LIMIT ?')) {
+      const limitVal = parseInt(params[params.length - 1]);
+      if (!isNaN(limitVal)) {
+        list = list.slice(0, limitVal);
+      }
     }
-    let list = store.reports.map(normalizeReport);
-    list.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
     return [list];
   }
 
@@ -428,22 +502,19 @@ async function mockQuery(sql, params = []) {
   }
 
   // REPORT IMAGES - SELECT
-  if (upper.startsWith('SELECT') && upper.includes('FROM REPORT_IMAGES WHERE REPORT_ID = ?')) {
+  if (upper.startsWith('SELECT') && (upper.includes('FROM REPORT_IMAGES') || upper.includes('REPORT_IMAGES'))) {
     const reportId = parseInt(params[0]);
     let list = (store.report_images || []).filter(img => img.report_id === reportId);
     
-    // Jika belum ada foto di mock, pasangkan foto contoh agar tidak kosong
-    if (list.length === 0) {
-      list = [
-        {
-          id: 990 + reportId,
-          report_id: reportId,
-          image_path: 'announcements/kerja-bakti.jpg',
-          type: 'before',
-          uploaded_by: null,
-          uploaded_at: new Date().toISOString()
-        }
-      ];
+    // Attach uploader_name if joined with users
+    if (upper.includes('USERS') || upper.includes('UPLOADER_NAME')) {
+      list = list.map(img => {
+        const user = img.uploaded_by ? (store.users || []).find(u => u.id === img.uploaded_by) : null;
+        return {
+          ...img,
+          uploader_name: user ? user.name : 'Petugas'
+        };
+      });
     }
     return [list];
   }

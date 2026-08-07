@@ -258,12 +258,23 @@
             }
             document.getElementById('statusBadgeContainer').innerHTML = `<span class="badge ${badgeClass} fs-6 px-3 py-2 rounded-pill shadow-sm">${currentStatus.toUpperCase()}</span>`;
 
-            const base = (typeof API_URL !== 'undefined' ? API_URL.replace(/\/api$/, '') : 'https://mentangor-rg-ejftf2a4cxd8hhgj.southeastasia-01.azurewebsites.net').replace(/\/$/, '');
+            const base = (typeof API_URL !== 'undefined' ? API_URL.replace(/\/api$/, '') : window.location.origin).replace(/\/$/, '');
             let beforeHtml = '';
             let afterHtml = '';
             
-            if (data.images && data.images.length > 0) {
-                data.images.forEach(img => {
+            // Ambil dari data.images atau fallback dari data.photo_before / data.photo_after
+            const imagesList = (data.images && Array.isArray(data.images) && data.images.length > 0) ? [...data.images] : [];
+            if (imagesList.length === 0) {
+                if (data.photo_before) {
+                    imagesList.push({ image_path: data.photo_before, type: 'before', uploaded_at: data.created_at });
+                }
+                if (data.photo_after) {
+                    imagesList.push({ image_path: data.photo_after, type: 'after', uploaded_at: data.updated_at || data.created_at });
+                }
+            }
+
+            if (imagesList.length > 0) {
+                imagesList.forEach(img => {
                     const cleanPath = (img.image_path || '').replace(/^\/+/, '').replace(/^uploads\//, '');
                     const imgUrl = (img.image_path && img.image_path.startsWith('http')) 
                         ? img.image_path 
@@ -272,7 +283,9 @@
                     const imgDate = img.uploaded_at ? new Date(img.uploaded_at).toLocaleString('id-ID') : 'Baru saja';
                     const imgTag = `
                         <div class="mb-3">
-                            <img src="${imgUrl}" onerror="this.onerror=null; this.src='../assets/img/kegiatan-posyandu.png'" class="w-100 rounded-3 border shadow-sm bg-light" style="max-height: 420px; width: 100%; height: auto; object-fit: contain;" alt="Foto Laporan">
+                            <a href="${imgUrl}" target="_blank" title="Klik untuk memperbesar foto">
+                                <img src="${imgUrl}" onerror="this.onerror=null; this.src='assets/img/hari-jadi-mentangor.jpg'" class="w-100 rounded-3 border shadow-sm bg-light hover-lift" style="max-height: 420px; width: 100%; height: auto; object-fit: contain; cursor: zoom-in;" alt="Foto Laporan">
+                            </a>
                             <div class="text-muted small mt-1 text-center"><i class="fa-regular fa-clock me-1"></i> Diunggah: ${imgDate}</div>
                         </div>
                     `;

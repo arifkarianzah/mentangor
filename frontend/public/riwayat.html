@@ -303,6 +303,17 @@
             }
         }
 
+        function getImageUrl(path) {
+            if (!path) return '';
+            if (path.startsWith('http://') || path.startsWith('https://')) return path;
+            const base = (typeof API_URL !== 'undefined' ? API_URL.replace('/api', '') : window.location.origin);
+            const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+            if (cleanPath.startsWith('uploads/')) {
+                return `${base}/${cleanPath}`;
+            }
+            return `${base}/uploads/${cleanPath}`;
+        }
+
         async function showDetail(id) {
             const modal = new bootstrap.Modal(document.getElementById('detailModal'));
             const modalBody = document.getElementById('modalBody');
@@ -320,10 +331,14 @@
                     const date = new Date(data.created_at).toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'});
                     
                     let beforeImg = '', afterImg = '';
-                    const base = API_URL.replace('/api', '');
-                    data.images.forEach(img => {
-                        if (img.type === 'before') beforeImg = `<img src="${base}/uploads/${img.image_path}" class="img-fluid rounded border mb-2 w-100" style="height:200px; object-fit:cover;">`;
-                        if (img.type === 'after') afterImg = `<img src="${base}/uploads/${img.image_path}" class="img-fluid rounded border mb-2 w-100" style="height:200px; object-fit:cover;">`;
+                    const imagesList = (Array.isArray(data.images) && data.images.length > 0) ? [...data.images] : [];
+                    if (imagesList.length === 0) {
+                        if (data.photo_before) imagesList.push({ image_path: data.photo_before, type: 'before' });
+                        if (data.photo_after) imagesList.push({ image_path: data.photo_after, type: 'after' });
+                    }
+                    imagesList.forEach(img => {
+                        if (img.type === 'before') beforeImg = `<a href="${getImageUrl(img.image_path)}" target="_blank"><img src="${getImageUrl(img.image_path)}" class="img-fluid rounded border mb-2 w-100 shadow-sm" style="height:200px; object-fit:cover;" alt="Foto Sebelum"></a>`;
+                        if (img.type === 'after') afterImg = `<a href="${getImageUrl(img.image_path)}" target="_blank"><img src="${getImageUrl(img.image_path)}" class="img-fluid rounded border mb-2 w-100 shadow-sm" style="height:200px; object-fit:cover;" alt="Foto Sesudah"></a>`;
                     });
                     
                     modalBody.innerHTML = `

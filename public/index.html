@@ -367,33 +367,60 @@
             </div>
             <div class="row text-center g-4">
                 <div class="col-md-4">
-                    <div class="step-card p-4 bg-white rounded-4 shadow-sm h-100 hover-lift">
+                    <div class="step-card step-card-interactive p-4 bg-white rounded-4 shadow-sm h-100 hover-lift position-relative d-flex flex-column"
+                         onclick="showStepDetail(1)" role="button" tabindex="0" title="Klik untuk panduan & info detail">
+                        <span class="badge bg-primary-green-light text-primary-green rounded-pill position-absolute top-0 end-0 m-3 px-2 py-1 small" style="font-size: 0.72rem;">
+                            <i class="fa-solid fa-hand-pointer me-1"></i> Klik Detail
+                        </span>
                         <div class="step-icon bg-primary-green-light text-primary-green mx-auto rounded-circle d-flex align-items-center justify-content-center mb-4"
                             style="width: 80px; height: 80px; font-size: 2rem;">
                             <i class="fa-solid fa-mobile-screen-button"></i>
                         </div>
                         <h4 class="fw-semibold">1. Buka Lewat HP</h4>
-                        <p class="text-muted">Akses link website kapan saja dari browser HP Anda tanpa perlu unduh aplikasi berat.</p>
+                        <p class="text-muted mb-3 flex-grow-1">Akses link website kapan saja dari browser HP Anda tanpa perlu unduh aplikasi berat.</p>
+                        <div class="mt-auto pt-2">
+                            <span class="btn btn-sm btn-outline-success rounded-pill px-3 py-1 fw-medium w-100" style="font-size: 0.78rem;">
+                                <i class="fa-solid fa-circle-info me-1"></i> Panduan Akses HP ➔
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="step-card p-4 bg-white rounded-4 shadow-sm h-100 hover-lift">
+                    <div class="step-card step-card-interactive p-4 bg-white rounded-4 shadow-sm h-100 hover-lift position-relative d-flex flex-column"
+                         onclick="showStepDetail(2)" role="button" tabindex="0" title="Klik untuk info kabar & jadwal desa">
+                        <span class="badge bg-accent-orange-light text-accent-orange rounded-pill position-absolute top-0 end-0 m-3 px-2 py-1 small" style="font-size: 0.72rem;">
+                            <i class="fa-solid fa-hand-pointer me-1"></i> Klik Detail
+                        </span>
                         <div class="step-icon bg-accent-orange-light text-accent-orange mx-auto rounded-circle d-flex align-items-center justify-content-center mb-4"
                             style="width: 80px; height: 80px; font-size: 2rem;">
                             <i class="fa-solid fa-newspaper"></i>
                         </div>
                         <h4 class="fw-semibold">2. Baca Pengumuman</h4>
-                        <p class="text-muted">Temukan info gotong royong, posyandu balita & lansia, surat edaran, dan agenda RT/RW terbaru.</p>
+                        <p class="text-muted mb-3 flex-grow-1">Temukan info gotong royong, posyandu balita & lansia, surat edaran, dan agenda RT/RW terbaru.</p>
+                        <div class="mt-auto pt-2">
+                            <span class="btn btn-sm btn-outline-warning rounded-pill px-3 py-1 fw-medium text-dark w-100" style="font-size: 0.78rem;">
+                                <i class="fa-solid fa-bullhorn me-1"></i> Lihat Kabar Desa ➔
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="step-card p-4 bg-white rounded-4 shadow-sm h-100 hover-lift">
+                    <div class="step-card step-card-interactive p-4 bg-white rounded-4 shadow-sm h-100 hover-lift position-relative d-flex flex-column"
+                         onclick="showStepDetail(3)" role="button" tabindex="0" title="Klik untuk info validasi & transparansi">
+                        <span class="badge bg-success-light text-success rounded-pill position-absolute top-0 end-0 m-3 px-2 py-1 small" style="font-size: 0.72rem;">
+                            <i class="fa-solid fa-hand-pointer me-1"></i> Klik Detail
+                        </span>
                         <div class="step-icon bg-success-light text-success mx-auto rounded-circle d-flex align-items-center justify-content-center mb-4"
                             style="width: 80px; height: 80px; font-size: 2rem;">
                             <i class="fa-solid fa-circle-check"></i>
                         </div>
                         <h4 class="fw-semibold">3. Info Jelas & Anti-Hoax</h4>
-                        <p class="text-muted">Semua kabar dirilis resmi oleh pengurus, terjamin akurat dan tidak akan tertimbun pesan grup.</p>
+                        <p class="text-muted mb-3 flex-grow-1">Semua kabar dirilis resmi oleh pengurus, terjamin akurat dan tidak akan tertimbun pesan grup.</p>
+                        <div class="mt-auto pt-2">
+                            <span class="btn btn-sm btn-outline-success rounded-pill px-3 py-1 fw-medium w-100" style="font-size: 0.78rem;">
+                                <i class="fa-solid fa-shield-halved me-1"></i> Info Validitas ➔
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -527,6 +554,45 @@
             </div>
         </div>
     </footer>
+
+    <!-- Modal Detail & Pemberitahuan Alur Informasi -->
+    <div class="modal fade" id="stepDetailModal" tabindex="-1" aria-labelledby="stepDetailModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
+                <div class="modal-header border-0 pb-0 px-4 pt-4 position-relative">
+                    <div class="d-flex align-items-center gap-3">
+                        <div id="stepModalIconBox" class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 54px; height: 54px; font-size: 1.5rem;">
+                            <i id="stepModalIcon" class="fa-solid fa-mobile-screen-button"></i>
+                        </div>
+                        <div>
+                            <span id="stepModalBadge" class="badge rounded-pill px-3 py-1 mb-1 fw-semibold" style="font-size: 0.75rem;">Panduan Akses</span>
+                            <h4 class="modal-title fw-bold text-dark mb-0" id="stepDetailModalTitle">1. Buka Lewat HP</h4>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                </div>
+                <div class="modal-body p-4" id="stepModalBody">
+                    <!-- Dynamic Body -->
+                </div>
+                <div class="modal-footer border-top-0 pt-0 px-4 pb-4 d-flex justify-content-between flex-wrap gap-2" id="stepModalFooter">
+                    <!-- Dynamic Actions -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1150;">
+        <div id="stepToast" class="toast align-items-center text-bg-dark border-0 rounded-3 shadow" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body d-flex align-items-center gap-2" id="stepToastMsg">
+                    <i class="fa-solid fa-circle-check text-success fs-5"></i>
+                    <span>Tautan berhasil disalin!</span>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -678,8 +744,8 @@
             const baContainer = document.getElementById('beforeAfterContainer');
             try {
                 const res = await API.get('/reports?status=selesai&limit=1');
-                let imgBefore = '../assets/img/sebelum.png';
-                let imgAfter = '../assets/img/sesudah.png';
+                let imgBefore = 'assets/img/sebelum.png';
+                let imgAfter = 'assets/img/sesudah.png';
                 let lokasiTitle = 'Jl. Utama RW 02 Mentangor (Kegiatan Gotong Royong)';
 
                 if (res.success && res.data && res.data.length > 0) {
@@ -695,9 +761,9 @@
                 baContainer.innerHTML = `
                     <div class="col-lg-8 text-center position-relative">
                         <div class="ba-slider bg-white p-2 rounded-4 shadow-lg position-relative overflow-hidden" style="height: 400px; user-select: none;">
-                            <img src="${imgAfter}" onerror="this.src='../assets/img/sesudah.png'" alt="Sesudah" class="w-100 h-100 object-fit-cover rounded-3" draggable="false">
+                            <img src="${imgAfter}" onerror="this.src='assets/img/sesudah.png'" alt="Sesudah" class="w-100 h-100 object-fit-cover rounded-3" draggable="false">
                             <div class="resize" style="position: absolute; top: 0; left: 0; height: 100%; width: 50%; overflow: hidden;">
-                                <img src="${imgBefore}" onerror="this.src='../assets/img/sebelum.png'" alt="Sebelum" class="object-fit-cover rounded-3" style="width: 200%; height: 100%;" draggable="false">
+                                <img src="${imgBefore}" onerror="this.src='assets/img/sebelum.png'" alt="Sebelum" class="object-fit-cover rounded-3" style="width: 200%; height: 100%;" draggable="false">
                             </div>
                             <span class="handle" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 42px; height: 42px; background: #f59e0b; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: ew-resize; box-shadow: 0 0 12px rgba(0,0,0,0.35);"><i class="fa-solid fa-arrows-left-right text-white"></i></span>
                         </div>
@@ -757,6 +823,257 @@
         if (heroTitle) {
             heroTitle.style.visibility = 'hidden';
             typeEffect(heroTitle, 50);
+        }
+
+        // ==========================================================================
+        // Interactive Step Details Modal & Notification System
+        // ==========================================================================
+        const stepDetails = {
+            1: {
+                badge: '📱 Panduan Akses Cepat Smartphone',
+                badgeClass: 'bg-primary-green-light text-primary-green border border-success-subtle',
+                icon: 'fa-solid fa-mobile-screen-button',
+                iconBoxClass: 'bg-primary-green-light text-primary-green',
+                title: '1. Buka & Simpan Website di Layar HP',
+                content: `
+                    <div class="alert alert-success bg-light border border-success-subtle rounded-3 p-3 mb-3">
+                        <div class="d-flex gap-2">
+                            <i class="fa-solid fa-circle-check text-success fs-5 mt-1 flex-shrink-0"></i>
+                            <div>
+                                <strong class="text-success-emphasis">Website Ringan, Cepat & Hemat Kuota</strong>
+                                <p class="small text-muted mb-0">Portal Desa Mentangor dirancang responsif dan fleksibel. Anda dapat mengakses seluruh layanan, informasi, dan pelaporan langsung dari browser HP tanpa harus download aplikasi berat.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h6 class="fw-bold text-dark mb-2"><i class="fa-solid fa-wand-magic-sparkles text-warning me-1"></i> Cara Pasang Pintasan di Layar Utama HP:</h6>
+                    <div class="row g-2 mb-3">
+                        <div class="col-md-6">
+                            <div class="p-3 rounded-3 border bg-white h-100">
+                                <div class="fw-semibold text-success mb-2"><i class="fa-brands fa-android me-1"></i> Pengguna Android (Chrome):</div>
+                                <ol class="small text-muted ps-3 mb-0">
+                                    <li>Buka website ini di <strong>Google Chrome</strong>.</li>
+                                    <li>Ketuk ikon menu <strong>titik tiga (⋮)</strong> di pojok kanan atas.</li>
+                                    <li>Pilih <strong>"Tambahkan ke Layar Utama"</strong> (Add to Home screen).</li>
+                                    <li>Ketuk <strong>Tambah</strong>. Ikon Portal Desa siap digunakan!</li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 rounded-3 border bg-white h-100">
+                                <div class="fw-semibold text-dark mb-2"><i class="fa-brands fa-apple me-1"></i> Pengguna iPhone (Safari):</div>
+                                <ol class="small text-muted ps-3 mb-0">
+                                    <li>Buka website ini di <strong>Safari</strong>.</li>
+                                    <li>Ketuk ikon <strong>Bagikan / Share</strong> (kotak panah ke atas di bawah).</li>
+                                    <li>Gulir dan pilih <strong>"Add to Home Screen"</strong> (+).</li>
+                                    <li>Ketuk <strong>Add</strong> di kanan atas. Selesai!</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-3 bg-light rounded-3 d-flex align-items-center justify-content-between flex-wrap gap-2 border">
+                        <div class="small">
+                            <span class="text-muted d-block" style="font-size: 0.75rem;">Tautan Cepat Website:</span>
+                            <code class="text-primary-green fw-bold" id="stepWebUrl">${window.location.origin || window.location.href}</code>
+                        </div>
+                        <button class="btn btn-sm btn-primary-green rounded-pill px-3" onclick="copyPortalLink()">
+                            <i class="fa-solid fa-copy me-1"></i> Salin Tautan
+                        </button>
+                    </div>
+                `,
+                actions: `
+                    <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-primary-green rounded-pill px-4" onclick="copyPortalLink()">
+                        <i class="fa-solid fa-share-nodes me-1"></i> Bagikan Link ke Warga
+                    </button>
+                `
+            },
+            2: {
+                badge: '📢 Pusat Kabar & Agenda Desa',
+                badgeClass: 'bg-accent-orange-light text-accent-orange border border-warning-subtle',
+                icon: 'fa-solid fa-newspaper',
+                iconBoxClass: 'bg-accent-orange-light text-accent-orange',
+                title: '2. Baca Pengumuman & Agenda Lingkungan',
+                content: `
+                    <div class="alert alert-warning bg-light border border-warning-subtle rounded-3 p-3 mb-3">
+                        <div class="d-flex gap-2">
+                            <i class="fa-solid fa-bullhorn text-warning fs-5 mt-1 flex-shrink-0"></i>
+                            <div>
+                                <strong class="text-dark">Pemberitahuan Resmi Selalu Diperbarui</strong>
+                                <p class="small text-muted mb-0">Seluruh jadwal gotong royong, posyandu balita & lansia, surat edaran, serta pengumuman penting lingkungan RW 02 Mentangor disajikan secara terbuka dan teratur.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h6 class="fw-bold text-dark mb-2"><i class="fa-solid fa-list-check text-primary-green me-1"></i> Kategori Informasi yang Tersedia:</h6>
+                    <div class="row g-2 mb-3">
+                        <div class="col-sm-6">
+                            <div class="d-flex gap-2 p-2 px-3 rounded-3 border bg-white align-items-center h-100">
+                                <span class="badge bg-success-light text-success p-2 rounded-circle"><i class="fa-solid fa-broom"></i></span>
+                                <div class="small">
+                                    <span class="fw-semibold text-dark d-block">Gotong Royong & Kerja Bakti</span>
+                                    <span class="text-muted" style="font-size: 0.75rem;">Jadwal bersih selokan & fasilitas warga</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="d-flex gap-2 p-2 px-3 rounded-3 border bg-white align-items-center h-100">
+                                <span class="badge bg-primary-green-light text-primary-green p-2 rounded-circle"><i class="fa-solid fa-heart-pulse"></i></span>
+                                <div class="small">
+                                    <span class="fw-semibold text-dark d-block">Posyandu Balita & Lansia</span>
+                                    <span class="text-muted" style="font-size: 0.75rem;">Imunisasi, vitamin & cek kesehatan</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="d-flex gap-2 p-2 px-3 rounded-3 border bg-white align-items-center h-100">
+                                <span class="badge bg-accent-orange-light text-accent-orange p-2 rounded-circle"><i class="fa-solid fa-file-lines"></i></span>
+                                <div class="small">
+                                    <span class="fw-semibold text-dark d-block">Surat Edaran RT / RW</span>
+                                    <span class="text-muted" style="font-size: 0.75rem;">Kebijakan resmi pengurus desa</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="d-flex gap-2 p-2 px-3 rounded-3 border bg-white align-items-center h-100">
+                                <span class="badge bg-danger-subtle text-danger p-2 rounded-circle"><i class="fa-solid fa-shield-halved"></i></span>
+                                <div class="small">
+                                    <span class="fw-semibold text-dark d-block">Ronda Malam & Keamanan</span>
+                                    <span class="text-muted" style="font-size: 0.75rem;">Jadwal ronda & kontak pengurus</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="small text-muted mb-0"><i class="fa-solid fa-lightbulb text-warning me-1"></i> Anda juga dapat melihat foto dokumentasi kegiatan dan mengunduh berkas surat edaran resmi.</p>
+                `,
+                actions: `
+                    <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Tutup</button>
+                    <a href="pengumuman.html" class="btn btn-primary-green rounded-pill px-4">
+                        <i class="fa-solid fa-newspaper me-1"></i> Buka Halaman Pengumuman ➔
+                    </a>
+                `
+            },
+            3: {
+                badge: '🛡️ Terverifikasi Resmi Pengurus RW 02',
+                badgeClass: 'bg-success-light text-success border border-success-subtle',
+                icon: 'fa-solid fa-circle-check',
+                iconBoxClass: 'bg-success-light text-success',
+                title: '3. Informasi Jelas, Akurat & Bebas Hoax',
+                content: `
+                    <div class="alert alert-success bg-light border border-success-subtle rounded-3 p-3 mb-3">
+                        <div class="d-flex gap-2">
+                            <i class="fa-solid fa-shield-halved text-success fs-5 mt-1 flex-shrink-0"></i>
+                            <div>
+                                <strong class="text-success-emphasis">Sumber Informasi Resmi & Terverifikasi</strong>
+                                <p class="small text-muted mb-0">Setiap data, laporan aksi, dan pemberitahuan dirilis secara resmi oleh pengurus RW 02 Mentangor melalui akun pengurus berotoritas.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h6 class="fw-bold text-dark mb-2"><i class="fa-solid fa-star text-warning me-1"></i> Keunggulan Portal Dibandingkan Grup Obrolan:</h6>
+                    <div class="row g-2 mb-3">
+                        <div class="col-12">
+                            <div class="p-2 px-3 rounded-3 border bg-white d-flex align-items-start gap-2">
+                                <i class="fa-solid fa-circle-check text-success mt-1"></i>
+                                <div class="small">
+                                    <strong>Tidak Tertimbun Pesan:</strong> Informasi penting tersusun rapi berdasarkan tanggal & kategori, tidak akan hilang tertimbun obrolan chat grup WhatsApp.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="p-2 px-3 rounded-3 border bg-white d-flex align-items-start gap-2">
+                                <i class="fa-solid fa-circle-check text-success mt-1"></i>
+                                <div class="small">
+                                    <strong>Transparansi Aksi Lingkungan:</strong> Laporan warga terkait fasilitas atau coretan liar dapat dipantau status penanganannya secara terbuka dari <em>Menunggu</em>, <em>Diproses</em>, hingga <em>Selesai</em>.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="p-2 px-3 rounded-3 border bg-white d-flex align-items-start gap-2">
+                                <i class="fa-solid fa-circle-check text-success mt-1"></i>
+                                <div class="small">
+                                    <strong>Privasi Warga Terlindungi:</strong> Identitas pelapor dijaga dengan aman sesuai standar perlindungan data privasi.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                actions: `
+                    <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Tutup</button>
+                    <div class="d-flex gap-2">
+                        <a href="riwayat.html" class="btn btn-outline-success rounded-pill px-3">
+                            <i class="fa-solid fa-clock-rotate-left me-1"></i> Riwayat Aksi
+                        </a>
+                        <a href="laporan.html" class="btn btn-primary-green rounded-pill px-3">
+                            <i class="fa-solid fa-paper-plane me-1"></i> Buat Laporan
+                        </a>
+                    </div>
+                `
+            }
+        };
+
+        function showStepDetail(stepNum) {
+            playStepChime();
+            const data = stepDetails[stepNum];
+            if (!data) return;
+
+            const modalEl = document.getElementById('stepDetailModal');
+            const titleEl = document.getElementById('stepDetailModalTitle');
+            const badgeEl = document.getElementById('stepModalBadge');
+            const iconBox = document.getElementById('stepModalIconBox');
+            const iconEl = document.getElementById('stepModalIcon');
+            const bodyEl = document.getElementById('stepModalBody');
+            const footerEl = document.getElementById('stepModalFooter');
+
+            if (titleEl) titleEl.textContent = data.title;
+            if (badgeEl) {
+                badgeEl.className = `badge rounded-pill px-3 py-1 mb-1 fw-semibold ${data.badgeClass}`;
+                badgeEl.textContent = data.badge;
+            }
+            if (iconBox) iconBox.className = `rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 ${data.iconBoxClass}`;
+            if (iconEl) iconEl.className = data.icon;
+            if (bodyEl) bodyEl.innerHTML = data.content;
+            if (footerEl) footerEl.innerHTML = data.actions;
+
+            const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+            modal.show();
+        }
+
+        function copyPortalLink() {
+            const url = window.location.origin || window.location.href;
+            navigator.clipboard.writeText(url).then(() => {
+                showStepToast('✅ Tautan portal berhasil disalin ke clipboard!');
+            }).catch(() => {
+                showStepToast('ℹ️ Tautan portal: ' + url);
+            });
+        }
+
+        function showStepToast(msg) {
+            const toastEl = document.getElementById('stepToast');
+            const toastMsg = document.getElementById('stepToastMsg');
+            if (toastEl && toastMsg) {
+                toastMsg.innerHTML = `<i class="fa-solid fa-circle-check text-success fs-5"></i> <span>${msg}</span>`;
+                const toast = bootstrap.Toast.getOrCreateInstance(toastEl);
+                toast.show();
+            }
+        }
+
+        function playStepChime() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.12);
+                gain.gain.setValueAtTime(0.06, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.14);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + 0.14);
+            } catch(e) {}
         }
     </script>
 </body>

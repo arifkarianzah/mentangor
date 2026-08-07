@@ -29,8 +29,9 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-// ── Static files (uploads) ────────────────────────────────
+// ── Static files ──────────────────────────────────────────
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use(express.static(path.join(__dirname, '..')));
 
 // ── Routes ─────────────────────────────────────────────────
 app.use('/api/auth',          authRoutes);

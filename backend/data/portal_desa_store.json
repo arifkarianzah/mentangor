@@ -1,0 +1,172 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Administrator",
+      "email": "admin@portaldesa.id",
+      "password": "$2a$10$vJQpb1uc2V4FNbWm2RI6n.pl6LYVW.5IF813R7FDV3B8sJLHZ.h6e",
+      "role": "admin",
+      "phone": "08100000001",
+      "avatar": null,
+      "is_active": 1,
+      "created_at": "2026-08-07T07:37:48.335Z"
+    },
+    {
+      "id": 2,
+      "name": "Petugas Lapangan",
+      "email": "petugas@portaldesa.id",
+      "password": "$2a$10$VJ3YerQmMd4KzGqy2gkDbepI5Cb0hc3frGfVyY4oHQtWqIgRAxq12",
+      "role": "petugas",
+      "phone": "08100000002",
+      "avatar": null,
+      "is_active": 1,
+      "created_at": "2026-08-07T07:37:48.335Z"
+    }
+  ],
+  "announcements": [
+    {
+      "id": 1,
+      "title": "Selamat Datang di Portal Desa Mentangor",
+      "content": "Portal Desa ini hadir untuk memudahkan warga dalam mengakses informasi pengumuman dan melaporkan keluhan lingkungan sekitar secara online 24 jam.",
+      "type": "umum",
+      "image": null,
+      "is_pinned": 1,
+      "is_active": 1,
+      "created_by": 1,
+      "author_name": "Administrator",
+      "published_at": "2026-08-07T07:37:48.335Z",
+      "created_at": "2026-08-07T07:37:48.335Z"
+    },
+    {
+      "id": 2,
+      "title": "Jadwal Posyandu Balita & Lansia RW 02",
+      "content": "Kegiatan posyandu rutin akan diadakan pada hari Sabtu pekan depan di Balai RW 02 mulai pukul 08.30 WIB. Mohon kehadiran ibu dan balita.",
+      "type": "posyandu",
+      "image": null,
+      "is_pinned": 1,
+      "is_active": 1,
+      "created_by": 1,
+      "author_name": "Administrator",
+      "published_at": "2026-08-07T07:37:48.335Z",
+      "created_at": "2026-08-07T07:37:48.335Z"
+    }
+  ],
+  "reports": [
+    {
+      "id": 3,
+      "report_number": "RPT-20260807-0003",
+      "ticket_num": "RPT-20260807-0003",
+      "reporter_name": "lsdldssmdm",
+      "reporter_phone": "kkasadksdks",
+      "reporter_email": "",
+      "title": "ksdksdkskdkd",
+      "description": "ffdhjhdjkhjhsjdhs",
+      "address": "rw3",
+      "category": "fasilitas_umum",
+      "status": "selesai",
+      "priority": "sedang",
+      "notes": "dkskdssmns",
+      "created_at": "2026-08-07T07:58:39.914Z"
+    },
+    {
+      "id": 2,
+      "report_number": "RPT-20260807-0002",
+      "ticket_num": "RPT-20260807-0002",
+      "reporter_name": "samapa",
+      "reporter_phone": "098765678",
+      "reporter_email": "",
+      "title": "rw 3",
+      "description": "tyuiopjhgjkl",
+      "address": "di rw 3",
+      "category": "fasilitas_umum",
+      "status": "selesai",
+      "priority": "sedang",
+      "notes": "sudah ",
+      "created_at": "2026-08-07T07:47:38.781Z",
+      "photo_before": "reports/before/before-1786088858335-357482091.png",
+      "photo_after": null,
+      "images": [
+        {
+          "id": 2,
+          "report_id": 2,
+          "image_path": "reports/before/before-1786088858335-357482091.png",
+          "type": "before",
+          "uploaded_by": null,
+          "uploaded_at": "2026-08-07T07:47:38.791Z"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "report_number": "RPT-20260804-0001",
+      "ticket_num": "RPT-20260804-0001",
+      "title": "Lampu Penerangan Jalan Padam di RT 03",
+      "description": "Lampu jalan utama di depan pos ronda RT 03 sudah 3 hari padam menyebabkan jalanan gelap.",
+      "category": "fasilitas_umum",
+      "status": "menunggu",
+      "priority": "sedang",
+      "address": "Jl. Mentangor Raya RT 03 RW 02",
+      "reporter_name": "Warga Mentangor",
+      "reporter_phone": "08123456789",
+      "reporter_email": "warga@gmail.com",
+      "notes": "",
+      "assigned_to": null,
+      "created_at": "2026-08-07T07:37:48.335Z",
+      "photo_before": "announcements/lampu-jalan.jpg",
+      "photo_after": null,
+      "images": [
+        {
+          "id": 1,
+          "report_id": 1,
+          "image_path": "announcements/lampu-jalan.jpg",
+          "type": "before",
+          "uploaded_by": null,
+          "uploaded_at": "2026-08-07T07:37:48.335Z"
+        }
+      ]
+    }
+  ],
+  "report_images": [
+    {
+      "id": 1,
+      "report_id": 1,
+      "image_path": "announcements/lampu-jalan.jpg",
+      "type": "before",
+      "uploaded_by": null,
+      "uploaded_at": "2026-08-07T07:37:48.335Z"
+    },
+    {
+      "id": 2,
+      "report_id": 2,
+      "image_path": "reports/before/before-1786088858335-357482091.png",
+      "type": "before",
+      "uploaded_by": null,
+      "uploaded_at": "2026-08-07T07:47:38.791Z"
+    },
+    {
+      "id": 3,
+      "report_id": 2,
+      "image_path": "reports/after/after-1786089427829-784611796.png",
+      "type": "after",
+      "uploaded_by": 1,
+      "uploaded_at": "2026-08-07T07:57:07.873Z"
+    },
+    {
+      "id": 4,
+      "report_id": 3,
+      "image_path": "reports/before/before-1786089519904-963063204.png",
+      "type": "before",
+      "uploaded_by": null,
+      "uploaded_at": "2026-08-07T07:58:39.916Z"
+    },
+    {
+      "id": 5,
+      "report_id": 3,
+      "image_path": "reports/after/after-1786089563448-32460596.png",
+      "type": "after",
+      "uploaded_by": 1,
+      "uploaded_at": "2026-08-07T07:59:23.485Z"
+    }
+  ],
+  "report_logs": []
+}
