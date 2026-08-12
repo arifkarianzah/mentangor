@@ -182,10 +182,12 @@ const createReport = async (req, res) => {
         null, // uploaded_by null (warga)
       ]);
 
-      await db.query(
-        'INSERT INTO report_images (report_id, image_path, type, uploaded_by) VALUES ?',
-        [imageValues]
-      );
+      for (const vals of imageValues) {
+        await db.query(
+          'INSERT INTO report_images (report_id, image_path, type, uploaded_by) VALUES (?, ?, ?, ?)',
+          vals
+        );
+      }
     }
 
     return success(res, { id: reportId, report_number }, 'Laporan berhasil dikirim', 201);
@@ -352,10 +354,12 @@ const uploadAfterImages = async (req, res) => {
       req.user.id,
     ]);
 
-    await db.query(
-      'INSERT INTO report_images (report_id, image_path, type, uploaded_by) VALUES ?',
-      [imageValues]
-    );
+    for (const vals of imageValues) {
+      await db.query(
+        'INSERT INTO report_images (report_id, image_path, type, uploaded_by) VALUES (?, ?, ?, ?)',
+        vals
+      );
+    }
 
     return success(res, null, 'Foto sesudah berhasil diupload', 201);
   } catch (err) {

@@ -29,8 +29,8 @@ const getStats = async (req, res) => {
     // Laporan bulan ini
     const [bulanIni] = await db.query(
       `SELECT COUNT(*) AS total FROM reports
-       WHERE MONTH(created_at) = MONTH(NOW())
-         AND YEAR(created_at) = YEAR(NOW())`
+       WHERE EXTRACT(MONTH FROM created_at) = EXTRACT(MONTH FROM CURRENT_DATE)
+         AND EXTRACT(YEAR FROM created_at) = EXTRACT(YEAR FROM CURRENT_DATE)`
     );
     stats.bulan_ini = bulanIni[0].total;
 
