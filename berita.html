@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Berita & Artikel - Portal Desa Mentangor</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" href="favicon.ico">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Great+Vibes&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css?v=15">
+    <link rel="stylesheet" href="assets/css/responsive.css?v=15">
+    </head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary-dark fixed-top shadow-sm py-3">
+        <div class="container">
+            <a class="navbar-brand d-flex flex-column" href="index.html">
+                <span class="fw-bold fs-4 line-height-tight text-white mb-0">Desa Mentangor</span>
+                <span class="small opacity-75" style="font-size: 0.75rem; font-weight: 500;">Info Warga RW 02 Mentangor</span>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto fw-medium gap-lg-3">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Beranda</a></li>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Profil Desa
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="profil.html#sejarah">Sejarah Desa</a></li>
+                            <li><a class="dropdown-item" href="profil.html#visi-misi">Visi & Misi</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Pemerintahan
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="struktur.html">Struktur Organisasi</a></li>
+                            <li><a class="dropdown-item" href="perangkat.html">Perangkat Desa</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Informasi</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="pengumuman.html">Pengumuman & Agenda</a></li>
+                            <li><a class="dropdown-item" href="berita.html">Berita Desa</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Layanan
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="laporan.html">Lapor Keluhan</a></li>
+                            <li><a class="dropdown-item" href="riwayat.html">Riwayat Keluhan</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item"><a class="nav-link" href="galeri.html">Potensi Desa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="kontak.html">Kontak</a></li>
+                </ul>
+                <div class="d-flex align-items-center ms-lg-3 mt-3 mt-lg-0 auth-buttons" id="authNavContainer">
+                    <!-- Dinamis via JS -->
+                    <a href="admin/login.html" id="navLoginBtn" class="btn btn-outline-light btn-sm rounded-pill px-4 py-2 fw-medium"><i class="fa-solid fa-circle-user me-1"></i> Panel Admin</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <section class="bg-primary-green text-white py-5 mt-5">
+        <div class="container py-4 text-center">
+            <h1 class="fw-bold mb-3">Berita & Informasi Desa</h1>
+            <p class="lead mb-0 text-white-50">Dapatkan informasi terbaru seputar kegiatan, pembangunan, dan pengumuman di RW 02 Mentangor.</p>
+        </div>
+    </section>
+
+    <!-- News List Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-4" id="newsContainer">
+                <div class="col-12 text-center py-5">
+                    <div class="spinner-border text-primary-green" role="status"></div>
+                    <p class="mt-2 text-muted">Memuat berita...</p>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="d-flex justify-content-center mt-5">
+                <ul class="pagination" id="paginationControls">
+                    <!-- Pagination dinamis -->
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-redesign">
+        <div class="container">
+            <div class="row g-4 mb-4">
+                <!-- Col 1: Logo & Desc -->
+                <div class="col-lg-4 col-md-6 pe-lg-4">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <img src="assets/img/hero-bg-baru.jpg" class="rounded-circle object-fit-cover shadow" style="width: 50px; height: 50px;" alt="Logo Desa">
+                        <div>
+                            <h5 class="fw-bold mb-0 text-white">Desa Mentangor</h5>
+                        </div>
+                    </div>
+                    <p class="small text-white-50 lh-lg pe-lg-3">
+                        Desa yang maju, mandiri, dan sejahtera berlandaskan gotong royong dan kearifan lokal.
+                    </p>
+                </div>
+
+                <!-- Col 2: Kontak Desa -->
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="fw-bold mb-4 text-white">Kontak Desa</h6>
+                    <ul class="list-unstyled small text-white-50">
+                        <li class="mb-3 d-flex align-items-start gap-2">
+                            <i class="fa-solid fa-location-dot mt-1 text-white"></i> 
+                            <span>Jl. Raya Desa Mentangor No. 123<br>Kec. Sejahtera, Kab. Damai 12345</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-center gap-2">
+                            <i class="fa-solid fa-phone text-white"></i> <span>(021) 1234 5678</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-center gap-2">
+                            <i class="fa-solid fa-envelope text-white"></i> <span>info@desamentangor.id</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Tautan Cepat -->
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="fw-bold mb-4 text-white">Tautan Cepat</h6>
+                    <ul class="list-unstyled small">
+                        <li class="mb-2"><a href="index.html" class="d-flex align-items-center gap-2"><i class="fa-solid fa-chevron-right" style="font-size:0.7em;"></i> Beranda</a></li>
+                        <li class="mb-2"><a href="#" class="d-flex align-items-center gap-2"><i class="fa-solid fa-chevron-right" style="font-size:0.7em;"></i> Profil Desa</a></li>
+                        <li class="mb-2"><a href="#" class="d-flex align-items-center gap-2"><i class="fa-solid fa-chevron-right" style="font-size:0.7em;"></i> Pemerintahan</a></li>
+                        <li class="mb-2"><a href="berita.html" class="d-flex align-items-center gap-2"><i class="fa-solid fa-chevron-right" style="font-size:0.7em;"></i> Informasi</a></li>
+                        <li class="mb-2"><a href="laporan.html" class="d-flex align-items-center gap-2"><i class="fa-solid fa-chevron-right" style="font-size:0.7em;"></i> Layanan</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Layanan & Socials -->
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="fw-bold mb-4 text-white">Layanan Online</h6>
+                    <ul class="list-unstyled small mb-4">
+                        <li class="mb-2"><a href="#" class="d-flex align-items-center gap-2"><i class="fa-solid fa-chevron-right" style="font-size:0.7em;"></i> Surat Keterangan Domisili</a></li>
+                        <li class="mb-2"><a href="#" class="d-flex align-items-center gap-2"><i class="fa-solid fa-chevron-right" style="font-size:0.7em;"></i> Surat Keterangan Usaha</a></li>
+                        <li class="mb-2"><a href="laporan.html" class="d-flex align-items-center gap-2"><i class="fa-solid fa-chevron-right" style="font-size:0.7em;"></i> Pengaduan Masyarakat</a></li>
+                    </ul>
+                    <h6 class="fw-bold mb-3 text-white">Ikuti Kami</h6>
+                    <div class="d-flex gap-2">
+                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="border-top border-secondary mt-2 pt-4 border-opacity-25 text-center text-white-50 small">
+            &copy; 2026 Desa Mentangor. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/auth.js"></script>
+    
+    <script>
+        let currentPage = 1;
+
+        async function fetchNews(page = 1) {
+            currentPage = page;
+            const container = document.getElementById('newsContainer');
+            container.innerHTML = `<div class="col-12 text-center py-5"><div class="spinner-border text-primary-green"></div></div>`;
+            
+            try {
+                // Fetch hanya yg is_published=true
+                const res = await API.get(`/news?page=${page}&limit=6&is_published=true`);
+                if (res.success) {
+                    renderNews(res.data);
+                    renderPagination(res.pagination);
+                }
+            } catch (err) {
+                container.innerHTML = `<div class="col-12 text-center py-5 text-danger">Gagal memuat berita.</div>`;
+            }
+        }
+
+        function renderNews(data) {
+            const container = document.getElementById('newsContainer');
+            if (data.length === 0) {
+                container.innerHTML = `<div class="col-12 text-center py-5 text-muted">Belum ada berita yang diterbitkan.</div>`;
+                return;
+            }
+
+            container.innerHTML = data.map(news => {
+                const date = new Date(news.created_at).toLocaleDateString('id-ID', {
+                    day: 'numeric', month: 'long', year: 'numeric'
+                });
+                
+                // Menghilangkan tag HTML dari konten untuk preview
+                const tmp = document.createElement("DIV");
+                tmp.innerHTML = news.content;
+                const plainContent = tmp.textContent || tmp.innerText || "";
+                const snippet = plainContent.substring(0, 100) + '...';
+
+                const img = (() => {
+                    const url = news.image_url;
+                    if (!url) return 'https://placehold.co/600x400/244937/ffffff?text=Berita+Desa';
+                    if (url.startsWith('http://') || url.startsWith('https://')) return url;
+                    // Relative path (uploads/news/xxx.jpg) → point to backend port 3000
+                    return `http://localhost:3000/${url.replace(/^\//, '')}`;
+                })();
+
+                return `
+                <div class="col-lg-4 col-md-6">
+                    <div class="card border-0 shadow-sm h-100 overflow-hidden rounded-4 transition-all hover-lift">
+                        <img src="${img}" class="card-img-top object-fit-cover" alt="Berita" style="height: 200px;">
+                        <div class="card-body p-4 d-flex flex-column">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge bg-primary-green bg-opacity-10 text-primary-green rounded-pill px-3 py-2 fw-semibold">${news.category}</span>
+                                <small class="text-muted"><i class="fa-regular fa-clock me-1"></i> ${date}</small>
+                            </div>
+                            <h5 class="card-title fw-bold text-dark mt-2 mb-3 lh-base">
+                                <a href="berita-detail.html?slug=${news.slug}" class="text-dark text-decoration-none stretched-link hover-primary">${news.title}</a>
+                            </h5>
+                            <p class="card-text text-secondary small mb-4 flex-grow-1">${snippet}</p>
+                            <div class="d-flex justify-content-between align-items-center mt-auto pt-3 border-top">
+                                <span class="text-muted small"><i class="fa-regular fa-eye me-1"></i>${news.views || 0} x dibaca</span>
+                                <span class="text-accent-orange fw-medium small">Baca Selengkapnya <i class="fa-solid fa-arrow-right ms-1"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        function renderPagination(pagination) {
+            const controls = document.getElementById('paginationControls');
+            controls.innerHTML = '';
+            
+            if (pagination.totalPages <= 1) return;
+            
+            controls.innerHTML += `
+                <li class="page-item ${pagination.page === 1 ? 'disabled' : ''}">
+                    <a class="page-link shadow-none" href="#" aria-label="Previous" onclick="fetchNews(${pagination.page - 1}); return false;">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            `;
+            
+            for (let i = 1; i <= pagination.totalPages; i++) {
+                controls.innerHTML += `
+                    <li class="page-item ${i === pagination.page ? 'active' : ''}">
+                        <a class="page-link shadow-none ${i === pagination.page ? 'bg-primary-green border-primary-green' : 'text-dark'}" href="#" onclick="fetchNews(${i}); return false;">${i}</a>
+                    </li>
+                `;
+            }
+            
+            controls.innerHTML += `
+                <li class="page-item ${pagination.page === pagination.totalPages ? 'disabled' : ''}">
+                    <a class="page-link shadow-none" href="#" aria-label="Next" onclick="fetchNews(${pagination.page + 1}); return false;">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            `;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Update auth UI
+            if (Auth.isAuthenticated()) {
+                const btn = document.getElementById('navLoginBtn');
+                btn.textContent = 'Dashboard';
+                btn.href = 'admin/dashboard.html';
+                btn.classList.replace('btn-primary-green', 'btn-outline-primary-green');
+            }
+            
+            fetchNews(1);
+        });
+    </script>
+</body>
+</html>

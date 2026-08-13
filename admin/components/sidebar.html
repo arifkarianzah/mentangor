@@ -23,39 +23,80 @@
 
     <!-- Navigation -->
     <div class="sidebar-nav-label">MENU UTAMA</div>
-    <ul class="list-unstyled sidebar-menu">
+    <ul class="list-unstyled sidebar-menu" id="sidebarAccordion">
         <li data-page="dashboard">
-            <a href="dashboard.html"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+            <a href="dashboard.html"><i class="fa-solid fa-chart-pie"></i> <span>Dashboard</span></a>
         </li>
-        <li data-page="reports">
-            <a href="reports.html"><i class="fa-solid fa-clipboard-check"></i> Kelola Laporan</a>
+        
+        <!-- Administrasi Data (Group) -->
+        <li class="has-submenu">
+            <a href="#submenuAdministrasi" data-bs-toggle="collapse" class="collapsed d-flex align-items-center">
+                <i class="fa-solid fa-folder-open"></i> 
+                <span>Administrasi Data</span>
+                <i class="fa-solid fa-chevron-down submenu-indicator ms-auto"></i>
+            </a>
+            <div class="collapse" id="submenuAdministrasi" data-bs-parent="#sidebarAccordion">
+                <ul class="list-unstyled sidebar-submenu">
+                    <li data-page="reports">
+                        <a href="reports.html">Kelola Laporan</a>
+                    </li>
+                    <li data-page="users" class="admin-only d-none">
+                        <a href="users.html">Pengguna & Petugas</a>
+                    </li>
+                </ul>
+            </div>
         </li>
-        <li data-page="announcements">
-            <a href="announcements.html"><i class="fa-solid fa-bullhorn"></i> Pengumuman</a>
-        </li>
-        <li data-page="profile">
-            <a href="profile.html"><i class="fa-solid fa-circle-user"></i> Profil Saya</a>
-        </li>
-    </ul>
 
-    <div class="sidebar-nav-label admin-only d-none">PENGATURAN</div>
-    <ul class="list-unstyled sidebar-menu admin-only d-none">
-        <li data-page="users">
-            <a href="users.html"><i class="fa-solid fa-users-gear"></i> Pengguna & Petugas</a>
+        <!-- Publikasi & Informasi (Group) -->
+        <li class="has-submenu">
+            <a href="#submenuPublikasi" data-bs-toggle="collapse" class="collapsed d-flex align-items-center">
+                <i class="fa-solid fa-newspaper"></i> 
+                <span>Publikasi & Info</span>
+                <i class="fa-solid fa-chevron-down submenu-indicator ms-auto"></i>
+            </a>
+            <div class="collapse" id="submenuPublikasi" data-bs-parent="#sidebarAccordion">
+                <ul class="list-unstyled sidebar-submenu">
+                    <li data-page="announcements">
+                        <a href="announcements.html">Pengumuman</a>
+                    </li>
+                    <li data-page="news">
+                        <a href="news.html">Kelola Berita</a>
+                    </li>
+                    <li data-page="galleries">
+                        <a href="galleries.html">Kelola Galeri</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+
+        <!-- Pengaturan (Group) -->
+        <li class="has-submenu">
+            <a href="#submenuPengaturan" data-bs-toggle="collapse" class="collapsed d-flex align-items-center">
+                <i class="fa-solid fa-gear"></i> 
+                <span>Pengaturan Akun</span>
+                <i class="fa-solid fa-chevron-down submenu-indicator ms-auto"></i>
+            </a>
+            <div class="collapse" id="submenuPengaturan" data-bs-parent="#sidebarAccordion">
+                <ul class="list-unstyled sidebar-submenu">
+                    <li data-page="profile">
+                        <a href="profile.html">Profil Saya</a>
+                    </li>
+                </ul>
+            </div>
         </li>
     </ul>
 
     <!-- Quick Public Link & Logout Menu -->
-    <div class="sidebar-nav-label">AKSI LAINNYA</div>
+    <div class="sidebar-nav-label mt-2">AKSI LAINNYA</div>
     <ul class="list-unstyled sidebar-menu">
         <li>
             <a href="/index.html" target="_blank" class="sidebar-link-public">
-                <i class="fa-solid fa-arrow-up-right-from-square"></i> Lihat Web Publik
+                <i class="fa-solid fa-arrow-up-right-from-square"></i> <span>Lihat Web Publik</span>
             </a>
         </li>
         <li>
             <a href="#" class="sidebar-link-logout btn-logout-action" id="sidebarBtnLogout">
-                <i class="fa-solid fa-right-from-bracket"></i> Keluar
+                <i class="fa-solid fa-right-from-bracket"></i> <span>Keluar</span>
             </a>
         </li>
     </ul>

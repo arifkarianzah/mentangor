@@ -13,7 +13,7 @@ const getPublicAnnouncements = async (req, res) => {
     const offset = (page - 1) * limit;
     const type   = req.query.type || null;
 
-    let where  = ['is_active = 1', 'published_at <= NOW()'];
+    let where  = ['is_active = true', 'published_at <= NOW()'];
     let params = [];
 
     if (type && Object.values(ANNOUNCEMENT_TYPE).includes(type)) {
@@ -53,7 +53,7 @@ const getPublicAnnouncements = async (req, res) => {
 const getAnnouncementById = async (req, res) => {
   try {
     const [rows] = await db.query(
-      'SELECT * FROM announcements WHERE id = ? AND is_active = 1',
+      'SELECT * FROM announcements WHERE id = ? AND is_active = true',
       [req.params.id]
     );
     if (rows.length === 0) return notFound(res, 'Pengumuman tidak ditemukan');

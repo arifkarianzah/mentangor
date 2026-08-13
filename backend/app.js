@@ -12,12 +12,22 @@ const reportRoutes       = require('./routes/reportRoutes');
 const announcementRoutes = require('./routes/announcementRoutes');
 const dashboardRoutes    = require('./routes/dashboardRoutes');
 const userRoutes         = require('./routes/userRoutes');
+const newsRoutes         = require('./routes/newsRoutes');
+const galleryRoutes      = require('./routes/galleryRoutes');
 
 const app = express();
 
 // ── Middleware ─────────────────────────────────────────────
 app.use(cors({
-  origin: process.env.FRONTEND_URL || '*',
+  origin: (origin, callback) => {
+    // Allow all localhost origins in development, or no-origin (curl/Postman)
+    if (!origin || origin.includes('localhost') || origin.includes('127.0.0.1')) {
+      return callback(null, true);
+    }
+    // In production, only allow the configured frontend URL
+    const allowed = process.env.FRONTEND_URL || '*';
+    callback(null, allowed === '*' || origin === allowed);
+  },
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
@@ -39,6 +49,8 @@ app.use('/api/reports',       reportRoutes);
 app.use('/api/announcements', announcementRoutes);
 app.use('/api/dashboard',     dashboardRoutes);
 app.use('/api/users',         userRoutes);
+app.use('/api/news',          newsRoutes);
+app.use('/api/galleries',     galleryRoutes);
 
 // ── Health check ───────────────────────────────────────────
 app.get('/api/health', (req, res) => {

@@ -26,29 +26,16 @@
   "announcements": [
     {
       "id": 1,
-      "title": "Selamat Datang di Portal Desa Mentangor",
-      "content": "Portal Desa ini hadir untuk memudahkan warga dalam mengakses informasi pengumuman dan melaporkan keluhan lingkungan sekitar secara online 24 jam.",
+      "title": "posyandu",
+      "content": "aassdsd",
       "type": "umum",
-      "image": null,
-      "is_pinned": 1,
+      "image": "announcements/announcement-1786651948797-98665974.jpeg",
+      "is_pinned": 0,
       "is_active": 1,
       "created_by": 1,
       "author_name": "Administrator",
-      "published_at": "2026-08-07T07:37:48.335Z",
-      "created_at": "2026-08-07T07:37:48.335Z"
-    },
-    {
-      "id": 2,
-      "title": "Jadwal Posyandu Balita & Lansia RW 02",
-      "content": "Kegiatan posyandu rutin akan diadakan pada hari Sabtu pekan depan di Balai RW 02 mulai pukul 08.30 WIB. Mohon kehadiran ibu dan balita.",
-      "type": "posyandu",
-      "image": null,
-      "is_pinned": 1,
-      "is_active": 1,
-      "created_by": 1,
-      "author_name": "Administrator",
-      "published_at": "2026-08-07T07:37:48.335Z",
-      "created_at": "2026-08-07T07:37:48.335Z"
+      "published_at": "2026-08-13T00:00:00.000Z",
+      "created_at": "2026-08-13T20:12:28.816Z"
     }
   ],
   "reports": [
@@ -66,7 +53,27 @@
       "status": "selesai",
       "priority": "sedang",
       "notes": "dkskdssmns",
-      "created_at": "2026-08-07T07:58:39.914Z"
+      "created_at": "2026-08-07T07:58:39.914Z",
+      "photo_before": "reports/before/before-1786089519904-963063204.png",
+      "photo_after": "reports/after/after-1786089563448-32460596.png",
+      "images": [
+        {
+          "id": 4,
+          "report_id": 3,
+          "image_path": "reports/before/before-1786089519904-963063204.png",
+          "type": "before",
+          "uploaded_by": null,
+          "uploaded_at": "2026-08-07T07:58:39.916Z"
+        },
+        {
+          "id": 5,
+          "report_id": 3,
+          "image_path": "reports/after/after-1786089563448-32460596.png",
+          "type": "after",
+          "uploaded_by": 1,
+          "uploaded_at": "2026-08-07T07:59:23.485Z"
+        }
+      ]
     },
     {
       "id": 2,
@@ -84,7 +91,7 @@
       "notes": "sudah ",
       "created_at": "2026-08-07T07:47:38.781Z",
       "photo_before": "reports/before/before-1786088858335-357482091.png",
-      "photo_after": null,
+      "photo_after": "reports/after/after-1786089427829-784611796.png",
       "images": [
         {
           "id": 2,
@@ -93,6 +100,14 @@
           "type": "before",
           "uploaded_by": null,
           "uploaded_at": "2026-08-07T07:47:38.791Z"
+        },
+        {
+          "id": 3,
+          "report_id": 2,
+          "image_path": "reports/after/after-1786089427829-784611796.png",
+          "type": "after",
+          "uploaded_by": 1,
+          "uploaded_at": "2026-08-07T07:57:07.873Z"
         }
       ]
     },
@@ -168,5 +183,121 @@
       "uploaded_at": "2026-08-07T07:59:23.485Z"
     }
   ],
-  "report_logs": []
+  "report_logs": [],
+  "galleries": [
+    {
+      "id": 7,
+      "title": "kqwwkq",
+      "description": "qkwq",
+      "image_url": "uploads/galleries/1786644020044-413598042.jpeg",
+      "is_published": 1,
+      "created_at": "2026-08-13T18:00:20.046Z"
+    },
+    {
+      "id": 1,
+      "title": "Kantor Desa Mentangor Baru",
+      "description": "Pusat pelayanan masyarakat Desa Mentangor yang bersih, rapi, dan asri.",
+      "image_url": "assets/img/gallery/kantor.png",
+      "is_published": 1,
+      "created_at": "2026-08-13T17:25:20.484Z"
+    },
+    {
+      "id": 2,
+      "title": "Lahan Pertanian Unggulan",
+      "description": "Potensi pertanian sawah terasering yang menjadi kebanggaan dan sumber pangan warga desa.",
+      "image_url": "assets/img/gallery/pertanian.png",
+      "is_published": 1,
+      "created_at": "2026-08-13T17:25:20.488Z"
+    },
+    {
+      "id": 3,
+      "title": "Pelayanan Posyandu Rutin",
+      "description": "Kegiatan kesehatan balita dan ibu hamil rutin setiap bulan untuk menekan angka stunting.",
+      "image_url": "assets/img/gallery/posyandu.png",
+      "is_published": 1,
+      "created_at": "2026-08-13T17:25:20.488Z"
+    },
+    {
+      "id": 4,
+      "title": "Gotong Royong Warga",
+      "description": "Semangat kebersamaan warga membangun fasilitas umum jembatan desa di hari Minggu.",
+      "image_url": "assets/img/gallery/gotong_royong.png",
+      "is_published": 1,
+      "created_at": "2026-08-13T17:25:20.488Z"
+    },
+    {
+      "id": 5,
+      "title": "Pemandangan Alam Asri",
+      "description": "Keindahan lembah dan pegunungan hijau yang mengelilingi perbatasan desa di sore hari.",
+      "image_url": "assets/img/gallery/pemandangan.png",
+      "is_published": 1,
+      "created_at": "2026-08-13T17:25:20.488Z"
+    },
+    {
+      "id": 6,
+      "title": "Pengembangan UMKM Kerajinan",
+      "description": "Potensi ekonomi kreatif warga dari hasil kerajinan tangan lokal.",
+      "image_url": "assets/img/gallery/umkm.png",
+      "is_published": 1,
+      "created_at": "2026-08-13T17:25:20.488Z"
+    }
+  ],
+  "news": [
+    {
+      "id": 4,
+      "title": "Cek Kesehatan Gratis, Senam Bersama & Pembagian Makanan Sehat",
+      "slug": "cek-kesehatan-gratis-senam-bersama-pembagian-makanan-sehat",
+      "content": "Umum",
+      "excerpt": "sddesd",
+      "image_url": "uploads/news/1786651300608-567408016.jpeg",
+      "category": "Umum",
+      "is_published": 1,
+      "author_id": 1,
+      "author_name": "Administrator",
+      "created_at": "2026-08-13T20:01:40.610Z",
+      "views": 0
+    },
+    {
+      "id": 3,
+      "title": "sajja",
+      "slug": "sajja",
+      "content": "Pengumuman",
+      "excerpt": "fghjkl;kk",
+      "image_url": "uploads/news/1786650827537-435173343.jpeg",
+      "category": "Umum",
+      "is_published": 1,
+      "author_id": 1,
+      "author_name": "Administrator",
+      "created_at": "2026-08-13T19:53:47.540Z",
+      "views": 0
+    },
+    {
+      "id": 2,
+      "title": "annmA",
+      "slug": "annma",
+      "content": "Umum",
+      "excerpt": "nasss",
+      "image_url": "uploads/news/1786650189753-297043631.jpeg",
+      "category": "Umum",
+      "is_published": 1,
+      "author_id": 1,
+      "author_name": "Administrator",
+      "created_at": "2026-08-13T19:43:09.755Z",
+      "views": 0
+    },
+    {
+      "id": 1,
+      "title": "awawwa",
+      "slug": "awawwa",
+      "content": "Umum",
+      "excerpt": "jkwawjwj",
+      "image_url": "uploads/news/1786650133384-712755726.jpeg",
+      "category": "Umum",
+      "is_published": 1,
+      "author_id": 1,
+      "author_name": "Administrator",
+      "created_at": "2026-08-13T19:42:13.402Z",
+      "views": 0
+    }
+  ]
 }

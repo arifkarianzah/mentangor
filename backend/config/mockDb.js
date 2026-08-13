@@ -136,6 +136,12 @@ function loadStore() {
       if (!parsed.report_images) {
         parsed.report_images = [];
       }
+      if (!parsed.galleries) {
+        parsed.galleries = [];
+      }
+      if (!parsed.news) {
+        parsed.news = [];
+      }
       if (parsed.reports) {
         parsed.reports = parsed.reports.map(r => normalizeReport(r, parsed.report_images));
       }
@@ -210,7 +216,8 @@ function queryFilterReports(upperSql, params = []) {
 
 // SQL Query Parser & Execution Engine for persistent data store
 async function mockQuery(sql, params = []) {
-  const cleanSql = sql.trim().replace(/\s+/g, ' ');
+  // Normalisasi placeholder PostgreSQL ($1, $2) menjadi ? agar query handler bisa mencocokkan
+  let cleanSql = sql.trim().replace(/\s+/g, ' ').replace(/\$\d+/g, '?');
   const upper = cleanSql.toUpperCase();
 
   // 1. SELECT COUNT
@@ -551,6 +558,180 @@ async function mockQuery(sql, params = []) {
     
     saveStore();
     return [{ insertId: 1, affectedRows: insertedCount || 1 }];
+  }
+
+  // 6. GALLERIES - SELECT COUNT
+  if (upper.includes('SELECT COUNT(*) AS TOTAL FROM GALLERIES')) {
+    const list = store.galleries || [];
+    const filtered = upper.includes('IS_PUBLISHED = TRUE') || upper.includes('IS_PUBLISHED = 1')
+      ? list.filter(g => g.is_published === 1 || g.is_published === true)
+      : list;
+    return [[{ total: filtered.length }]];
+  }
+
+  // GALLERIES - SELECT LIST
+  if (upper.startsWith('SELECT') && upper.includes('FROM GALLERIES') && !upper.includes('WHERE ID =')) {
+    if (!store.galleries) store.galleries = [];
+    let list = [...store.galleries];
+
+    if (upper.includes('IS_PUBLISHED = TRUE') || upper.includes('IS_PUBLISHED = 1')) {
+      list = list.filter(g => g.is_published === 1 || g.is_published === true);
+    }
+    list.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+    // Pagination
+    if (upper.includes('LIMIT')) {
+      const limitVal = parseInt(params[params.length - 2]) || parseInt(params[params.length - 1]) || 6;
+      const offsetVal = parseInt(params[params.length - 1]) || 0;
+      if (params.length >= 2) {
+        list = list.slice(offsetVal, offsetVal + limitVal);
+      } else {
+        list = list.slice(0, limitVal);
+      }
+    }
+    return [list];
+  }
+
+  // GALLERIES - SELECT BY ID
+  if (upper.startsWith('SELECT') && upper.includes('FROM GALLERIES') && upper.includes('WHERE ID =')) {
+    const id = parseInt(params[0]);
+    const found = (store.galleries || []).filter(g => g.id === id);
+    return [found];
+  }
+
+  // GALLERIES - INSERT
+  if (upper.startsWith('INSERT INTO GALLERIES')) {
+    if (!store.galleries) store.galleries = [];
+    const newId = store.galleries.length ? Math.max(...store.galleries.map(g => g.id)) + 1 : 1;
+    const newGallery = {
+      id: newId,
+      title: params[0],
+      description: params[1] || '',
+      image_url: params[2] || '',
+      is_published: params[3] === true || params[3] === 'true' || params[3] === 1 ? 1 : 0,
+      created_at: new Date().toISOString()
+    };
+    store.galleries.unshift(newGallery);
+    saveStore();
+    return [{ insertId: newId, affectedRows: 1 }];
+  }
+
+  // GALLERIES - UPDATE
+  if (upper.startsWith('UPDATE GALLERIES')) {
+    if (!store.galleries) store.galleries = [];
+    const id = parseInt(params[params.length - 1]);
+    const gallery = store.galleries.find(g => g.id === id);
+    if (gallery) {
+      gallery.title = params[0] || gallery.title;
+      gallery.description = params[1] !== undefined ? params[1] : gallery.description;
+      gallery.image_url = params[2] || gallery.image_url;
+      gallery.is_published = params[3] === true || params[3] === 'true' || params[3] === 1 ? 1 : 0;
+      saveStore();
+    }
+    return [{ affectedRows: 1 }];
+  }
+
+  // GALLERIES - DELETE
+  if (upper.startsWith('DELETE FROM GALLERIES')) {
+    if (!store.galleries) store.galleries = [];
+    const id = parseInt(params[0]);
+    store.galleries = store.galleries.filter(g => g.id !== id);
+    saveStore();
+    return [{ affectedRows: 1 }];
+  }
+
+  // 7. NEWS - SELECT COUNT
+  if (upper.includes('SELECT COUNT(*)') && upper.includes('FROM NEWS')) {
+    const list = store.news || [];
+    const filtered = upper.includes('IS_PUBLISHED = TRUE') || upper.includes('IS_PUBLISHED = 1')
+      ? list.filter(n => n.is_published === 1 || n.is_published === true)
+      : list;
+    return [[{ total: filtered.length }]];
+  }
+
+  // NEWS - SELECT BY SLUG
+  if (upper.startsWith('SELECT') && upper.includes('FROM NEWS') && upper.includes('WHERE SLUG = ?')) {
+    const slug = params[0];
+    const found = (store.news || []).filter(n => n.slug === slug);
+    return [found];
+  }
+
+  // NEWS - SELECT BY ID
+  if (upper.startsWith('SELECT') && upper.includes('FROM NEWS') && upper.includes('WHERE ID = ?')) {
+    const id = parseInt(params[0]);
+    const found = (store.news || []).filter(n => n.id === id);
+    return [found];
+  }
+
+  // NEWS - SELECT LIST
+  if (upper.startsWith('SELECT') && upper.includes('FROM NEWS')) {
+    if (!store.news) store.news = [];
+    let list = [...store.news];
+    if (upper.includes('IS_PUBLISHED = TRUE') || upper.includes('IS_PUBLISHED = 1')) {
+      list = list.filter(n => n.is_published === 1 || n.is_published === true);
+    }
+    list.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    if (upper.includes('LIMIT')) {
+      const limitVal = parseInt(params[params.length - 2]) || parseInt(params[params.length - 1]) || 6;
+      const offsetVal = params.length >= 2 ? (parseInt(params[params.length - 1]) || 0) : 0;
+      if (params.length >= 2) {
+        list = list.slice(offsetVal, offsetVal + limitVal);
+      } else {
+        list = list.slice(0, limitVal);
+      }
+    }
+    return [list];
+  }
+
+  // NEWS - INSERT
+  // Controller sends: [title, slug, category, content, imageUrl, published]
+  if (upper.startsWith('INSERT INTO NEWS')) {
+    if (!store.news) store.news = [];
+    const newId = store.news.length ? Math.max(...store.news.map(n => n.id)) + 1 : 1;
+    const newItem = {
+      id: newId,
+      title: params[0],
+      slug: params[1] || (params[0] || '').toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+      category: (typeof params[2] === 'string') ? params[2] : 'Umum',
+      content: params[3] || '',
+      excerpt: '',
+      image_url: params[4] || null,
+      is_published: params[5] === true || params[5] === 'true' || params[5] === 1 ? 1 : 0,
+      views: 0,
+      author_id: 1,
+      author_name: 'Administrator',
+      created_at: new Date().toISOString()
+    };
+    store.news.unshift(newItem);
+    saveStore();
+    return [{ insertId: newId, affectedRows: 1 }];
+  }
+
+  // NEWS - UPDATE
+  if (upper.startsWith('UPDATE NEWS')) {
+    if (!store.news) store.news = [];
+    const id = parseInt(params[params.length - 1]);
+    const item = store.news.find(n => n.id === id);
+    if (item) {
+      if (params[0] !== undefined) item.title = params[0];
+      if (params[1] !== undefined) item.slug = params[1];
+      if (params[2] !== undefined) item.content = params[2];
+      if (params[3] !== undefined) item.excerpt = params[3];
+      if (params[4] !== undefined) item.image_url = params[4] || item.image_url;
+      if (params[5] !== undefined) item.category = params[5];
+      if (params[6] !== undefined) item.is_published = params[6] === true || params[6] === 'true' || params[6] === 1 ? 1 : 0;
+      saveStore();
+    }
+    return [{ affectedRows: 1 }];
+  }
+
+  // NEWS - DELETE
+  if (upper.startsWith('DELETE FROM NEWS')) {
+    if (!store.news) store.news = [];
+    const id = parseInt(params[0]);
+    store.news = store.news.filter(n => n.id !== id);
+    saveStore();
+    return [{ affectedRows: 1 }];
   }
 
   // Generic fallback

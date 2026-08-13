@@ -37,7 +37,22 @@ window.Components = window.Components || {
 
       // Set active menu
       const activeItem = document.querySelector(`#sidebar [data-page="${pageName}"]`);
-      if (activeItem) activeItem.classList.add('active');
+      if (activeItem) {
+        activeItem.classList.add('active');
+        
+        // Auto-expand parent submenu if active
+        const parentCollapse = activeItem.closest('.collapse');
+        if (parentCollapse) {
+          parentCollapse.classList.add('show'); // Bootstrap class
+          const parentNav = document.querySelector(`[data-bs-target="#${parentCollapse.id}"], [href="#${parentCollapse.id}"]`);
+          if (parentNav) {
+            parentNav.classList.remove('collapsed');
+            parentNav.setAttribute('aria-expanded', 'true');
+          }
+          const parentLi = parentCollapse.closest('.has-submenu');
+          if (parentLi) parentLi.classList.add('active-parent');
+        }
+      }
 
       // Set user info
       if (typeof Auth !== 'undefined') {

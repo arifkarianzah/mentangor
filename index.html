@@ -11,7 +11,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Great+Vibes&display=swap" rel="stylesheet">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- FontAwesome -->
@@ -19,48 +19,14 @@
     <!-- SweetAlert2 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="assets/css/style.css?v=11">
-    <link rel="stylesheet" href="assets/css/responsive.css?v=11">
-
+    <link rel="stylesheet" href="assets/css/style.css?v=15">
+    <link rel="stylesheet" href="assets/css/responsive.css?v=15">
     <style>
-        :root {
-            --color-primary: #1a5c38;
-            --color-primary-light: #e8f3ec;
-            --color-accent: #f59e0b;
-            --color-accent-light: #fef3c7;
-            --color-success: #10b981;
-            --color-warning: #facc15;
-            --font-family: 'Inter', sans-serif;
+        html, body {
+            overflow-x: hidden;
+            max-width: 100%;
         }
-        body {
-            font-family: var(--font-family);
-            font-size: 0.875rem;
-            color: #334155;
-            background-color: #f8fafc;
-            padding-top: 56px;
-        }
-        .bg-primary-green {
-            background-color: #1a5c38 !important;
-        }
-        .text-primary-green {
-            color: #1a5c38 !important;
-        }
-        .text-accent-orange {
-            color: #f59e0b !important;
-        }
-        .btn-accent-orange {
-            background-color: #f59e0b !important;
-            color: #ffffff !important;
-            border: none;
-        }
-        .btn-accent-orange:hover {
-            background-color: #d97706 !important;
-            color: #ffffff !important;
-        }
-        .text-highlight-yellow {
-            color: #facc15 !important;
-            font-weight: 700;
-        }
+        /* Teks mengetik */
         .typing-cursor {
             display: inline-block;
             color: #facc15;
@@ -72,487 +38,289 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0; }
         }
-        /* Cegah Layout Loncat/Membesar-Mengecil saat teks mengetik */
-        .hero-title-wrapper {
-            min-height: 120px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-        }
-        .hero-typing-box {
-            display: inline-block;
-            min-height: 2.2em;
-            vertical-align: top;
-            width: 100%;
-        }
-        @media (max-width: 991.98px) {
-            .hero-title-wrapper {
-                min-height: 105px;
-            }
-            .hero-typing-box {
-                min-height: 2.4em;
-            }
-        }
-        @media (max-width: 767.98px) {
-            .hero-title-wrapper {
-                min-height: 95px;
-            }
-            .hero-typing-box {
-                min-height: 2.6em;
-            }
-        }
-        @media (max-width: 575.98px) {
-            .hero-title-wrapper {
-                min-height: 85px;
-            }
-            .hero-typing-box {
-                min-height: 2.8em;
-            }
-        }
-        /* ================= Responsif Background Foto Hero (HP, Laptop, Desktop) ================= */
+        
         .hero-section {
             position: relative;
             background-color: #0f172a;
-            background-image: url('assets/img/hero-bg-baru.jpg?v=12'), url('../assets/img/hero-bg-baru.jpg?v=12') !important;
+            background-image: url('assets/img/hero-bg-baru.jpg?v=15'), url('../assets/img/hero-bg-baru.jpg?v=15') !important;
             background-size: cover !important;
+            background-position: center 30% !important;
             background-repeat: no-repeat !important;
             background-attachment: scroll;
-            display: flex;
-            align-items: center;
         }
 
-        /* Desktop & Layar Lebar (>= 1200px) */
-        @media (min-width: 1200px) {
-            .hero-section {
-                min-height: 80vh;
-                padding-top: 105px;
-                padding-bottom: 60px;
-                background-position: center 30% !important;
-            }
+        @media (max-width: 991.98px) {
+            .hero-section { background-position: center 25% !important; }
         }
-
-        /* Laptop (992px - 1199.98px) */
-        @media (min-width: 992px) and (max-width: 1199.98px) {
-            .hero-section {
-                min-height: 75vh;
-                padding-top: 95px;
-                padding-bottom: 50px;
-                background-position: center 25% !important;
-            }
-        }
-
-        /* Tablet / iPad (768px - 991.98px) */
-        @media (min-width: 768px) and (max-width: 991.98px) {
-            .hero-section {
-                min-height: 65vh;
-                padding-top: 85px;
-                padding-bottom: 45px;
-                background-position: center 20% !important;
-            }
-        }
-
-        /* Smartphone / HP (< 768px) - Pas Wajah & Spanduk Acara */
         @media (max-width: 767.98px) {
-            .hero-section {
-                min-height: auto;
-                padding-top: 80px;
-                padding-bottom: 35px;
-                background-position: center 15% !important;
-                background-size: cover !important;
+            .hero-section { 
+                background-position: center 15% !important; 
+                padding-bottom: 80px !important;
             }
-            .hero-section .overlay {
-                background: linear-gradient(180deg, rgba(15, 23, 42, 0.86) 0%, rgba(15, 23, 42, 0.72) 40%, rgba(15, 23, 42, 0.92) 100%) !important;
-            }
-        }
-
-        /* Layar HP Kecil (< 576px) */
-        @media (max-width: 575.98px) {
-            .hero-section {
-                padding-top: 75px;
-                padding-bottom: 30px;
-                background-position: center 10% !important;
-            }
-        }
-
-        .hero-section .overlay {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.88) 0%, rgba(15, 23, 42, 0.72) 55%, rgba(15, 23, 42, 0.90) 100%);
-            z-index: 0;
-        }
-        .bg-glass {
-            background: rgba(255, 255, 255, 0.12) !important;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        .stats-glass-card {
-            transition: transform 0.3s ease;
-        }
-        .stats-glass-card:hover {
-            transform: translateY(-3px);
-        }
-        .stats-bar {
-            background: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
-            margin-top: -35px;
-            position: relative;
-            z-index: 10;
-            max-width: 900px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .stats-horizontal-row {
-            display: flex !important;
-            flex-direction: row !important;
-            align-items: center !important;
-            justify-content: space-around !important;
-            padding: 14px 10px;
-        }
-        .stat-col {
-            flex: 1;
-            text-align: center;
-        }
-        .stat-col .stat-icon {
-            font-size: 1.5rem;
-        }
-        .stat-col h3 {
-            font-size: 1.6rem;
-            font-weight: 700;
-        }
-        .stat-col .stat-label {
-            font-size: 0.8rem;
-            color: #64748b;
-            font-weight: 500;
-        }
-        .stat-divider {
-            width: 1px;
-            height: 45px;
-            background-color: #e2e8f0;
-        }
-        .hover-lift {
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-        }
-        .hover-lift:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
-        }
-        .card-cover-img {
-            height: 180px;
-            width: 100%;
         }
     </style>
 </head>
 
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary-green fixed-top shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary-dark fixed-top shadow-sm py-3">
         <div class="container">
-            <a class="navbar-brand fw-semibold d-flex align-items-center gap-2" href="index.html">
-                <i class="fa-solid fa-bullhorn text-accent-orange"></i>
-                Info Warga RW 02 Mentangor
+            <a class="navbar-brand d-flex flex-column" href="index.html">
+                <span class="fw-bold fs-4 line-height-tight text-white mb-0">Desa Mentangor</span>
+                <span class="small opacity-75" style="font-size: 0.75rem; font-weight: 500;">Info Warga RW 02 Mentangor</span>
             </a>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto fw-medium">
+                <ul class="navbar-nav mx-auto fw-medium gap-lg-3">
                     <li class="nav-item"><a class="nav-link active" href="index.html">Beranda</a></li>
-                    <li class="nav-item"><a class="nav-link" href="pengumuman.html">Pengumuman & Agenda</a></li>
-                    <li class="nav-item"><a class="nav-link" href="laporan.html">Lapor Keluhan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="riwayat.html">Riwayat Info</a></li>
-                    <li class="nav-item"><a class="nav-link" href="kontak.html">Kontak Pengurus</a></li>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Profil Desa
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="profil.html#sejarah">Sejarah Desa</a></li>
+                            <li><a class="dropdown-item" href="profil.html#visi-misi">Visi & Misi</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Pemerintahan
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="struktur.html">Struktur Organisasi</a></li>
+                            <li><a class="dropdown-item" href="perangkat.html">Perangkat Desa</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Informasi
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="pengumuman.html">Pengumuman & Agenda</a></li>
+                            <li><a class="dropdown-item" href="berita.html">Berita Desa</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Layanan
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="laporan.html">Lapor Keluhan</a></li>
+                            <li><a class="dropdown-item" href="riwayat.html">Riwayat Keluhan</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item"><a class="nav-link" href="galeri.html">Potensi Desa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="kontak.html">Kontak</a></li>
                 </ul>
-                <div class="d-flex ms-lg-3 mt-3 mt-lg-0 auth-buttons" id="authNavContainer">
+                <div class="d-flex align-items-center ms-lg-3 mt-3 mt-lg-0 auth-buttons" id="authNavContainer">
                     <!-- Dinamis via JS -->
-                    <a href="admin/login.html" class="btn btn-outline-light btn-sm rounded-pill px-4">Login Pengurus</a>
+                    <a href="admin/login.html" class="btn btn-outline-light btn-sm rounded-pill px-4 py-2 fw-medium"><i class="fa-solid fa-circle-user me-1"></i> Panel Admin</a>
                 </div>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero-section d-flex align-items-center position-relative">
-        <div class="overlay"
-            style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(30, 41, 59, 0.78);"></div>
-        <div class="container position-relative z-1">
-            <div class="row align-items-center pt-3 pt-lg-5 mt-1 mt-lg-4">
-                <div class="col-lg-7 text-white text-center text-lg-start mb-4 mb-lg-0">
-                    <div class="hero-title-wrapper mb-2">
-                        <h1 class="display-5 fw-bold line-height-tight text-white mb-0">
-                            Halo Warga! <br>
-                            <span class="text-highlight-yellow fw-bold hero-typing-box">
-                                <span id="typingText"></span><span class="typing-cursor">|</span>
-                            </span>
-                        </h1>
-                    </div>
-                    <p class="lead mb-3 opacity-90 fw-normal text-white">
-                        Pusat pengumuman resmi, jadwal kegiatan desa, dan berita penting warga. Lebih rapi, jelas, dan anti-ketinggalan info di grup WhatsApp langsung dari HP Anda.
+    <section class="hero-section d-flex align-items-center position-relative" style="min-height: 80vh;">
+        <div class="overlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, rgba(27,67,50,0.6) 0%, rgba(27,67,50,0.3) 50%, rgba(27,67,50,0.8) 100%);"></div>
+        <div class="container position-relative z-1 pt-5">
+            <div class="row pt-5 mt-5">
+                <div class="col-lg-8 text-white text-start">
+                    <p class="font-cursive mb-1 text-accent-light" style="font-size: 3rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Selamat Datang di</p>
+                    <h1 class="display-3 fw-bold text-white mb-3" style="text-shadow: 2px 2px 8px rgba(0,0,0,0.6); letter-spacing: -1px;">
+                        Desa Mentangor
+                    </h1>
+                    <p class="lead mb-4 fw-normal text-white" style="text-shadow: 1px 1px 4px rgba(0,0,0,0.8); max-width: 600px;">
+                        Desa yang maju, mandiri, dan sejahtera berlandaskan gotong royong dan kearifan lokal.
                     </p>
-                    <div class="d-flex flex-row gap-2 justify-content-center justify-content-lg-start flex-wrap">
-                        <a href="pengumuman.html"
-                            class="btn btn-accent-orange rounded-pill px-3 py-2 shadow-sm fw-semibold d-flex align-items-center justify-content-center gap-2">
-                            <i class="fa-solid fa-bullhorn"></i> Lihat Pengumuman
-                        </a>
-                        <a href="laporan.html"
-                            class="btn btn-outline-light rounded-pill px-3 py-2 fw-semibold bg-glass hover-white d-flex align-items-center justify-content-center gap-2">
-                            <i class="fa-solid fa-pen-to-square"></i> Lapor Keluhan
-                        </a>
-                    </div>
+                    <a href="pengumuman.html"
+                        class="btn btn-outline-light rounded-pill px-4 py-2 fw-semibold bg-glass hover-white d-inline-flex align-items-center gap-2 border-1">
+                        Selengkapnya <i class="fa-solid fa-chevron-right fs-6"></i>
+                    </a>
                 </div>
-                <div class="col-lg-5 d-none d-lg-block">
-                    <!-- Widget Highlight Hero -->
-                    <div class="hero-image-wrapper p-4 rounded-4 bg-glass shadow-lg">
-                        <div
-                            class="stats-glass-card d-flex align-items-center p-3 mb-3 bg-white text-dark rounded-3 shadow-sm">
-                            <div
-                                class="icon-box bg-success-light text-success me-3 fs-3 rounded-circle d-flex align-items-center justify-content-center">
-                                <i class="fa-solid fa-newspaper"></i>
-                            </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Links Section -->
+    <section class="position-relative z-2">
+        <div class="container">
+            <div class="quick-links-wrapper">
+                <div class="row g-3">
+                    <div class="col-6 col-md-4 col-lg-2">
+                        <a href="#" class="quick-link-card">
+                            <div class="quick-link-icon text-primary-green"><i class="fa-solid fa-house"></i></div>
                             <div>
-                                <h6 class="mb-0 fw-semibold text-muted">Pengumuman Aktif</h6>
-                                <h3 class="mb-0 fw-bold counter" id="heroStatSelesai">11</h3>
+                                <h6 class="mb-0 fw-bold">Profil Desa</h6>
+                                <span class="small text-muted d-none d-md-block" style="font-size: 0.75rem;">Lihat selengkapnya</span>
                             </div>
-                        </div>
-                        <div
-                            class="stats-glass-card d-flex align-items-center p-3 bg-white text-dark rounded-3 shadow-sm ms-4">
-                            <div
-                                class="icon-box bg-warning-light text-warning me-3 fs-3 rounded-circle d-flex align-items-center justify-content-center">
-                                <i class="fa-solid fa-calendar-days"></i>
-                            </div>
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-2">
+                        <a href="#" class="quick-link-card">
+                            <div class="quick-link-icon text-primary-green"><i class="fa-solid fa-users-viewfinder"></i></div>
                             <div>
-                                <h6 class="mb-0 fw-semibold text-muted">Agenda Berjalan</h6>
-                                <h3 class="mb-0 fw-bold counter" id="heroStatProses">3</h3>
+                                <h6 class="mb-0 fw-bold">Pemerintahan</h6>
+                                <span class="small text-muted d-none d-md-block" style="font-size: 0.75rem;">Struktur & Perangkat</span>
                             </div>
-                        </div>
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-2">
+                        <a href="laporan.html" class="quick-link-card">
+                            <div class="quick-link-icon text-primary-green"><i class="fa-solid fa-file-signature"></i></div>
+                            <div>
+                                <h6 class="mb-0 fw-bold">Layanan Desa</h6>
+                                <span class="small text-muted d-none d-md-block" style="font-size: 0.75rem;">Layanan Online</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-2">
+                        <a href="pengumuman.html" class="quick-link-card">
+                            <div class="quick-link-icon text-primary-green"><i class="fa-solid fa-bullhorn"></i></div>
+                            <div>
+                                <h6 class="mb-0 fw-bold">Pengumuman</h6>
+                                <span class="small text-muted d-none d-md-block" style="font-size: 0.75rem;">Informasi Terbaru</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-2">
+                        <a href="galeri.html" class="quick-link-card">
+                            <div class="quick-link-icon text-primary-green"><i class="fa-regular fa-image"></i></div>
+                            <div>
+                                <h6 class="mb-0 fw-bold">Potensi Desa</h6>
+                                <span class="small text-muted d-none d-md-block" style="font-size: 0.75rem;">Keunggulan Desa</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-2">
+                        <a href="kontak.html" class="quick-link-card">
+                            <div class="quick-link-icon text-primary-green"><i class="fa-solid fa-phone-volume"></i></div>
+                            <div>
+                                <h6 class="mb-0 fw-bold">Kontak Kami</h6>
+                                <span class="small text-muted d-none d-md-block" style="font-size: 0.75rem;">Hubungi Kami</span>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Stats Bar (Lurus Menyamping 1 Baris di Semua Layar) -->
-    <section class="stats-bar bg-white shadow-sm position-relative z-2">
-        <div class="container py-2 py-md-3">
-            <div class="stats-horizontal-row">
-                <div class="stat-col">
-                    <i class="fa-solid fa-bullhorn text-primary-green stat-icon mb-1"></i>
-                    <h3 class="fw-bold text-dark counter mb-0" id="statTitik">11</h3>
-                    <p class="text-muted mb-0 stat-label">Info & Warta</p>
-                </div>
-                <div class="stat-divider"></div>
-                <div class="stat-col">
-                    <i class="fa-solid fa-calendar-check text-accent-orange stat-icon mb-1"></i>
-                    <h3 class="fw-bold text-dark counter mb-0" id="statSelesai">3</h3>
-                    <p class="text-muted mb-0 stat-label">Agenda Kegiatan</p>
-                </div>
-                <div class="stat-divider"></div>
-                <div class="stat-col">
-                    <i class="fa-solid fa-users text-primary-green stat-icon mb-1"></i>
-                    <h3 class="fw-bold text-dark counter mb-0" id="statWarga">19</h3>
-                    <p class="text-muted mb-0 stat-label">Warga Terhubung</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- How it Works Section (Alur Akses Informasi) -->
-    <section class="py-5 bg-light position-relative">
-        <div class="container py-5">
-            <div class="text-center mb-5">
-                <span class="badge bg-primary-green px-3 py-2 rounded-pill mb-2">Alur Informasi</span>
-                <h2 class="fw-semibold">Cara Mudah Mengetahui Kabar & Pengumuman Desa</h2>
-                <p class="text-muted text-center mx-auto" style="max-width: 600px;">Cukup simpan tautan portal ini di HP, seluruh pengumuman resmi dan jadwal kegiatan warga selalu tersedia rapi.</p>
-            </div>
-            <div class="row text-center g-4">
-                <div class="col-md-4">
-                    <div class="step-card step-card-interactive p-4 bg-white rounded-4 shadow-sm h-100 hover-lift position-relative d-flex flex-column"
-                         onclick="showStepDetail(1)" role="button" tabindex="0" title="Klik untuk panduan & info detail">
-                        <span class="badge bg-primary-green-light text-primary-green rounded-pill position-absolute top-0 end-0 m-3 px-2 py-1 small" style="font-size: 0.72rem;">
-                            <i class="fa-solid fa-hand-pointer me-1"></i> Klik Detail
-                        </span>
-                        <div class="step-icon bg-primary-green-light text-primary-green mx-auto rounded-circle d-flex align-items-center justify-content-center mb-4"
-                            style="width: 80px; height: 80px; font-size: 2rem;">
-                            <i class="fa-solid fa-mobile-screen-button"></i>
-                        </div>
-                        <h4 class="fw-semibold">1. Buka Lewat HP</h4>
-                        <p class="text-muted mb-3 flex-grow-1">Akses link website kapan saja dari browser HP Anda tanpa perlu unduh aplikasi berat.</p>
-                        <div class="mt-auto pt-2">
-                            <span class="btn btn-sm btn-outline-success rounded-pill px-3 py-1 fw-medium w-100" style="font-size: 0.78rem;">
-                                <i class="fa-solid fa-circle-info me-1"></i> Panduan Akses HP ➔
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="step-card step-card-interactive p-4 bg-white rounded-4 shadow-sm h-100 hover-lift position-relative d-flex flex-column"
-                         onclick="showStepDetail(2)" role="button" tabindex="0" title="Klik untuk info kabar & jadwal desa">
-                        <span class="badge bg-accent-orange-light text-accent-orange rounded-pill position-absolute top-0 end-0 m-3 px-2 py-1 small" style="font-size: 0.72rem;">
-                            <i class="fa-solid fa-hand-pointer me-1"></i> Klik Detail
-                        </span>
-                        <div class="step-icon bg-accent-orange-light text-accent-orange mx-auto rounded-circle d-flex align-items-center justify-content-center mb-4"
-                            style="width: 80px; height: 80px; font-size: 2rem;">
-                            <i class="fa-solid fa-newspaper"></i>
-                        </div>
-                        <h4 class="fw-semibold">2. Baca Pengumuman</h4>
-                        <p class="text-muted mb-3 flex-grow-1">Temukan info gotong royong, posyandu balita & lansia, surat edaran, dan agenda RT/RW terbaru.</p>
-                        <div class="mt-auto pt-2">
-                            <span class="btn btn-sm btn-outline-warning rounded-pill px-3 py-1 fw-medium text-dark w-100" style="font-size: 0.78rem;">
-                                <i class="fa-solid fa-bullhorn me-1"></i> Lihat Kabar Desa ➔
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="step-card step-card-interactive p-4 bg-white rounded-4 shadow-sm h-100 hover-lift position-relative d-flex flex-column"
-                         onclick="showStepDetail(3)" role="button" tabindex="0" title="Klik untuk info validasi & transparansi">
-                        <span class="badge bg-success-light text-success rounded-pill position-absolute top-0 end-0 m-3 px-2 py-1 small" style="font-size: 0.72rem;">
-                            <i class="fa-solid fa-hand-pointer me-1"></i> Klik Detail
-                        </span>
-                        <div class="step-icon bg-success-light text-success mx-auto rounded-circle d-flex align-items-center justify-content-center mb-4"
-                            style="width: 80px; height: 80px; font-size: 2rem;">
-                            <i class="fa-solid fa-circle-check"></i>
-                        </div>
-                        <h4 class="fw-semibold">3. Info Jelas & Anti-Hoax</h4>
-                        <p class="text-muted mb-3 flex-grow-1">Semua kabar dirilis resmi oleh pengurus, terjamin akurat dan tidak akan tertimbun pesan grup.</p>
-                        <div class="mt-auto pt-2">
-                            <span class="btn btn-sm btn-outline-success rounded-pill px-3 py-1 fw-medium w-100" style="font-size: 0.78rem;">
-                                <i class="fa-solid fa-shield-halved me-1"></i> Info Validitas ➔
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Before & After Slider Section (Dynamic) -->
-    <section class="py-5 bg-primary-green text-white">
+    <!-- Main Content: Berita & Pengumuman -->
+    <section class="py-5 mt-4">
         <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="fw-semibold text-white">Dokumentasi & Aksi Nyata Desa</h2>
-                <p class="text-white opacity-90">Bukti foto kegiatan gotong royong dan pelayanan warga di RW 02 Mentangor.</p>
-            </div>
-
-            <div class="row justify-content-center" id="beforeAfterContainer">
-                <div class="col-lg-8 text-center">
-                    <div class="spinner-border text-light" role="status">
-                        <span class="visually-hidden">Loading...</span>
+            <div class="row g-5">
+                <!-- Kolom Kiri: Berita Desa (8 cols on lg) -->
+                <div class="col-lg-8">
+                    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2 border-2" style="border-color: #e5e7eb !important;">
+                        <h3 class="section-title">Berita Desa</h3>
+                        <a href="berita.html" class="text-dark text-decoration-none fw-medium small hover-lift d-flex align-items-center gap-1">
+                            Lihat Semua <i class="fa-solid fa-chevron-right" style="font-size: 0.8em;"></i>
+                        </a>
                     </div>
-                    <!-- Slider content akan digenerate oleh JS -->
+                    
+                    <div class="row g-4" id="recentNews">
+                        <!-- Data dari API akan dimuat di sini -->
+                        <div class="col-12 text-center py-5"><div class="spinner-border text-primary-green"></div></div>
+                    </div>
                 </div>
-            </div>
-            <div class="text-center mt-4">
-                <a href="riwayat.html?status=selesai" class="btn btn-outline-light rounded-pill px-4">Lihat Semua Dokumentasi</a>
+
+                <!-- Kolom Kanan: Pengumuman (4 cols on lg) -->
+                <div class="col-lg-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2 border-2" style="border-color: #e5e7eb !important;">
+                        <h3 class="section-title">Pengumuman</h3>
+                        <a href="pengumuman.html" class="text-dark text-decoration-none fw-medium small hover-lift d-flex align-items-center gap-1">
+                            Lihat Semua <i class="fa-solid fa-chevron-right" style="font-size: 0.8em;"></i>
+                        </a>
+                    </div>
+
+                    <div id="recentAnnouncements">
+                        <!-- Data dari API akan dimuat di sini -->
+                        <div class="text-center py-5"><div class="spinner-border text-primary-green"></div></div>
+                    </div>
+
+                    <div class="mt-3">
+                        <a href="pengumuman.html" class="btn btn-primary-green w-100 rounded-pill fw-medium py-2">Lihat Semua Pengumuman</a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Pengumuman Terbaru -->
-    <section class="py-5">
+    <!-- Footer Redesign -->
+    <footer class="footer-redesign">
         <div class="container">
-            <div class="d-flex justify-content-between align-items-end mb-4">
-                <div>
-                    <h2 class="fw-semibold text-primary-green">Kabar & Pengumuman Terbaru</h2>
-                    <p class="text-muted mb-0">Pemberitahuan resmi dan dokumentasi kegiatan warga RW 02 Mentangor.</p>
-                </div>
-                <a href="pengumuman.html"
-                    class="btn btn-outline-primary-green rounded-pill d-none d-md-inline-block">Lihat Semua <i
-                        class="fa-solid fa-arrow-right ms-1"></i></a>
-            </div>
-
-            <div class="row g-4" id="recentAnnouncements">
-                <!-- Skeleton Loader -->
-                <div class="col-md-4">
-                    <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden" aria-hidden="true">
-                        <div class="placeholder-glow">
-                            <div class="placeholder bg-secondary w-100" style="height: 200px;"></div>
-                        </div>
-                        <div class="card-body p-4">
-                            <h5 class="card-title placeholder-glow"><span class="placeholder col-6"></span></h5>
-                            <p class="card-text placeholder-glow">
-                                <span class="placeholder col-7"></span>
-                                <span class="placeholder col-4"></span>
-                                <span class="placeholder col-8"></span>
-                            </p>
+            <div class="row g-4 mb-4">
+                <!-- Col 1: Logo & Desc -->
+                <div class="col-lg-4 col-md-6 pe-lg-4">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <img src="assets/img/hero-bg-baru.jpg" class="rounded-circle object-fit-cover shadow" style="width: 50px; height: 50px;" alt="Logo Desa">
+                        <div>
+                            <h5 class="fw-bold mb-0 text-white">Desa Mentangor</h5>
                         </div>
                     </div>
+                    <p class="small text-white-50 lh-lg pe-lg-3">
+                        Desa yang maju, mandiri, dan sejahtera berlandaskan gotong royong dan kearifan lokal.
+                    </p>
                 </div>
-                <div class="col-md-4">
-                    <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden" aria-hidden="true">
-                        <div class="placeholder-glow">
-                            <div class="placeholder bg-secondary w-100" style="height: 200px;"></div>
-                        </div>
-                        <div class="card-body p-4">
-                            <h5 class="card-title placeholder-glow"><span class="placeholder col-6"></span></h5>
-                            <p class="card-text placeholder-glow">
-                                <span class="placeholder col-7"></span>
-                                <span class="placeholder col-4"></span>
-                                <span class="placeholder col-8"></span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden" aria-hidden="true">
-                        <div class="placeholder-glow">
-                            <div class="placeholder bg-secondary w-100" style="height: 200px;"></div>
-                        </div>
-                        <div class="card-body p-4">
-                            <h5 class="card-title placeholder-glow"><span class="placeholder col-6"></span></h5>
-                            <p class="card-text placeholder-glow">
-                                <span class="placeholder col-7"></span>
-                                <span class="placeholder col-4"></span>
-                                <span class="placeholder col-8"></span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="text-center mt-4 d-md-none">
-                <a href="pengumuman.html" class="btn btn-outline-primary-green rounded-pill w-100">Lihat Semua <i
-                        class="fa-solid fa-arrow-right ms-1"></i></a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-dark text-white pt-5 pb-3">
-        <div class="container">
-            <div class="row mb-4">
-                <div class="col-md-5 mb-4 mb-md-0">
-                    <h5 class="fw-semibold mb-3"><i class="fa-solid fa-bullhorn text-accent-orange me-2"></i> Info Warga RW 02 Mentangor</h5>
-                    <p class="text-white-50 pe-md-5">Pusat informasi dan portal pengumuman resmi desa terpadu untuk warga RW 02 Mentangor yang lebih transparan, rapi, dan mudah diakses langsung lewat HP.</p>
-                </div>
-                <div class="col-md-3 mb-4 mb-md-0">
-                    <h5 class="fw-semibold mb-3">Tautan Cepat</h5>
-                    <ul class="list-unstyled footer-links">
-                        <li class="mb-2"><a href="index.html" class="text-white-50 text-decoration-none">Beranda</a>
+                <!-- Col 2: Kontak Desa -->
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="fw-bold mb-4 text-white">Kontak Desa</h6>
+                    <ul class="list-unstyled small text-white-50">
+                        <li class="mb-3 d-flex align-items-start gap-2">
+                            <i class="fa-solid fa-location-dot mt-1 text-white"></i> 
+                            <span>Jl. Raya Desa Mentangor No. 123<br>Kec. Sejahtera, Kab. Damai 12345</span>
                         </li>
-                        <li class="mb-2"><a href="pengumuman.html"
-                                class="text-white-50 text-decoration-none">Pengumuman & Agenda</a></li>
-                        <li class="mb-2"><a href="laporan.html" class="text-white-50 text-decoration-none">Lapor
-                                Keluhan</a></li>
-                        <li class="mb-2"><a href="riwayat.html" class="text-white-50 text-decoration-none">Riwayat
-                                Info</a></li>
+                        <li class="mb-3 d-flex align-items-center gap-2">
+                            <i class="fa-solid fa-phone text-white"></i> <span>(021) 1234 5678</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-center gap-2">
+                            <i class="fa-solid fa-envelope text-white"></i> <span>info@desamentangor.id</span>
+                        </li>
                     </ul>
                 </div>
-                <div class="col-md-4">
-                    <h5 class="fw-semibold mb-3">Kontak Pengurus</h5>
-                    <ul class="list-unstyled text-white-50">
-                        <li class="mb-2"><i class="fa-solid fa-location-dot me-2"></i> Pos RW 02 Mentangor, Jl. Utama</li>
-                        <li class="mb-2"><i class="fa-solid fa-envelope me-2"></i> infowarga@mentangor.desa.id</li>
-                        <li class="mb-2"><i class="fa-solid fa-phone me-2"></i> 0812-3456-7890</li>
+
+                <!-- Col 3: Tautan Cepat -->
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="fw-bold mb-4 text-white">Tautan Cepat</h6>
+                    <ul class="list-unstyled small">
+                        <li class="mb-2"><a href="index.html" class="d-flex align-items-center gap-2"><i class="fa-solid fa-chevron-right" style="font-size:0.7em;"></i> Beranda</a></li>
+                        <li class="mb-2"><a href="#" class="d-flex align-items-center gap-2"><i class="fa-solid fa-chevron-right" style="font-size:0.7em;"></i> Profil Desa</a></li>
+                        <li class="mb-2"><a href="#" class="d-flex align-items-center gap-2"><i class="fa-solid fa-chevron-right" style="font-size:0.7em;"></i> Pemerintahan</a></li>
+                        <li class="mb-2"><a href="berita.html" class="d-flex align-items-center gap-2"><i class="fa-solid fa-chevron-right" style="font-size:0.7em;"></i> Informasi</a></li>
+                        <li class="mb-2"><a href="laporan.html" class="d-flex align-items-center gap-2"><i class="fa-solid fa-chevron-right" style="font-size:0.7em;"></i> Layanan</a></li>
                     </ul>
                 </div>
+
+                <!-- Col 4: Layanan & Socials -->
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="fw-bold mb-4 text-white">Layanan Online</h6>
+                    <ul class="list-unstyled small mb-4">
+                        <li class="mb-2"><a href="#" class="d-flex align-items-center gap-2"><i class="fa-solid fa-chevron-right" style="font-size:0.7em;"></i> Surat Keterangan Domisili</a></li>
+                        <li class="mb-2"><a href="#" class="d-flex align-items-center gap-2"><i class="fa-solid fa-chevron-right" style="font-size:0.7em;"></i> Surat Keterangan Usaha</a></li>
+                        <li class="mb-2"><a href="laporan.html" class="d-flex align-items-center gap-2"><i class="fa-solid fa-chevron-right" style="font-size:0.7em;"></i> Pengaduan Masyarakat</a></li>
+                    </ul>
+                    <h6 class="fw-bold mb-3 text-white">Ikuti Kami</h6>
+                    <div class="d-flex gap-2">
+                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
             </div>
-            <hr class="border-secondary opacity-50">
-            <div class="text-center text-white-50 small">
-                &copy; <span id="currentYear"></span> Info Warga RW 02 Mentangor. Portal Informasi & Pengumuman Resmi Desa.
-            </div>
+        </div>
+        <div class="border-top border-secondary mt-2 pt-4 border-opacity-25 text-center text-white-50 small">
+            &copy; 2026 Desa Mentangor. All rights reserved.
         </div>
     </footer>
 
@@ -686,79 +454,30 @@
                 console.log('Using default cached metrics');
             }
 
-            // Load Announcements
-            try {
-                const res = await API.get('/announcements?limit=3');
-                const container = document.getElementById('recentAnnouncements');
 
-                if (res.success && res.data.length > 0) {
-                    container.innerHTML = '';
-                    res.data.forEach(item => {
-                        const rawDate = item.published_at || item.created_at || new Date();
-                        const parsedDate = new Date(rawDate);
-                        const date = isNaN(parsedDate.getTime()) ? 'Baru saja' : parsedDate.toLocaleDateString('id-ID', {
-                            day: 'numeric', month: 'short', year: 'numeric'
-                        });
-
-                        let badgeClass = 'bg-primary';
-                        let typeName = item.type;
-                        if (item.type === 'kegiatan') { badgeClass = 'bg-info'; typeName = 'Kegiatan'; }
-                        else if (item.type === 'gotong_royong') { badgeClass = 'bg-success'; typeName = 'Gotong Royong'; }
-                        else if (item.type === 'posyandu') { badgeClass = 'bg-warning text-dark'; typeName = 'Posyandu'; }
-                        else { typeName = 'Umum'; }
-
-                        const pinBadge = item.is_pinned ? `<span class="badge bg-danger ms-2"><i class="fa-solid fa-thumbtack"></i> Pinned</span>` : '';
-                        const defaultImg = '../assets/img/hari-jadi-mentangor.jpg';
-                        const imgSrc = item.image ? `${API_URL.replace('/api', '')}/uploads/${item.image}` : defaultImg;
-                        const img = `<img src="${imgSrc}" class="card-img-top object-fit-cover card-cover-img" alt="${item.title}" onerror="this.src='${defaultImg}'">`;
-
-                        container.innerHTML += `
-                            <div class="col-md-4">
-                                <a href="pengumuman.html?id=${item.id}" class="text-decoration-none text-dark">
-                                    <div class="card border-0 shadow-sm rounded-4 h-100 hover-lift overflow-hidden">
-                                        ${img}
-                                        <div class="card-body p-3 p-md-4">
-                                            <div class="mb-2">
-                                                <span class="badge ${badgeClass} rounded-pill px-2.5 py-1">${typeName}</span>
-                                                ${pinBadge}
-                                            </div>
-                                            <h5 class="card-title fw-semibold text-truncate-2 mb-2">${item.title}</h5>
-                                            <p class="text-muted small mb-0 mt-2"><i class="fa-regular fa-calendar me-2"></i>${date}</p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        `;
-                    });
-                } else {
-                    container.innerHTML = '<div class="col-12 text-center text-muted py-4">Belum ada pengumuman.</div>';
-                }
-            } catch (error) {
-                console.error('Failed to load announcements', error);
-                document.getElementById('recentAnnouncements').innerHTML = '<div class="col-12 text-center text-danger py-4">Gagal memuat pengumuman.</div>';
-            }
 
             // Load Before/After Slider
             const baContainer = document.getElementById('beforeAfterContainer');
-            try {
-                const res = await API.get('/reports?status=selesai&limit=1');
-                let imgBefore = 'assets/img/sebelum.png';
-                let imgAfter = 'assets/img/sesudah.png';
-                let lokasiTitle = 'Jl. Utama RW 02 Mentangor (Kegiatan Gotong Royong)';
+            if (baContainer) {
+                try {
+                    const res = await API.get('/reports?status=selesai&limit=1');
+                    let imgBefore = 'assets/img/sebelum.png';
+                    let imgAfter = 'assets/img/sesudah.png';
+                    let lokasiTitle = 'Jl. Utama RW 02 Mentangor (Kegiatan Gotong Royong)';
 
-                if (res.success && res.data && res.data.length > 0) {
-                    const report = res.data[0];
-                    if (report.before_image && report.after_image) {
-                        const base = API_URL.replace('/api', '');
-                        imgBefore = `${base}/uploads/${report.before_image}`;
-                        imgAfter = `${base}/uploads/${report.after_image}`;
-                        lokasiTitle = `Lokasi: ${report.address || 'RW 02 Mentangor'}`;
+                    if (res.success && res.data && res.data.length > 0) {
+                        const report = res.data[0];
+                        if (report.before_image && report.after_image) {
+                            const base = API_URL.replace('/api', '');
+                            imgBefore = `${base}/uploads/${report.before_image}`;
+                            imgAfter = `${base}/uploads/${report.after_image}`;
+                            lokasiTitle = `Lokasi: ${report.address || 'RW 02 Mentangor'}`;
+                        }
                     }
-                }
 
-                baContainer.innerHTML = `
-                    <div class="col-lg-8 text-center position-relative">
-                        <div class="ba-slider bg-white p-2 rounded-4 shadow-lg position-relative overflow-hidden" style="height: 400px; user-select: none;">
+                    baContainer.innerHTML = `
+                        <div class="col-lg-8 text-center position-relative">
+                            <div class="ba-slider bg-white p-2 rounded-4 shadow-lg position-relative overflow-hidden" style="height: 400px; user-select: none;">
                             <img src="${imgAfter}" onerror="this.src='assets/img/sesudah.png'" alt="Sesudah" class="w-100 h-100 object-fit-cover rounded-3" draggable="false">
                             <div class="resize" style="position: absolute; top: 0; left: 0; height: 100%; width: 50%; overflow: hidden;">
                                 <img src="${imgBefore}" onerror="this.src='assets/img/sebelum.png'" alt="Sebelum" class="object-fit-cover rounded-3" style="width: 200%; height: 100%;" draggable="false">
@@ -771,10 +490,11 @@
                         </div>
                         <p class="text-white mt-3 fw-medium mb-0">${lokasiTitle}</p>
                     </div>
-                `;
-                initSlider();
-            } catch (e) {
-                console.error('Error loading before/after slider:', e);
+                    `;
+                    initSlider();
+                } catch (e) {
+                    console.error('Error loading before/after slider:', e);
+                }
             }
         });
 
@@ -1100,6 +820,156 @@
                 osc.stop(ctx.currentTime + 0.14);
             } catch(e) {}
         }
+        async function loadPengumumanTerbaru() {
+            const container = document.getElementById('recentAnnouncements');
+            if (!container) return;
+
+            try {
+                const res = await API.get('/announcements?limit=3');
+                if (res && res.success) {
+                    const data = res.data;
+                    const apiBase = window.API_URL.replace('/api', '');
+
+                    if (data.length === 0) {
+                        container.innerHTML = '<div class="col-12 text-center text-muted py-4">Belum ada pengumuman terbaru.</div>';
+                    } else {
+                        container.innerHTML = data.map(item => {
+                            const date = new Date(item.published_at).toLocaleDateString('id-ID', {
+                                day: 'numeric', month: 'long', year: 'numeric'
+                            });
+                            
+                            const imgUrl = item.image ? `${apiBase}/uploads/${item.image}` : `assets/img/hari-jadi-mentangor.jpg`;
+                            
+                            // Highlight pin status
+                            const pinBadge = item.is_pinned ? 
+                                '<div class="position-absolute top-0 start-0 m-3"><span class="badge bg-danger rounded-pill px-3 py-2 shadow-sm"><i class="fa-solid fa-thumbtack me-1"></i> Disematkan</span></div>' : '';
+
+                            // Plain text snippet
+                            const tmp = document.createElement("DIV");
+                            tmp.innerHTML = item.content;
+                            const plainText = tmp.textContent || tmp.innerText || "";
+                            const snippet = plainText.length > 90 ? plainText.substring(0, 90) + '...' : plainText;
+
+                            // Map types to icons
+                            let iconClass = 'fa-solid fa-file-lines';
+                            if(item.type === 'kegiatan') iconClass = 'fa-solid fa-calendar-check';
+                            if(item.type === 'kesehatan') iconClass = 'fa-solid fa-heart-pulse';
+                            if(item.type === 'keamanan') iconClass = 'fa-solid fa-shield-halved';
+
+                            return `
+                            <div class="announcement-list-item position-relative">
+                                <img src="${imgUrl}" alt="${item.title}" class="rounded-circle object-fit-cover shadow-sm border" style="width: 55px; height: 55px; flex-shrink: 0;">
+                                <div class="flex-grow-1">
+                                    <h6 class="fw-bold mb-1"><a href="pengumuman-detail.html?id=${item.id}" class="text-dark text-decoration-none stretched-link hover-primary">${item.title}</a></h6>
+                                    <p class="small text-muted mb-2"><i class="fa-regular fa-clock me-1"></i> ${date}</p>
+                                    <p class="text-secondary small mb-0" style="font-size:0.8rem;">${snippet}</p>
+                                </div>
+                            </div>
+                            `;
+                        }).join('');
+                    }
+                }
+            } catch (err) {
+                console.error('Error load pengumuman:', err);
+                container.innerHTML = '<div class="col-12 text-center text-danger py-4">Gagal memuat pengumuman terbaru.</div>';
+            }
+        }
+
+        async function loadBeritaTerbaru() {
+            const container = document.getElementById('recentNews');
+            if (!container) return;
+
+            try {
+                const res = await API.get('/news?limit=3&is_published=true');
+                if (res && res.success) {
+                    const data = res.data;
+                    
+                    if (data.length === 0) {
+                        container.innerHTML = '<div class="col-12 text-center text-muted py-4">Belum ada berita terbaru.</div>';
+                    } else {
+                        container.innerHTML = data.map(item => {
+                            const date = new Date(item.created_at).toLocaleDateString('id-ID', {
+                                day: 'numeric', month: 'long', year: 'numeric'
+                            });
+                            
+                            const imgUrl = item.image_url || 'https://via.placeholder.com/600x400?text=Berita';
+                            const tmp = document.createElement("DIV");
+                            tmp.innerHTML = item.content;
+                            const plainText = tmp.textContent || tmp.innerText || "";
+                            const snippet = plainText.length > 90 ? plainText.substring(0, 90) + '...' : plainText;
+
+                            return `
+                            <div class="col-md-6 col-lg-4">
+                                <div class="news-card-redesign position-relative hover-lift">
+                                    <div class="position-relative">
+                                        <img src="${imgUrl}" alt="Berita" onerror="this.src='https://via.placeholder.com/600x400?text=Berita'">
+                                        <span class="badge bg-primary-green position-absolute top-0 start-0 m-3 fw-medium">${item.category}</span>
+                                    </div>
+                                    <div class="p-3 d-flex flex-column flex-grow-1">
+                                        <p class="small text-muted mb-2"><i class="fa-regular fa-clock me-1"></i> ${date}</p>
+                                        <h6 class="fw-bold mb-2">
+                                            <a href="berita-detail.html?slug=${item.slug}" class="text-dark text-decoration-none stretched-link">${item.title}</a>
+                                        </h6>
+                                        <p class="text-secondary small mb-3 flex-grow-1" style="font-size:0.8rem;">${snippet}</p>
+                                        <div class="mt-auto">
+                                            <span class="text-muted fw-medium" style="font-size:0.8rem;">Baca Selengkapnya <i class="fa-solid fa-arrow-right ms-1"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            `;
+                        }).join('');
+                    }
+                }
+            } catch (err) {
+                console.error('Error load berita:', err);
+                container.innerHTML = '<div class="col-12 text-center text-danger py-4">Gagal memuat berita terbaru.</div>';
+            }
+        }
+
+        async function loadGaleriTerbaru() {
+            const container = document.getElementById('recentGalleries');
+            if (!container) return;
+
+            try {
+                const res = await API.get('/galleries?limit=3&is_published=true');
+                if (res && res.success) {
+                    const data = res.data;
+                    
+                    if (data.length === 0) {
+                        container.innerHTML = '<div class="col-12 text-center text-muted py-4">Belum ada galeri terbaru.</div>';
+                    } else {
+                        container.innerHTML = data.map(item => {
+                            const imgUrl = item.image_url || 'https://via.placeholder.com/600x400?text=Galeri';
+                            return `
+                            <div class="col-md-4">
+                                <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden hover-lift flex-column">
+                                    <div class="position-relative">
+                                        <img src="${imgUrl}" class="card-img-top object-fit-cover" alt="Galeri" style="height: 250px;">
+                                    </div>
+                                    <div class="card-body p-3">
+                                        <h6 class="card-title fw-bold text-dark mb-1 text-truncate">${item.title}</h6>
+                                        <p class="text-muted small mb-0 text-truncate">${item.description || ''}</p>
+                                        <a href="galeri.html" class="stretched-link"></a>
+                                    </div>
+                                </div>
+                            </div>
+                            `;
+                        }).join('');
+                    }
+                }
+            } catch (err) {
+                console.error('Error load galeri:', err);
+                container.innerHTML = '<div class="col-12 text-center text-danger py-4">Gagal memuat galeri terbaru.</div>';
+            }
+        }
+
+        // Add to DOMContentLoaded manually since it's already defined above
+        document.addEventListener('DOMContentLoaded', () => {
+            loadPengumumanTerbaru();
+            loadBeritaTerbaru();
+            loadGaleriTerbaru();
+        });
     </script>
 </body>
 

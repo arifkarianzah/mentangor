@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perangkat Desa Mentangor - Kecamatan Kulim, Kota Pekanbaru</title>
+    <meta name="description" content="Profil Perangkat Desa Mentangor - unsur pembantu Kepala Desa dalam menjalankan tugas pemerintahan, pembangunan, dan pemberdayaan masyarakat.">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" href="favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css?v=16">
+    <link rel="stylesheet" href="assets/css/responsive.css?v=16">
+
+    <style>
+        /* ========== ROOT VARS ========== */
+        :root {
+            --gd: #162d22;
+            --gm: #244937;
+            --gl: #3a6349;
+            --gp: #e8f4ec;
+            --gold: #b59a5e;
+            --cream: #f8f9f4;
+            --line: #a8c8b0;
+            --brown: #6b5a3e;
+        }
+
+        * { box-sizing: border-box; }
+        html, body {
+            overflow-x: hidden;
+            max-width: 100%;
+        }
+        body {
+            background-color: var(--cream);
+            font-family: 'Inter', sans-serif;
+            color: var(--gd);
+        }
+
+        /* ========== HERO HEADER ========== */
+        .pg-header {
+            background: white;
+            padding: 100px 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .pg-header::before {
+            content: '';
+            position: absolute;
+            bottom: 0; right: -40px;
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(36,73,55,0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .pg-header-inner {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 30px;
+            align-items: start;
+            padding: 24px 0;
+        }
+        @media(max-width:991.98px) {
+            .pg-header-inner {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .pg-header {
+                padding: 85px 0 0;
+            }
+        }
+
+        .logo-wrap { width: 75px; height: 90px; object-fit: contain; border-radius: 8px; }
+        .ph-img { border: 3px dashed red !important; }
+
+        .main-title {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 800;
+            color: var(--gm);
+            text-transform: uppercase;
+            line-height: 1.1;
+            letter-spacing: 2px;
+        }
+        .title-sub {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            color: var(--gold);
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            margin: 8px 0 12px;
+        }
+        .header-desc {
+            color: #555;
+            font-size: 0.88rem;
+            line-height: 1.7;
+            max-width: 500px;
+        }
+
+        /* Info card (top right) */
+        .info-side-card {
+            background: var(--gm);
+            color: white;
+            border-radius: 16px;
+            padding: 20px 24px;
+            min-width: 240px;
+            max-width: 280px;
+            font-size: 0.82rem;
+            flex-shrink: 0;
+        }
+        @media(max-width:991.98px) {
+            .info-side-card {
+                max-width: 100%;
+                min-width: unset;
+                width: 100%;
+            }
+            .header-desc { max-width: 100%; }
+        }
+        @media(max-width:575.98px) {
+            .info-side-card { padding: 14px 16px; }
+            .main-title { letter-spacing: 0; }
+        }
+
+        .info-item { display: flex; gap: 12px; align-items: flex-start; }
+        .info-icon { width: 36px; height: 36px; background: rgba(255,255,255,0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1rem; }
+        .info-item h6 { font-weight: 700; margin-bottom: 3px; font-size: 0.84rem; }
+        .info-item p { margin: 0; opacity: 0.85; font-size: 0.78rem; line-height: 1.5; }
+
+        /* Bottom gold stripe of header */
+        .header-stripe {
+            height: 5px;
+            background: linear-gradient(90deg, var(--gd), var(--gold), var(--gd));
+        }
+
+        /* ========== ORG CHART ========== */
+        .org-section { padding: 40px 0 20px; }
+
+        /* Portrait card */
+        .pg-card {
+            background: white;
+            border: 2px solid var(--line);
+            border-radius: 14px;
+            overflow: hidden;
+            text-align: center;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+            transition: transform .22s, box-shadow .22s;
+        }
+        .pg-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.14);
+        }
+        .pg-card .role-bar {
+            background: var(--gm);
+            color: white;
+            font-size: 0.62rem;
+            font-weight: 800;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            padding: 5px 8px;
+        }
+        .pg-card .role-bar.bar-sekdes { background: var(--gl); }
+        .pg-card .role-bar.bar-kasi    { background: #4a7c59; }
+        .pg-card .role-bar.bar-kaur    { background: var(--brown); }
+        .pg-card .role-bar.bar-dusun   { background: var(--gd); }
+
+        .pg-card .photo-area {
+            width: 100%;
+            aspect-ratio: 3/4;
+            object-fit: cover;
+            display: block;
+            background: #e2e8f0;
+        }
+        /* Large kades photo */
+        .card-kades-lg { width: 170px; }
+        .card-kades-lg .photo-area { height: 210px; }
+
+        /* Medium staff */
+        .card-md { width: 130px; }
+        .card-md .photo-area { height: 140px; }
+
+        /* Small dusun */
+        .card-sm { width: 120px; }
+        .card-sm .photo-area { height: 120px; }
+
+        .pg-card .name-label {
+            font-weight: 700;
+            font-size: 0.75rem;
+            color: var(--gd);
+            padding: 8px 6px;
+            line-height: 1.3;
+        }
+        .card-kades-lg .name-label { font-size: 0.9rem; padding: 10px 8px; }
+
+        /* ========== CONNECTOR LINES ========== */
+        .vline { width: 2px; background: var(--line); margin: 0 auto; }
+        .hbar  { height: 2px; background: var(--line); }
+        .dashed-hbar  { height: 2px; background: repeating-linear-gradient(90deg, var(--line) 0 8px, transparent 8px 14px); }
+        .dashed-vline { width: 2px; background: repeating-linear-gradient(180deg, var(--line) 0 8px, transparent 8px 14px); margin: 0 auto; }
+
+        /* ========== TREE LAYOUT ========== */
+        .tree-row {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        .tree-node { display: flex; flex-direction: column; align-items: center; }
+
+        /* ========== MOBILE CARD LIST ========== */
+        .mobile-list { display: none; }
+        .desktop-tree { display: block; overflow: hidden; }
+        @media(max-width: 991.98px) {
+            .desktop-tree { display: none !important; }
+            .mobile-list  { display: block !important; }
+        }
+        @media(max-width: 575.98px) {
+            .m-card { padding: 10px 12px; gap: 10px; }
+            .m-card .m-photo { width: 55px; height: 68px; }
+            .m-card .m-name { font-size: 0.82rem; }
+        }
+
+        /* Mobile horizontal card */
+        .m-card {
+            background: white;
+            border-radius: 14px;
+            border: 2px solid var(--line);
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+            margin-bottom: 10px;
+        }
+        .m-card .m-photo {
+            width: 65px; height: 80px;
+            object-fit: cover;
+            border-radius: 10px;
+            flex-shrink: 0;
+        }
+        .m-card .m-role {
+            display: inline-block;
+            color: white;
+            font-size: 0.6rem;
+            font-weight: 800;
+            padding: 2px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        .m-card .m-name {
+            font-weight: 700;
+            font-size: 0.88rem;
+            color: var(--gd);
+        }
+        .mobile-lvl-tag {
+            background: var(--gm);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            padding: 5px 16px;
+            border-radius: 0 20px 20px 0;
+            display: inline-block;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+        .mobile-vconn {
+            width: 2px; height: 20px;
+            background: var(--line);
+            margin: 0 0 0 32px;
+        }
+
+        /* ========== KADUS 2-COL ON MOBILE ========== */
+        .m-card-sm {
+            background: white;
+            border-radius: 14px;
+            border: 2px solid var(--line);
+            padding: 12px 8px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+        }
+        .m-card-sm .m-photo-sm {
+            width: 60px; height: 72px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin: 0 auto 8px;
+            display: block;
+        }
+        .m-card-sm .m-role { display: inline-block; color: white; font-size: 0.58rem; font-weight: 800; padding: 2px 8px; border-radius: 20px; text-transform: uppercase; margin-bottom: 4px; }
+        .m-card-sm .m-name { font-weight: 700; font-size: 0.78rem; color: var(--gd); }
+
+        /* ========== TUGAS & FUNGSI ========== */
+        .tugas-bar {
+            background: var(--gd);
+            color: white;
+        }
+        .tugas-title {
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 14px 0 10px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.12);
+            margin-bottom: 16px;
+        }
+        .tugas-item { display: flex; gap: 12px; align-items: flex-start; padding-bottom: 4px; }
+        .tugas-icon {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        .tugas-item h6 { font-size: 0.75rem; font-weight: 800; margin-bottom: 3px; color: #c5e0cc; }
+        .tugas-item p  { font-size: 0.72rem; opacity: 0.8; margin: 0; line-height: 1.5; }
+
+        /* ========== SVG PHOTO GENERATOR HELPERS ========== */
+        /* Used inline in src="" for each img */
+    </style>
+</head>
+
+<body>
+
+<!-- ====== NAVBAR ====== -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary-dark fixed-top shadow-sm py-3">
+    <div class="container">
+        <a class="navbar-brand d-flex flex-column" href="index.html">
+            <span class="fw-bold fs-4 text-white mb-0">Desa Mentangor</span>
+            <span class="small opacity-75" style="font-size:.75rem;font-weight:500;">Info Warga RW 02 Mentangor</span>
+        </a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto fw-medium gap-lg-3">
+                <li class="nav-item"><a class="nav-link" href="index.html">Beranda</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Profil Desa</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="profil.html#sejarah">Sejarah Desa</a></li>
+                        <li><a class="dropdown-item" href="profil.html#visi-misi">Visi &amp; Misi</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown">Pemerintahan</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="struktur.html">Struktur Organisasi</a></li>
+                        <li><a class="dropdown-item active" href="perangkat.html">Perangkat Desa</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Informasi</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="pengumuman.html">Pengumuman &amp; Agenda</a></li>
+                        <li><a class="dropdown-item" href="berita.html">Berita Desa</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Layanan</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="laporan.html">Lapor Keluhan</a></li>
+                        <li><a class="dropdown-item" href="riwayat.html">Riwayat Keluhan</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="galeri.html">Potensi Desa</a></li>
+                <li class="nav-item"><a class="nav-link" href="kontak.html">Kontak</a></li>
+            </ul>
+            <div class="d-flex align-items-center ms-lg-3 mt-3 mt-lg-0" id="authNavContainer">
+                <a href="admin/login.html" class="btn btn-outline-light btn-sm rounded-pill px-4 py-2 fw-medium">
+                    <i class="fa-solid fa-circle-user me-1"></i> Panel Admin
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- ====== PAGE HEADER ====== -->
+<header class="pg-header">
+    <div class="container">
+        <div class="pg-header-inner">
+            <!-- Left: Judul + Deskripsi -->
+            <div>
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='75' height='90' viewBox='0 0 75 90'%3E%3Crect width='100%25' height='100%25' fill='%23e2e8f0' rx='8'/%3E%3Ctext x='50%25' y='38%25' dominant-baseline='middle' text-anchor='middle' font-size='8' font-weight='bold' fill='%23ef4444'%3E[FOTO%3C/text%3E%3Ctext x='50%25' y='56%25' dominant-baseline='middle' text-anchor='middle' font-size='8' font-weight='bold' fill='%23ef4444'%3ESEMENTARA]%3C/text%3E%3Ctext x='50%25' y='74%25' dominant-baseline='middle' text-anchor='middle' font-size='7' fill='%23666'%3ELogo Desa%3C/text%3E%3C/svg%3E"
+                        class="logo-wrap ph-img" alt="Logo Desa" loading="eager">
+                    <div>
+                        <div class="small fw-bold text-muted mb-1" style="letter-spacing:1px;font-size:.68rem;">PEMERINTAH DESA MENTANGOR</div>
+                        <h1 class="main-title mb-0">Perangkat Desa<br><span style="color:var(--gd);">Mentangor</span></h1>
+                    </div>
+                </div>
+                <div class="title-sub">Melayani dengan Hati, Bekerja untuk Negeri</div>
+                <p class="header-desc">
+                    Perangkat Desa Mentangor adalah unsur pembantu Kepala Desa dalam menjalankan tugas pemerintahan, pembangunan, pembinaan kemasyarakatan, dan pemberdayaan masyarakat Desa Mentangor.
+                </p>
+            </div>
+
+            <!-- Right: Info Komitmen/Visi/Misi -->
+            <div class="info-side-card">
+                <div class="info-item mb-3">
+                    <div class="info-icon"><i class="fa-solid fa-handshake-angle"></i></div>
+                    <div>
+                        <h6>Komitmen Kami</h6>
+                        <p>Kami berkomitmen memberikan pelayanan terbaik bagi masyarakat dengan profesional, transparan, dan penuh tanggung jawab.</p>
+                    </div>
+                </div>
+                <div class="info-item mb-3">
+                    <div class="info-icon"><i class="fa-solid fa-eye"></i></div>
+                    <div>
+                        <h6>Visi</h6>
+                        <p>Terwujudnya Desa Mentangor yang Maju, Mandiri, dan Sejahtera.</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="info-icon"><i class="fa-solid fa-bullseye"></i></div>
+                    <div>
+                        <h6>Misi</h6>
+                        <p>Melayani masyarakat dengan sepenuh hati dan mendorong kemajuan desa secara berkelanjutan.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header-stripe"></div>
+</header>
+
+<!-- =========================================================
+     DESKTOP TREE
+========================================================= -->
+<section class="org-section desktop-tree">
+<div class="container-fluid px-4">
+<div style="overflow-x:auto; padding-bottom:20px;">
+<div style="min-width:900px; max-width:1200px; margin:0 auto;">
+
+    <!-- === LEVEL 1: Kades + Sekdes === -->
+    <div class="d-flex justify-content-center align-items-flex-start gap-0">
+        <!-- Kades -->
+        <div class="tree-node">
+            <div class="pg-card card-kades-lg">
+                <div class="role-bar">Kepala Desa</div>
+                <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='170' height='210' viewBox='0 0 170 210'%3E%3Crect width='100%25' height='100%25' fill='%23e2e8f0'/%3E%3Ctext x='50%25' y='44%25' dominant-baseline='middle' text-anchor='middle' font-size='12' font-weight='bold' fill='%23ef4444'%3E[FOTO SEMENTARA]%3C/text%3E%3Ctext x='50%25' y='56%25' dominant-baseline='middle' text-anchor='middle' font-size='11' fill='%23ef4444'%3EKepala Desa%3C/text%3E%3C/svg%3E"
+                    class="photo-area ph-img" loading="eager" alt="Kepala Desa">
+                <div class="name-label">M. Yusuf, S.E</div>
+            </div>
+        </div>
+        <!-- Horizontal connector -->
+        <div style="display:flex; align-items:center; margin-top:72px;">
+            <div class="dashed-hbar" style="width:50px;"></div>
+        </div>
+        <!-- Sekdes -->
+        <div class="tree-node" style="margin-top:30px;">
+            <div class="pg-card card-md">
+                <div class="role-bar bar-sekdes">Sekretaris Desa</div>
+                <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='130' height='140' viewBox='0 0 130 140'%3E%3Crect width='100%25' height='100%25' fill='%23e2e8f0'/%3E%3Ctext x='50%25' y='44%25' dominant-baseline='middle' text-anchor='middle' font-size='9' font-weight='bold' fill='%23ef4444'%3E[FOTO]%3C/text%3E%3C/svg%3E"
+                    class="photo-area ph-img" loading="lazy" alt="Sekretaris Desa">
+                <div class="name-label">Fajar Hermawan, S.Pd</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vline from Kades -->
+    <div style="display:flex; justify-content:center; margin-left:-250px;">
+        <div class="dashed-vline" style="height:28px;"></div>
+    </div>
+
+    <!-- === LEVEL 2 hbar (spanning 6 children) === -->
+    <div style="margin:0 auto; width:90%;">
+        <div class="dashed-hbar"></div>
+    </div>
+
+    <!-- === LEVEL 2: 3 KASI + 3 KAUR === -->
+    <div class="tree-row" style="width:90%; margin:0 auto; gap:14px;">
+
+        <!-- KASI Pemerintahan -->
+        <div class="tree-node" style="flex:1;">
+            <div class="dashed-vline" style="height:24px;"></div>
+            <div class="pg-card card-md w-100">
+                <div class="role-bar bar-kasi" style="font-size:.55rem;">Kasi Pemerintahan</div>
+                <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='130' height='140' viewBox='0 0 130 140'%3E%3Crect width='100%25' height='100%25' fill='%23e2e8f0'/%3E%3Ctext x='50%25' y='44%25' dominant-baseline='middle' text-anchor='middle' font-size='9' font-weight='bold' fill='%23ef4444'%3E[FOTO]%3C/text%3E%3C/svg%3E"
+                    class="photo-area ph-img" loading="lazy" alt="Kasi Pemerintahan">
+                <div class="name-label">Supriyadi</div>
+            </div>
+        </div>
+
+        <!-- KASI Kesejahteraan -->
+        <div class="tree-node" style="flex:1;">
+            <div class="dashed-vline" style="height:24px;"></div>
+            <div class="pg-card card-md w-100">
+                <div class="role-bar bar-kasi" style="font-size:.55rem;">Kasi Kesejahteraan</div>
+                <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='130' height='140' viewBox='0 0 130 140'%3E%3Crect width='100%25' height='100%25' fill='%23e2e8f0'/%3E%3Ctext x='50%25' y='44%25' dominant-baseline='middle' text-anchor='middle' font-size='9' font-weight='bold' fill='%23ef4444'%3E[FOTO]%3C/text%3E%3C/svg%3E"
+                    class="photo-area ph-img" loading="lazy" alt="Kasi Kesejahteraan">
+                <div class="name-label">Rizki Afriyanto</div>
+            </div>
+        </div>
+
+        <!-- KASI Pelayanan -->
+        <div class="tree-node" style="flex:1;">
+            <div class="dashed-vline" style="height:24px;"></div>
+            <div class="pg-card card-md w-100">
+                <div class="role-bar bar-kasi" style="font-size:.55rem;">Kasi Pelayanan</div>
+                <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='130' height='140' viewBox='0 0 130 140'%3E%3Crect width='100%25' height='100%25' fill='%23e2e8f0'/%3E%3Ctext x='50%25' y='44%25' dominant-baseline='middle' text-anchor='middle' font-size='9' font-weight='bold' fill='%23ef4444'%3E[FOTO]%3C/text%3E%3C/svg%3E"
+                    class="photo-area ph-img" loading="lazy" alt="Kasi Pelayanan">
+                <div class="name-label">Andi Saputra</div>
+            </div>
+        </div>
+
+        <!-- Spacer -->
+        <div style="width:20px; flex-shrink:0;"></div>
+
+        <!-- KAUR TU & Umum -->
+        <div class="tree-node" style="flex:1.1;">
+            <div class="dashed-vline" style="height:24px;"></div>
+            <div class="pg-card card-md w-100">
+                <div class="role-bar bar-kaur" style="font-size:.5rem;">Kaur TU &amp; Umum</div>
+                <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='130' height='140' viewBox='0 0 130 140'%3E%3Crect width='100%25' height='100%25' fill='%23e2e8f0'/%3E%3Ctext x='50%25' y='44%25' dominant-baseline='middle' text-anchor='middle' font-size='9' font-weight='bold' fill='%23ef4444'%3E[FOTO]%3C/text%3E%3C/svg%3E"
+                    class="photo-area ph-img" loading="lazy" alt="Kaur TU">
+                <div class="name-label">Siti Aisyah</div>
+            </div>
+        </div>
+
+        <!-- KAUR Keuangan -->
+        <div class="tree-node" style="flex:1;">
+            <div class="dashed-vline" style="height:24px;"></div>
+            <div class="pg-card card-md w-100">
+                <div class="role-bar bar-kaur" style="font-size:.52rem;">Kaur Keuangan</div>
+                <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='130' height='140' viewBox='0 0 130 140'%3E%3Crect width='100%25' height='100%25' fill='%23e2e8f0'/%3E%3Ctext x='50%25' y='44%25' dominant-baseline='middle' text-anchor='middle' font-size='9' font-weight='bold' fill='%23ef4444'%3E[FOTO]%3C/text%3E%3C/svg%3E"
+                    class="photo-area ph-img" loading="lazy" alt="Kaur Keuangan">
+                <div class="name-label">Nurhaliza</div>
+            </div>
+        </div>
+
+        <!-- KAUR Perencanaan -->
+        <div class="tree-node" style="flex:1;">
+            <div class="dashed-vline" style="height:24px;"></div>
+            <div class="pg-card card-md w-100">
+                <div class="role-bar bar-kaur" style="font-size:.52rem;">Kaur Perencanaan</div>
+                <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='130' height='140' viewBox='0 0 130 140'%3E%3Crect width='100%25' height='100%25' fill='%23e2e8f0'/%3E%3Ctext x='50%25' y='44%25' dominant-baseline='middle' text-anchor='middle' font-size='9' font-weight='bold' fill='%23ef4444'%3E[FOTO]%3C/text%3E%3C/svg%3E"
+                    class="photo-area ph-img" loading="lazy" alt="Kaur Perencanaan">
+                <div class="name-label">Dedi Kurniawan</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Vline down to Kadus -->
+    <div style="display:flex; justify-content:center; margin-left:-290px;">
+        <div class="dashed-vline" style="height:28px;"></div>
+    </div>
+
+    <!-- === LEVEL 3 hbar === -->
+    <div style="margin:0 auto; width:66%;">
+        <div class="dashed-hbar"></div>
+    </div>
+
+    <!-- === LEVEL 3: 4 Kadus === -->
+    <div class="tree-row" style="width:66%; margin:0 auto; gap:14px;">
+
+        <div class="tree-node" style="flex:1;">
+            <div class="dashed-vline" style="height:24px;"></div>
+            <div class="pg-card card-sm w-100">
+                <div class="role-bar bar-dusun" style="font-size:.5rem;">Kepala Dusun I</div>
+                <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Crect width='100%25' height='100%25' fill='%23e2e8f0'/%3E%3Ctext x='50%25' y='44%25' dominant-baseline='middle' text-anchor='middle' font-size='9' font-weight='bold' fill='%23ef4444'%3E[FOTO]%3C/text%3E%3C/svg%3E"
+                    class="photo-area ph-img" loading="lazy" alt="Kadus I">
+                <div class="name-label" style="font-size:.7rem;">Joko Siswanto</div>
+            </div>
+        </div>
+
+        <div class="tree-node" style="flex:1;">
+            <div class="dashed-vline" style="height:24px;"></div>
+            <div class="pg-card card-sm w-100">
+                <div class="role-bar bar-dusun" style="font-size:.5rem;">Kepala Dusun II</div>
+                <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Crect width='100%25' height='100%25' fill='%23e2e8f0'/%3E%3Ctext x='50%25' y='44%25' dominant-baseline='middle' text-anchor='middle' font-size='9' font-weight='bold' fill='%23ef4444'%3E[FOTO]%3C/text%3E%3C/svg%3E"
+                    class="photo-area ph-img" loading="lazy" alt="Kadus II">
+                <div class="name-label" style="font-size:.7rem;">Budi Hartono</div>
+            </div>
+        </div>
+
+        <div class="tree-node" style="flex:1;">
+            <div class="dashed-vline" style="height:24px;"></div>
+            <div class="pg-card card-sm w-100">
+                <div class="role-bar bar-dusun" style="font-size:.5rem;">Kepala Dusun III</div>
+                <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Crect width='100%25' height='100%25' fill='%23e2e8f0'/%3E%3Ctext x='50%25' y='44%25' dominant-baseline='middle' text-anchor='middle' font-size='9' font-weight='bold' fill='%23ef4444'%3E[FOTO]%3C/text%3E%3C/svg%3E"
+                    class="photo-area ph-img" loading="lazy" alt="Kadus III">
+                <div class="name-label" style="font-size:.7rem;">Rahmat Hidayat</div>
+            </div>
+        </div>
+
+        <div class="tree-node" style="flex:1;">
+            <div class="dashed-vline" style="height:24px;"></div>
+            <div class="pg-card card-sm w-100">
+                <div class="role-bar bar-dusun" style="font-size:.5rem;">Kepala Dusun IV</div>
+                <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Crect width='100%25' height='100%25' fill='%23e2e8f0'/%3E%3Ctext x='50%25' y='44%25' dominant-baseline='middle' text-anchor='middle' font-size='9' font-weight='bold' fill='%23ef4444'%3E[FOTO]%3C/text%3E%3C/svg%3E"
+                    class="photo-area ph-img" loading="lazy" alt="Kadus IV">
+                <div class="name-label" style="font-size:.7rem;">Rizaldi</div>
+            </div>
+        </div>
+
+    </div>
+
+</div><!-- max-width -->
+</div><!-- overflow-x -->
+</div><!-- container -->
+</section>
+
+<!-- =========================================================
+     MOBILE / TABLET CARD LIST
+========================================================= -->
+<section class="mobile-list">
+    <div class="container py-4">
+
+        <!-- Pimpinan -->
+        <div class="mobile-lvl-tag"><i class="fa-solid fa-crown me-1"></i> Pimpinan</div>
+        <div class="m-card">
+            <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='65' height='80' viewBox='0 0 65 80'%3E%3Crect width='100%25' height='100%25' fill='%23e2e8f0' rx='8'/%3E%3Ctext x='50%25' y='44%25' dominant-baseline='middle' text-anchor='middle' font-size='7' font-weight='bold' fill='%23ef4444'%3E[FOTO]%3C/text%3E%3C/svg%3E"
+                class="m-photo ph-img" loading="eager" alt="Kepala Desa">
+            <div>
+                <div class="m-role" style="background:var(--gm);">Kepala Desa</div>
+                <div class="m-name">M. Yusuf, S.E</div>
+            </div>
+        </div>
+        <div class="m-card">
+            <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='65' height='80' viewBox='0 0 65 80'%3E%3Crect width='100%25' height='100%25' fill='%23e2e8f0' rx='8'/%3E%3Ctext x='50%25' y='44%25' dominant-baseline='middle' text-anchor='middle' font-size='7' font-weight='bold' fill='%23ef4444'%3E[FOTO]%3C/text%3E%3C/svg%3E"
+                class="m-photo ph-img" loading="lazy" alt="Sekretaris Desa">
+            <div>
+                <div class="m-role" style="background:var(--gl);">Sekretaris Desa</div>
+                <div class="m-name">Fajar Hermawan, S.Pd</div>
+            </div>
+        </div>
+        <div class="mobile-vconn"></div>
+
+        <!-- KASI -->
+        <div class="mobile-lvl-tag"><i class="fa-solid fa-briefcase me-1"></i> Kepala Seksi (Kasi)</div>
+        <div class="m-card">
+            <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='65' height='80' viewBox='0 0 65 80'%3E%3Crect width='100%25' height='100%25' fill='%23e2e8f0' rx='8'/%3E%3Ctext x='50%25' y='44%25' dominant-baseline='middle' text-anchor='middle' font-size='7' font-weight='bold' fill='%23ef4444'%3E[FOTO]%3C/text%3E%3C/svg%3E"
+                class="m-photo ph-img" loading="lazy" alt="Kasi Pemerintahan">
+            <div><div class="m-role" style="background:#4a7c59;">Kasi Pemerintahan</div><div class="m-name">Supriyadi</div></div>
+        </div>
+        <div class="m-card">
+            <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='65' height='80' viewBox='0 0 65 80'%3E%3Crect width='100%25' height='100%25' fill='%23e2e8f0' rx='8'/%3E%3Ctext x='50%25' y='44%25' dominant-baseline='middle' text-anchor='middle' font-size='7' font-weight='bold' fill='%23ef4444'%3E[FOTO]%3C/text%3E%3C/svg%3E"
+                class="m-photo ph-img" loading="lazy" alt="Kasi Kesejahteraan">
+            <div><div class="m-role" style="background:#4a7c59;">Kasi Kesejahteraan</div><div class="m-name">Rizki Afriyanto</div></div>
+        </div>
+        <div class="m-card">
+            <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='65' height='80' viewBox='0 0 65 80'%3E%3Crect width='100%25' height='100%25' fill='%23e2e8f0' rx='8'/%3E%3Ctext x='50%25' y='44%25' dominant-baseline='middle' text-anchor='middle' font-size='7' font-weight='bold' fill='%23ef4444'%3E[FOTO]%3C/text%3E%3C/svg%3E"
+                class="m-photo ph-img" loading="lazy" alt="Kasi Pelayanan">
+            <div><div class="m-role" style="background:#4a7c59;">Kasi Pelayanan</div><div class="m-name">Andi Saputra</div></div>
+        </div>
+        <div class="mobile-vconn"></div>
+
+        <!-- KAUR -->
+        <div class="mobile-lvl-tag"><i class="fa-solid fa-calculator me-1"></i> Kepala Urusan (Kaur)</div>
+        <div class="m-card">
+            <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='65' height='80' viewBox='0 0 65 80'%3E%3Crect width='100%25' height='100%25' fill='%23e2e8f0' rx='8'/%3E%3Ctext x='50%25' y='44%25' dominant-baseline='middle' text-anchor='middle' font-size='7' font-weight='bold' fill='%23ef4444'%3E[FOTO]%3C/text%3E%3C/svg%3E"
+                class="m-photo ph-img" loading="lazy" alt="Kaur TU">
+            <div><div class="m-role" style="background:var(--brown);">Kaur TU &amp; Umum</div><div class="m-name">Siti Aisyah</div></div>
+        </div>
+        <div class="m-card">
+            <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='65' height='80' viewBox='0 0 65 80'%3E%3Crect width='100%25' height='100%25' fill='%23e2e8f0' rx='8'/%3E%3Ctext x='50%25' y='44%25' dominant-baseline='middle' text-anchor='middle' font-size='7' font-weight='bold' fill='%23ef4444'%3E[FOTO]%3C/text%3E%3C/svg%3E"
+                class="m-photo ph-img" loading="lazy" alt="Kaur Keuangan">
+            <div><div class="m-role" style="background:var(--brown);">Kaur Keuangan</div><div class="m-name">Nurhaliza</div></div>
+        </div>
+        <div class="m-card">
+            <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='65' height='80' viewBox='0 0 65 80'%3E%3Crect width='100%25' height='100%25' fill='%23e2e8f0' rx='8'/%3E%3Ctext x='50%25' y='44%25' dominant-baseline='middle' text-anchor='middle' font-size='7' font-weight='bold' fill='%23ef4444'%3E[FOTO]%3C/text%3E%3C/svg%3E"
+                class="m-photo ph-img" loading="lazy" alt="Kaur Perencanaan">
+            <div><div class="m-role" style="background:var(--brown);">Kaur Perencanaan</div><div class="m-name">Dedi Kurniawan</div></div>
+        </div>
+        <div class="mobile-vconn"></div>
+
+        <!-- Kepala Dusun -->
+        <div class="mobile-lvl-tag"><i class="fa-solid fa-house-chimney-user me-1"></i> Kepala Dusun</div>
+        <div class="row g-2">
+            <div class="col-6"><div class="m-card-sm">
+                <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='72' viewBox='0 0 60 72'%3E%3Crect width='100%25' height='100%25' fill='%23e2e8f0' rx='8'/%3E%3Ctext x='50%25' y='44%25' dominant-baseline='middle' text-anchor='middle' font-size='7' font-weight='bold' fill='%23ef4444'%3E[FOTO]%3C/text%3E%3C/svg%3E"
+                    class="m-photo-sm ph-img" loading="lazy" alt="Kadus I">
+                <div class="m-role" style="background:var(--gd);">Dusun I</div>
+                <div class="m-name">Joko Siswanto</div>
+            </div></div>
+            <div class="col-6"><div class="m-card-sm">
+                <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='72' viewBox='0 0 60 72'%3E%3Crect width='100%25' height='100%25' fill='%23e2e8f0' rx='8'/%3E%3Ctext x='50%25' y='44%25' dominant-baseline='middle' text-anchor='middle' font-size='7' font-weight='bold' fill='%23ef4444'%3E[FOTO]%3C/text%3E%3C/svg%3E"
+                    class="m-photo-sm ph-img" loading="lazy" alt="Kadus II">
+                <div class="m-role" style="background:var(--gd);">Dusun II</div>
+                <div class="m-name">Budi Hartono</div>
+            </div></div>
+            <div class="col-6"><div class="m-card-sm">
+                <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='72' viewBox='0 0 60 72'%3E%3Crect width='100%25' height='100%25' fill='%23e2e8f0' rx='8'/%3E%3Ctext x='50%25' y='44%25' dominant-baseline='middle' text-anchor='middle' font-size='7' font-weight='bold' fill='%23ef4444'%3E[FOTO]%3C/text%3E%3C/svg%3E"
+                    class="m-photo-sm ph-img" loading="lazy" alt="Kadus III">
+                <div class="m-role" style="background:var(--gd);">Dusun III</div>
+                <div class="m-name">Rahmat Hidayat</div>
+            </div></div>
+            <div class="col-6"><div class="m-card-sm">
+                <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='72' viewBox='0 0 60 72'%3E%3Crect width='100%25' height='100%25' fill='%23e2e8f0' rx='8'/%3E%3Ctext x='50%25' y='44%25' dominant-baseline='middle' text-anchor='middle' font-size='7' font-weight='bold' fill='%23ef4444'%3E[FOTO]%3C/text%3E%3C/svg%3E"
+                    class="m-photo-sm ph-img" loading="lazy" alt="Kadus IV">
+                <div class="m-role" style="background:var(--gd);">Dusun IV</div>
+                <div class="m-name">Rizaldi</div>
+            </div></div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ====== TUGAS DAN FUNGSI ====== -->
+<div class="tugas-bar">
+    <div class="container py-4">
+        <div class="tugas-title"><i class="fa-solid fa-list-check me-2"></i>Tugas dan Fungsi Perangkat Desa</div>
+        <div class="row g-3">
+            <div class="col-12 col-sm-6 col-lg">
+                <div class="tugas-item">
+                    <div class="tugas-icon"><i class="fa-solid fa-user-tie"></i></div>
+                    <div>
+                        <h6>Kepala Desa</h6>
+                        <p>Memimpin penyelenggaraan pemerintahan desa dan memberdayakan masyarakat desa.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg">
+                <div class="tugas-item">
+                    <div class="tugas-icon"><i class="fa-solid fa-file-signature"></i></div>
+                    <div>
+                        <h6>Sekretaris Desa</h6>
+                        <p>Melaksanakan urusan kesekretariatan dan mendukung tugas Kepala Desa.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg">
+                <div class="tugas-item">
+                    <div class="tugas-icon"><i class="fa-solid fa-briefcase"></i></div>
+                    <div>
+                        <h6>Kasi</h6>
+                        <p>Melaksanakan tugas sesuai bidangnya masing-masing untuk pelayanan masyarakat.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg">
+                <div class="tugas-item">
+                    <div class="tugas-icon"><i class="fa-solid fa-calculator"></i></div>
+                    <div>
+                        <h6>Kaur</h6>
+                        <p>Melaksanakan urusan administrasi sesuai bidangnya.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg">
+                <div class="tugas-item">
+                    <div class="tugas-icon"><i class="fa-solid fa-house-chimney-user"></i></div>
+                    <div>
+                        <h6>Kepala Dusun</h6>
+                        <p>Membantu Kepala Desa dalam pembinaan wilayah dan pelayanan masyarakat.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

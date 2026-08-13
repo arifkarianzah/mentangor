@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelola Galeri - Admin Portal Desa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css?v=4">
+    <link rel="stylesheet" href="../assets/css/admin.css?v=10">
+</head>
+<body class="admin-body">
+
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <div id="sidebar-container"></div>
+
+        <!-- Page Content -->
+        <div id="content">
+            <!-- Navbar -->
+            <div id="navbar-container"></div>
+
+            <div class="main-content">
+                <div class="d-flex justify-content-between align-items-end mb-4 flex-wrap gap-3">
+                    <div>
+                        <h3 class="fw-medium text-dark mb-1">Kelola Galeri</h3>
+                        <p class="text-muted mb-0">Publikasi dokumentasi foto kegiatan warga.</p>
+                    </div>
+                    
+                    <button class="btn btn-primary-green d-none admin-only" onclick="showFormModal()">
+                        <i class="fa-solid fa-plus me-2"></i> Tambah Foto Galeri
+                    </button>
+                </div>
+
+                <div class="admin-card p-0">
+                    <div class="table-responsive p-3">
+                        <table class="table table-custom align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="ps-3" style="width: 100px;">Foto</th>
+                                    <th>Judul Foto</th>
+                                    <th>Status</th>
+                                    <th>Tgl. Upload</th>
+                                    <th class="text-end pe-3 admin-only d-none">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody">
+                                <tr><td colspan="5" class="text-center py-5"><div class="spinner-border text-primary-green"></div></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div class="d-flex justify-content-between align-items-center mt-3 px-2">
+                    <span class="text-muted small" id="pageInfo">Menampilkan 0 data</span>
+                    <ul class="pagination pagination-sm mb-0" id="paginationControls"></ul>
+                </div>
+
+                <!-- Modal Form -->
+                <div class="modal fade" id="formModal" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content border-0 rounded-4">
+                            <div class="modal-header border-bottom-0">
+                                <h5 class="modal-title fw-medium" id="modalTitle">Tambah Foto</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body px-4 pb-4">
+                                <form id="galleryForm">
+                                    <input type="hidden" id="inputId">
+                                    
+                                    <!-- Upload Foto -->
+                                    <div class="mb-3">
+                                        <label class="form-label fw-medium">Pilih Foto <span class="text-danger" id="reqImage">*</span></label>
+                                        <div class="p-3 border rounded-3 bg-light text-center">
+                                            <div id="imagePreviewWrapper" class="position-relative d-none mx-auto mb-3" style="width: 200px; height: 150px;">
+                                                <img id="imagePreview" src="" alt="Preview" class="w-100 h-100 object-fit-cover rounded-3 border shadow-sm">
+                                                <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 rounded-circle m-1" style="width: 24px; height: 24px; padding: 0; line-height: 1;" onclick="clearSelectedImage()" title="Hapus foto"><i class="fa-solid fa-times"></i></button>
+                                            </div>
+                                            <input type="file" class="form-control" id="inputImage" accept="image/jpeg,image/png,image/webp,image/jpg" required>
+                                            <div class="form-text small text-muted mt-1">
+                                                Format: JPG, PNG, atau WEBP (Maks 5MB).
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label fw-medium">Judul Foto <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="inputTitle" required placeholder="Contoh: Lomba Tarik Tambang">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label fw-medium">Deskripsi (Opsional)</label>
+                                        <textarea class="form-control" id="inputDesc" rows="3" placeholder="Tulis deskripsi foto..."></textarea>
+                                    </div>
+
+                                    <div class="form-check form-switch mb-4">
+                                        <input class="form-check-input" type="checkbox" id="inputPublished" checked>
+                                        <label class="form-check-label fw-medium" for="inputPublished">Tampilkan ke Publik</label>
+                                    </div>
+
+                                    <div class="d-flex justify-content-end gap-2">
+                                        <button type="button" class="btn btn-light rounded-pill px-3" data-bs-dismiss="modal">Batal</button>
+                                        <button type="submit" class="btn btn-primary-green rounded-pill px-4" id="btnSubmitForm">Upload</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/components.js?v=12"></script>
+    
+    <script>
+        window.currentPage = 1;
+        window.formModal = null;
+        window.isAdmin = false;
+        window.selectedImageFile = null;
+
+        window.initPage = async (isSPA = false) => {
+            if (!Auth.isAuthenticated()) { window.location.href = 'login.html'; return; }
+            if (!isSPA) await Components.load('galleries');
+            const user = Auth.getUser();
+            if (user && user.role === 'admin') {
+                window.isAdmin = true;
+                document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('d-none'));
+            }
+
+            window.formModal = new bootstrap.Modal(document.getElementById('formModal'));
+            window.fetchData();
+
+            const form = document.getElementById('galleryForm');
+            if (form) {
+                form.addEventListener('submit', window.handleFormSubmit);
+            }
+
+            const inputImage = document.getElementById('inputImage');
+            if (inputImage) {
+                inputImage.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (!file) return;
+
+                    if (!['image/jpeg', 'image/png', 'image/webp', 'image/jpg'].includes(file.type)) {
+                        Swal.fire('Format Salah', 'Harap pilih file gambar JPG, PNG, atau WEBP.', 'error');
+                        this.value = '';
+                        return;
+                    }
+
+                    if (file.size > 5 * 1024 * 1024) {
+                        Swal.fire('Ukuran Terlalu Besar', 'Ukuran foto maksimal 5MB.', 'error');
+                        this.value = '';
+                        return;
+                    }
+
+                    window.selectedImageFile = file;
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        document.getElementById('imagePreview').src = event.target.result;
+                        document.getElementById('imagePreviewWrapper').classList.remove('d-none');
+                        // Hide file input visually when previewing to look cleaner
+                        document.getElementById('inputImage').classList.add('d-none');
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+        };
+
+        window.clearSelectedImage = function() {
+            document.getElementById('inputImage').value = '';
+            document.getElementById('inputImage').classList.remove('d-none');
+            window.selectedImageFile = null;
+            document.getElementById('imagePreview').src = '';
+            document.getElementById('imagePreviewWrapper').classList.add('d-none');
+        }
+
+        window.fetchData = async function() {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = `<tr><td colspan="5" class="text-center py-5"><div class="spinner-border text-primary-green"></div></td></tr>`;
+            
+            try {
+                // Fetch data for admin
+                const res = await API.get(`/galleries?page=${window.currentPage}&limit=10`);
+                if (res.success) {
+                    window.renderTable(res.data);
+                    window.renderPagination(res.pagination);
+                }
+            } catch (err) {
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-danger">Gagal memuat data</td></tr>`;
+            }
+        }
+
+        window.renderTable = function(data) {
+            const tbody = document.getElementById('tableBody');
+            if (data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center py-5 text-muted">Belum ada galeri.</td></tr>`;
+                return;
+            }
+            
+            tbody.innerHTML = data.map(item => {
+                const date = new Date(item.created_at).toLocaleDateString('id-ID', {
+                    day: 'numeric', month: 'short', year: 'numeric'
+                });
+                
+                const statusBadge = item.is_published 
+                    ? '<span class="badge bg-success">Published</span>' 
+                    : '<span class="badge bg-secondary">Draft</span>';
+
+                const thumb = item.image_url 
+                    ? `<img src="${item.image_url}" class="rounded-3 object-fit-cover shadow-sm border" style="width: 80px; height: 60px;" alt="Foto">` 
+                    : `<div class="bg-light rounded-3 d-flex align-items-center justify-content-center border text-muted shadow-sm" style="width: 80px; height: 60px;"><i class="fa-regular fa-image"></i></div>`;
+                
+                return `
+                    <tr>
+                        <td class="ps-3">${thumb}</td>
+                        <td class="fw-medium text-dark">
+                            ${item.title}<br>
+                            <small class="text-muted fw-normal">${item.description ? item.description.substring(0, 50) + '...' : ''}</small>
+                        </td>
+                        <td>${statusBadge}</td>
+                        <td class="text-muted small">${date}</td>
+                        <td class="text-end pe-3 admin-only d-none">
+                            <button class="btn btn-sm btn-light text-primary border me-1" onclick='editData(${JSON.stringify(item).replace(/'/g, "&#39;")})' title="Edit">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                            <button class="btn btn-sm btn-light text-danger border" onclick="deleteData(${item.id})" title="Hapus">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+            
+            if (window.isAdmin) {
+                document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('d-none'));
+            }
+        }
+
+        window.renderPagination = function(pagination) {
+            const controls = document.getElementById('paginationControls');
+            const info = document.getElementById('pageInfo');
+            
+            info.innerHTML = `Halaman ${pagination.page} dari ${pagination.totalPages} (Total ${pagination.total} foto)`;
+            controls.innerHTML = '';
+            
+            if (pagination.totalPages <= 1) return;
+            
+            controls.innerHTML += `
+                <li class="page-item ${pagination.page === 1 ? 'disabled' : ''}">
+                    <a class="page-link" href="#" onclick="changePage(${pagination.page - 1}); return false;">Prev</a>
+                </li>
+            `;
+            
+            for (let i = 1; i <= pagination.totalPages; i++) {
+                controls.innerHTML += `
+                    <li class="page-item ${i === pagination.page ? 'active' : ''}">
+                        <a class="page-link" href="#" onclick="changePage(${i}); return false;">${i}</a>
+                    </li>
+                `;
+            }
+            
+            controls.innerHTML += `
+                <li class="page-item ${pagination.page === pagination.totalPages ? 'disabled' : ''}">
+                    <a class="page-link" href="#" onclick="changePage(${pagination.page + 1}); return false;">Next</a>
+                </li>
+            `;
+        }
+
+        window.changePage = function(page) {
+            window.currentPage = page;
+            window.fetchData();
+        }
+
+        window.showFormModal = function() {
+            document.getElementById('galleryForm').reset();
+            document.getElementById('inputId').value = '';
+            document.getElementById('modalTitle').textContent = 'Tambah Foto Galeri';
+            
+            // Require image for new entries
+            document.getElementById('inputImage').required = true;
+            document.getElementById('reqImage').classList.remove('d-none');
+            
+            window.clearSelectedImage();
+            window.formModal.show();
+        }
+
+        window.editData = function(item) {
+            document.getElementById('galleryForm').reset();
+            document.getElementById('modalTitle').textContent = 'Edit Galeri';
+            document.getElementById('inputId').value = item.id;
+            document.getElementById('inputTitle').value = item.title;
+            document.getElementById('inputDesc').value = item.description || '';
+            document.getElementById('inputPublished').checked = item.is_published;
+            
+            // Image is not required when editing
+            document.getElementById('inputImage').required = false;
+            document.getElementById('reqImage').classList.add('d-none');
+            
+            window.clearSelectedImage();
+            
+            if (item.image_url) {
+                document.getElementById('imagePreview').src = item.image_url;
+                document.getElementById('imagePreviewWrapper').classList.remove('d-none');
+                document.getElementById('inputImage').classList.add('d-none');
+            }
+            
+            window.formModal.show();
+        }
+
+        window.deleteData = function(id) {
+            Swal.fire({
+                title: 'Hapus Foto Galeri?',
+                text: "Foto ini akan dihapus secara permanen dari server!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Ya, Hapus!',
+                cancelButtonText: 'Batal'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    try {
+                        const res = await API.delete(`/galleries/${id}`);
+                        if (res.success) {
+                            Swal.fire('Terhapus!', 'Foto berhasil dihapus.', 'success');
+                            window.fetchData();
+                        } else {
+                            Swal.fire('Gagal', res.message || 'Terjadi kesalahan.', 'error');
+                        }
+                    } catch (err) {
+                        Swal.fire('Error', 'Gagal menghubungi server.', 'error');
+                    }
+                }
+            });
+        }
+
+        window.handleFormSubmit = async function(e) {
+            e.preventDefault();
+            
+            const btn = document.getElementById('btnSubmitForm');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Menyimpan...';
+            btn.disabled = true;
+
+            const id = document.getElementById('inputId').value;
+            const isEdit = !!id;
+            
+            const formData = new FormData();
+            formData.append('title', document.getElementById('inputTitle').value);
+            formData.append('description', document.getElementById('inputDesc').value);
+            formData.append('is_published', document.getElementById('inputPublished').checked);
+            
+            if (window.selectedImageFile) {
+                formData.append('image', window.selectedImageFile);
+            }
+
+            try {
+                let res;
+                if (isEdit) {
+                    res = await API.put(`/galleries/${id}`, formData, true); // true for multipart
+                } else {
+                    res = await API.post(`/galleries`, formData, true);
+                }
+
+                if (res.success) {
+                    window.formModal.hide();
+                    Swal.fire('Berhasil!', res.message || 'Data berhasil disimpan.', 'success');
+                    window.fetchData();
+                } else {
+                    Swal.fire('Gagal', res.message || 'Terjadi kesalahan.', 'error');
+                }
+            } catch (err) {
+                Swal.fire('Error', err.response?.data?.message || 'Gagal menghubungi server.', 'error');
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => window.initPage());
+    </script>
+</body>
+</html>

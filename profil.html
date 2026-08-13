@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sejarah & Profil Desa Mentangor</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" href="favicon.ico">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,600&display=swap"
+        rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css?v=16">
+    <link rel="stylesheet" href="assets/css/responsive.css?v=16">
+
+    <style>
+        /* --- TEMA INFOGRAFIS --- */
+        html,
+        body {
+            overflow-x: hidden;
+            max-width: 100%;
+        }
+
+        body {
+            background-color: #fdfaf3;
+            /* Warna kertas perkamen muda */
+            background-image: radial-gradient(#e4dac1 1px, transparent 1px);
+            background-size: 20px 20px;
+            font-family: 'Inter', sans-serif;
+            color: #162d22;
+            /* Hijau tua khas desa */
+        }
+
+        .placeholder-img {
+            border: 3px dashed red !important;
+            box-sizing: border-box;
+            background-color: #e2e8f0;
+            object-fit: cover;
+        }
+
+        /* Hero Header */
+        .hero-info {
+            position: relative;
+            background: linear-gradient(to right, rgba(253, 250, 243, 1) 0%, rgba(253, 250, 243, 0.8) 40%, rgba(253, 250, 243, 0) 100%),
+                url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='400' viewBox='0 0 1200 400'%3E%3Crect width='100%25' height='100%25' fill='%23cbd5e1'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='40' font-weight='bold' fill='%23ef4444'%3E[FOTO SEMENTARA - WAJIB DIGANTI]%3C/text%3E%3C/svg%3E") center/cover no-repeat;
+            padding: 120px 0 60px 0;
+            border-bottom: 2px solid #e4dac1;
+            /* Placeholder border override for hero so it's visible it's a placeholder */
+            box-shadow: inset 0 0 0 4px red;
+        }
+
+        .hero-logo {
+            width: 80px;
+            height: 100px;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 5px;
+        }
+
+        .title-sejarah {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            color: #244937;
+            font-size: 3rem;
+            margin-bottom: -15px;
+        }
+
+        .title-desa {
+            font-weight: 800;
+            font-size: 4rem;
+            color: #162d22;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0px #fff, 4px 4px 0px #e4dac1;
+        }
+
+        .subtitle-desa {
+            color: #8b6e4e;
+            font-weight: 600;
+            font-size: 1.2rem;
+            font-style: italic;
+        }
+
+        /* Vintage Frame */
+        .vintage-frame {
+            background: #fff;
+            padding: 10px 10px 30px 10px;
+            box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.15);
+            border: 1px solid #e4dac1;
+            transform: rotate(-2deg);
+            transition: transform 0.3s;
+            position: relative;
+            z-index: 2;
+        }
+
+        .vintage-frame:hover {
+            transform: rotate(0deg) scale(1.02);
+            z-index: 10;
+        }
+
+        .vintage-frame.rotate-right {
+            transform: rotate(3deg);
+            z-index: 1;
+        }
+
+        .vintage-frame.rotate-right:hover {
+            transform: rotate(0deg) scale(1.02);
+            z-index: 10;
+        }
+
+        .vintage-tape {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-5deg);
+            width: 80px;
+            height: 25px;
+            background: rgba(230, 220, 200, 0.7);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            z-index: 3;
+        }
+
+        /* Timeline Box */
+        .timeline-box {
+            background-color: #eee9d8;
+            border: 2px solid #d4c8a9;
+            border-radius: 16px;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .timeline-header {
+            background-color: #244937;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 30px;
+            display: inline-block;
+            font-weight: 600;
+            margin-top: -45px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Vertical Timeline */
+        .v-timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .v-timeline::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            bottom: 20px;
+            left: 0;
+            width: 2px;
+            border-left: 2px dashed #8b6e4e;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-icon {
+            position: absolute;
+            left: -50px;
+            top: 0;
+            width: 40px;
+            height: 40px;
+            background: #8b6e4e;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            border: 4px solid #eee9d8;
+            z-index: 2;
+        }
+
+        .timeline-content h6 {
+            font-weight: 700;
+            color: #162d22;
+            margin-bottom: 5px;
+        }
+
+        .timeline-content p {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: #444;
+            margin-bottom: 0;
+        }
+
+        /* Potensi Section */
+        .potensi-header {
+            background-color: #244937;
+            color: white;
+            padding: 8px 30px;
+            border-radius: 0 30px 30px 0;
+            display: inline-block;
+            font-weight: 600;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .potensi-img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .potensi-caption {
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            color: #162d22;
+        }
+
+        /* Quote Section */
+        .quote-box {
+            background-color: #eee9d8;
+            border-radius: 16px;
+            padding: 2rem;
+            position: relative;
+            border: 1px solid #d4c8a9;
+        }
+
+        .quote-box::before {
+            content: '\f10d';
+            font-family: 'FontAwesome';
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            font-size: 2.5rem;
+            color: #8b6e4e;
+            background: #fdfaf3;
+            padding: 0 10px;
+        }
+
+        /* Info Footer */
+        .info-footer {
+            background-color: #244937;
+            color: white;
+            padding: 15px 0;
+            font-size: 0.85rem;
+        }
+
+        .info-footer-icon {
+            font-size: 1.5rem;
+            color: #e4dac1;
+            margin-right: 15px;
+        }
+
+        /* Responsive Overrides */
+        @media (max-width: 991.98px) {
+            .hero-info {
+                background: linear-gradient(to bottom, rgba(253, 250, 243, 0.9) 0%, rgba(253, 250, 243, 1) 100%),
+                    url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='600' viewBox='0 0 800 600'%3E%3Crect width='100%25' height='100%25' fill='%23cbd5e1'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='24' font-weight='bold' fill='%23ef4444'%3E[FOTO SEMENTARA - WAJIB DIGANTI]%3C/text%3E%3C/svg%3E") center/cover no-repeat;
+                padding: 100px 0 40px 0;
+            }
+
+            .title-desa {
+                font-size: 2.5rem;
+            }
+
+            .vintage-frame.rotate-right {
+                transform: rotate(0deg);
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar (Standard, from index.html) -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary-dark fixed-top shadow-sm py-3">
+        <div class="container">
+            <a class="navbar-brand d-flex flex-column" href="index.html">
+                <span class="fw-bold fs-4 line-height-tight text-white mb-0">Desa Mentangor</span>
+                <span class="small opacity-75" style="font-size: 0.75rem; font-weight: 500;">Info Warga RW 02
+                    Mentangor</span>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto fw-medium gap-lg-3">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Beranda</a></li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Profil Desa
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="profil.html#sejarah">Sejarah Desa</a></li>
+                            <li><a class="dropdown-item" href="profil.html#visi-misi">Visi & Misi</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Pemerintahan
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="struktur.html">Struktur Organisasi</a></li>
+                            <li><a class="dropdown-item" href="perangkat.html">Perangkat Desa</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Informasi
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="pengumuman.html">Pengumuman & Agenda</a></li>
+                            <li><a class="dropdown-item" href="berita.html">Berita Desa</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Layanan
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="laporan.html">Lapor Keluhan</a></li>
+                            <li><a class="dropdown-item" href="riwayat.html">Riwayat Keluhan</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item"><a class="nav-link" href="galeri.html">Potensi Desa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="kontak.html">Kontak</a></li>
+                </ul>
+                <div class="d-flex align-items-center ms-lg-3 mt-3 mt-lg-0 auth-buttons" id="authNavContainer">
+                    <a href="admin/login.html" class="btn btn-outline-light btn-sm rounded-pill px-4 py-2 fw-medium"><i
+                            class="fa-solid fa-circle-user me-1"></i> Panel Admin</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Infographic -->
+    <header class="hero-info" id="sejarah">
+        <div class="container position-relative z-1">
+            <div class="row align-items-center">
+                <div class="col-auto d-none d-md-block">
+                    <!-- Wadah Netral untuk Logo Desa (SVG Inline Placeholder) -->
+                    <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='120' viewBox='0 0 100 120'%3E%3Crect width='100%25' height='100%25' fill='%23e2e8f0'/%3E%3Ctext x='50%25' y='40%25' dominant-baseline='middle' text-anchor='middle' font-size='10' font-weight='bold' fill='%23ef4444'%3E[FOTO%3C/text%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-size='10' font-weight='bold' fill='%23ef4444'%3E SEMENTARA]%3C/text%3E%3Ctext x='50%25' y='70%25' dominant-baseline='middle' text-anchor='middle' font-size='10' fill='%23ef4444'%3ELogo Desa%3C/text%3E%3C/svg%3E"
+                        class="hero-logo placeholder-img" alt="Logo Desa Sementara">
+                </div>
+                <div class="col">
+                    <h2 class="title-sejarah">Sejarah</h2>
+                    <h1 class="title-desa">Desa Mentangor</h1>
+                    <p class="subtitle-desa">Maju, Mandiri, dan Sejahtera Bersama Masyarakat</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <section class="py-5 overflow-hidden">
+        <div class="container">
+            <div class="row g-5">
+
+                <!-- Left Column (Asal Usul & Perkembangan) -->
+                <div class="col-lg-7">
+                    <!-- Asal Usul Blok -->
+                    <div class="row mb-5 position-relative">
+                        <div class="col-md-6 order-2 order-md-1 mt-4 mt-md-0 position-relative z-2">
+                            <div class="vintage-frame">
+                                <div class="vintage-tape"></div>
+                                <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='100%25' height='100%25' fill='%23e2e8f0'/%3E%3Ctext x='50%25' y='40%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='20' font-weight='bold' fill='%23ef4444'%3E[FOTO SEMENTARA]%3C/text%3E%3Ctext x='50%25' y='60%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='16' fill='%23ef4444'%3EFoto Jadul Desa%3C/text%3E%3C/svg%3E"
+                                    class="w-100 placeholder-img" loading="lazy" alt="Foto Jadul Desa">
+                            </div>
+                        </div>
+                        <div class="col-md-6 order-1 order-md-2 position-relative z-1"
+                            style="margin-left: -30px; padding-top: 20px;">
+                            <h4 class="fw-bold mb-3 text-dark">Asal Usul Desa Mentangor</h4>
+                            <p class="small text-muted lh-lg">
+                                Desa Mentangor merupakan salah satu desa yang berada di Kecamatan Kulim, Kota Pekanbaru.
+                                Nama "Mentangor" diyakini berasal dari kosakata lokal yang mencerminkan wilayah yang
+                                tenang dan damai. Sejak dahulu, wilayah ini merupakan pemukiman masyarakat yang hidup
+                                rukun dan menjunjung tinggi budaya gotong royong.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Perkembangan Blok -->
+                    <div class="row mt-5 pt-3">
+                        <div class="col-md-6">
+                            <h4 class="fw-bold mb-3 text-dark">Perkembangan Desa</h4>
+                            <p class="small text-muted lh-lg">
+                                Seiring berjalannya waktu, Desa Mentangor terus berkembang menjadi wilayah yang maju.
+                                Pembangunan infrastruktur, pendidikan, kesehatan, dan ekonomi masyarakat terus
+                                ditingkatkan. Semangat kebersamaan dan gotong royong menjadi kunci utama dalam setiap
+                                pembangunan yang ada di desa ini.
+                            </p>
+                        </div>
+                        <div class="col-md-6 mt-4 mt-md-0 position-relative z-2"
+                            style="margin-left: -20px; margin-top: -20px;">
+                            <div class="vintage-frame rotate-right">
+                                <div class="vintage-tape"></div>
+                                <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='100%25' height='100%25' fill='%23e2e8f0'/%3E%3Ctext x='50%25' y='40%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='20' font-weight='bold' fill='%23ef4444'%3E[FOTO SEMENTARA]%3C/text%3E%3Ctext x='50%25' y='60%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='16' fill='%23ef4444'%3ERumah Adat/Balai%3C/text%3E%3C/svg%3E"
+                                    class="w-100 placeholder-img" loading="lazy" alt="Rumah Adat Desa">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column (Timeline) -->
+                <div class="col-lg-5 ps-lg-4 mt-5 mt-lg-0">
+                    <div class="timeline-box h-100">
+                        <div class="text-center">
+                            <div class="timeline-header">Perjalanan Sejarah Desa Mentangor</div>
+                        </div>
+                        <div class="v-timeline mt-3">
+                            <div class="timeline-item">
+                                <div class="timeline-icon"><i class="fa-solid fa-tree"></i></div>
+                                <div class="timeline-content">
+                                    <h6>Masa Awal</h6>
+                                    <p>Desa Mentangor awalnya merupakan kawasan yang dikelola oleh masyarakat secara
+                                        tradisional dengan kearifan lokal.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-icon"><i class="fa-solid fa-users"></i></div>
+                                <div class="timeline-content">
+                                    <h6>Pembentukan Desa</h6>
+                                    <p>Seiring dengan bertambahnya penduduk dan kebutuhan administrasi, Desa Mentangor
+                                        resmi dibentuk secara administratif.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-icon"><i class="fa-solid fa-arrow-trend-up"></i></div>
+                                <div class="timeline-content">
+                                    <h6>Perkembangan</h6>
+                                    <p>Desa Mentangor mulai berkembang dengan adanya berbagai sarana dan prasarana serta
+                                        potensi ekonomi masyarakat.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-icon"><i class="fa-solid fa-hand-holding-heart"></i></div>
+                                <div class="timeline-content">
+                                    <h6>Desa Maju</h6>
+                                    <p>Kini, Desa Mentangor terus berkomitmen menjadi desa yang maju, mandiri, dan
+                                        sejahtera bagi seluruh warganya.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Potensi Section -->
+    <section class="py-4">
+        <div>
+            <div class="potensi-header">Potensi Desa Mentangor</div>
+        </div>
+        <div class="container mt-3">
+            <div class="row g-3">
+                <div class="col-6 col-md-3">
+                    <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='100%25' height='100%25' fill='%23e2e8f0'/%3E%3Ctext x='50%25' y='40%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='16' font-weight='bold' fill='%23ef4444'%3E[FOTO SEMENTARA]%3C/text%3E%3Ctext x='50%25' y='60%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23ef4444'%3EPertanian%3C/text%3E%3C/svg%3E"
+                        loading="lazy" class="potensi-img placeholder-img" alt="Pertanian">
+                    <div class="potensi-caption">Pertanian</div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='100%25' height='100%25' fill='%23e2e8f0'/%3E%3Ctext x='50%25' y='40%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='16' font-weight='bold' fill='%23ef4444'%3E[FOTO SEMENTARA]%3C/text%3E%3Ctext x='50%25' y='60%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23ef4444'%3EPerikanan%3C/text%3E%3C/svg%3E"
+                        loading="lazy" class="potensi-img placeholder-img" alt="Perikanan">
+                    <div class="potensi-caption">Perikanan</div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='100%25' height='100%25' fill='%23e2e8f0'/%3E%3Ctext x='50%25' y='40%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='16' font-weight='bold' fill='%23ef4444'%3E[FOTO SEMENTARA]%3C/text%3E%3Ctext x='50%25' y='60%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23ef4444'%3EKerajinan%3C/text%3E%3C/svg%3E"
+                        loading="lazy" class="potensi-img placeholder-img" alt="Kerajinan">
+                    <div class="potensi-caption">Kerajinan</div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='100%25' height='100%25' fill='%23e2e8f0'/%3E%3Ctext x='50%25' y='40%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='16' font-weight='bold' fill='%23ef4444'%3E[FOTO SEMENTARA]%3C/text%3E%3Ctext x='50%25' y='60%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23ef4444'%3EBudaya / Gotong Royong%3C/text%3E%3C/svg%3E"
+                        loading="lazy" class="potensi-img placeholder-img" alt="Budaya & Gotong Royong">
+                    <div class="potensi-caption">Budaya & Gotong Royong</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quote & Gate Section -->
+    <section class="py-5" id="visi-misi">
+        <div class="container">
+            <div class="row align-items-center g-4">
+                <div class="col-md-6">
+                    <div class="quote-box">
+                        <h4 class="fst-italic fw-medium text-dark lh-base text-center mb-0" style="font-size: 1.25rem;">
+                            Bersama kita membangun Desa Mentangor menjadi desa yang maju, mandiri, dan sejahtera.
+                        </h4>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='300' viewBox='0 0 600 300'%3E%3Crect width='100%25' height='100%25' fill='%23e2e8f0'/%3E%3Ctext x='50%25' y='45%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='24' font-weight='bold' fill='%23ef4444'%3E[FOTO SEMENTARA - WAJIB DIGANTI]%3C/text%3E%3Ctext x='50%25' y='60%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='20' fill='%23ef4444'%3EGerbang Desa Mentangor%3C/text%3E%3C/svg%3E"
+                        class="w-100 rounded-4 shadow-sm placeholder-img" loading="lazy" alt="Gerbang Desa Mentangor">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Info Footer Strip -->
+    <div class="info-footer mt-4">
+        <div class="container">
+            <div class="row text-center g-3">
+                <div class="col-6 col-md-3 d-flex flex-column align-items-center justify-content-center">
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="fa-solid fa-location-dot info-footer-icon"></i>
+                    </div>
+                    <div class="fw-bold">Desa Mentangor</div>
+                    <div class="small opacity-75">Kecamatan Kulim - Kota Pekanbaru</div>
+                </div>
+                <div class="col-6 col-md-3 d-flex flex-column align-items-center justify-content-center">
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="fa-solid fa-users info-footer-icon"></i>
+                    </div>
+                    <div class="fw-bold">Gotong Royong</div>
+                    <div class="small opacity-75">Kunci Kemajuan Desa</div>
+                </div>
+                <div class="col-6 col-md-3 d-flex flex-column align-items-center justify-content-center">
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="fa-solid fa-leaf info-footer-icon"></i>
+                    </div>
+                    <div class="fw-bold">Melestarikan Budaya</div>
+                    <div class="small opacity-75">Membangun Masa Depan</div>
+                </div>
+                <div class="col-6 col-md-3 d-flex flex-column align-items-center justify-content-center">
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="fa-solid fa-handshake-angle info-footer-icon"></i>
+                    </div>
+                    <div class="fw-bold">Bersama Masyarakat</div>
+                    <div class="small opacity-75">Membangun Desa</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Utama -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>

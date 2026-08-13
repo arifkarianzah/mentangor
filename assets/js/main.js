@@ -32,6 +32,24 @@ function initApp() {
     }
   }
 
+  // Handle cross-page anchor scrolling on load
+  if (window.location.hash) {
+    const hash = window.location.hash;
+    const targetElement = document.querySelector(hash);
+    
+    if (targetElement) {
+      setTimeout(() => {
+        const navbarHeight = document.querySelector('.navbar') ? document.querySelector('.navbar').offsetHeight : 80;
+        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navbarHeight - 20;
+        
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
+        });
+      }, 100);
+    }
+  }
+
   // Before/After Slider Logic (if exists on page)
   initSlider();
 }
