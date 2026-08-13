@@ -892,7 +892,7 @@
                                 day: 'numeric', month: 'long', year: 'numeric'
                             });
                             
-                            const imgUrl = item.image_url || 'https://via.placeholder.com/600x400?text=Berita';
+                            const imgUrl = API.getFileUrl(item.image_url, 'https://placehold.co/600x400/244937/ffffff?text=Berita');
                             const tmp = document.createElement("DIV");
                             tmp.innerHTML = item.content;
                             const plainText = tmp.textContent || tmp.innerText || "";
@@ -902,7 +902,7 @@
                             <div class="col-md-6 col-lg-4">
                                 <div class="news-card-redesign position-relative hover-lift">
                                     <div class="position-relative">
-                                        <img src="${imgUrl}" alt="Berita" onerror="this.src='https://via.placeholder.com/600x400?text=Berita'">
+                                        <img src="${imgUrl}" alt="Berita" onerror="this.src='https://placehold.co/600x400/244937/ffffff?text=Berita'">
                                         <span class="badge bg-primary-green position-absolute top-0 start-0 m-3 fw-medium">${item.category}</span>
                                     </div>
                                     <div class="p-3 d-flex flex-column flex-grow-1">
@@ -940,7 +940,7 @@
                         container.innerHTML = '<div class="col-12 text-center text-muted py-4">Belum ada galeri terbaru.</div>';
                     } else {
                         container.innerHTML = data.map(item => {
-                            const imgUrl = item.image_url || 'https://via.placeholder.com/600x400?text=Galeri';
+                            const imgUrl = API.getFileUrl(item.image_url, 'https://placehold.co/600x400/244937/ffffff?text=Galeri');
                             return `
                             <div class="col-md-4">
                                 <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden hover-lift flex-column">

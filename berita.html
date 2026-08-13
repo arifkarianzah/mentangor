@@ -223,13 +223,7 @@
                 const plainContent = tmp.textContent || tmp.innerText || "";
                 const snippet = plainContent.substring(0, 100) + '...';
 
-                const img = (() => {
-                    const url = news.image_url;
-                    if (!url) return 'https://placehold.co/600x400/244937/ffffff?text=Berita+Desa';
-                    if (url.startsWith('http://') || url.startsWith('https://')) return url;
-                    // Relative path (uploads/news/xxx.jpg) → point to backend port 3000
-                    return `http://localhost:3000/${url.replace(/^\//, '')}`;
-                })();
+                const img = API.getFileUrl(news.image_url, 'https://placehold.co/600x400/244937/ffffff?text=Berita+Desa');
 
                 return `
                 <div class="col-lg-4 col-md-6">

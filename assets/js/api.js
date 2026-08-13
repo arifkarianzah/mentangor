@@ -9,6 +9,12 @@ var API_URL = window.API_URL;
 
 if (typeof window.API === 'undefined') {
   window.API = {
+    getFileUrl: (path, defaultUrl = 'https://placehold.co/600x400/244937/ffffff?text=Image') => {
+      if (!path) return defaultUrl;
+      if (path.startsWith('http://') || path.startsWith('https://')) return path;
+      const base = window.API_URL.replace('/api', '');
+      return `${base}/${path.replace(/^\//, '')}`;
+    },
     getHeaders: () => {
       const token = localStorage.getItem('portaldesa_token');
       return token ? { 'Authorization': `Bearer ${token}` } : {};

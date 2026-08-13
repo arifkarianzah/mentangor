@@ -190,7 +190,7 @@
                         weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
                     });
 
-                    const img = news.image_url || 'https://via.placeholder.com/800x400?text=Berita';
+                    const img = API.getFileUrl(news.image_url, 'https://placehold.co/800x400/244937/ffffff?text=Berita');
 
                     container.innerHTML = `
                         <nav aria-label="breadcrumb" class="mb-4">

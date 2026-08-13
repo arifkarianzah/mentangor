@@ -233,12 +233,7 @@
                     ? '<span class="badge bg-success">Published</span>' 
                     : '<span class="badge bg-secondary">Draft</span>';
 
-                const resolveImg = (url) => {
-                    if (!url) return null;
-                    if (url.startsWith('http://') || url.startsWith('https://')) return url;
-                    return `http://localhost:3000/${url.replace(/^\//, '')}`;
-                };
-                const imgSrc = resolveImg(item.image_url);
+                const imgSrc = API.getFileUrl(item.image_url, null);
                 const thumb = imgSrc 
                     ? `<img src="${imgSrc}" class="rounded-3 object-fit-cover shadow-sm border" style="width: 48px; height: 48px;" alt="Foto" onerror="this.style.display='none';this.nextSibling.style.display='flex';"><div class="bg-light rounded-3 d-flex align-items-center justify-content-center border text-muted shadow-sm" style="width: 48px; height: 48px; display:none;"><i class="fa-regular fa-image"></i></div>` 
                     : `<div class="bg-light rounded-3 d-flex align-items-center justify-content-center border text-muted shadow-sm" style="width: 48px; height: 48px;"><i class="fa-regular fa-image"></i></div>`;
@@ -324,7 +319,7 @@
             window.clearSelectedImage();
             
             if (item.image_url) {
-                document.getElementById('imagePreview').src = item.image_url;
+                document.getElementById('imagePreview').src = API.getFileUrl(item.image_url, null);
                 document.getElementById('imagePreviewWrapper').classList.remove('d-none');
             }
             

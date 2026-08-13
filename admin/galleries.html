@@ -216,8 +216,9 @@
                     ? '<span class="badge bg-success">Published</span>' 
                     : '<span class="badge bg-secondary">Draft</span>';
 
-                const thumb = item.image_url 
-                    ? `<img src="${item.image_url}" class="rounded-3 object-fit-cover shadow-sm border" style="width: 80px; height: 60px;" alt="Foto">` 
+                const imgSrc = API.getFileUrl(item.image_url, null);
+                const thumb = imgSrc 
+                    ? `<img src="${imgSrc}" class="rounded-3 object-fit-cover shadow-sm border" style="width: 80px; height: 60px;" alt="Foto">` 
                     : `<div class="bg-light rounded-3 d-flex align-items-center justify-content-center border text-muted shadow-sm" style="width: 80px; height: 60px;"><i class="fa-regular fa-image"></i></div>`;
                 
                 return `
@@ -309,7 +310,7 @@
             window.clearSelectedImage();
             
             if (item.image_url) {
-                document.getElementById('imagePreview').src = item.image_url;
+                document.getElementById('imagePreview').src = API.getFileUrl(item.image_url, null);
                 document.getElementById('imagePreviewWrapper').classList.remove('d-none');
                 document.getElementById('inputImage').classList.add('d-none');
             }
