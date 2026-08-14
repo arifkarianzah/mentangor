@@ -355,6 +355,28 @@ async function mockQuery(sql, params = []) {
     return [{ affectedRows: 1 }];
   }
 
+  // ANNOUNCEMENTS - INSERT
+  if (upper.startsWith('INSERT INTO ANNOUNCEMENTS')) {
+    if (!store.announcements) store.announcements = [];
+    const newId = store.announcements.length ? Math.max(...store.announcements.map(a => a.id)) + 1 : 1;
+    
+    const newItem = {
+      id: newId,
+      title: params[0],
+      content: params[1] || '',
+      type: params[2] || 'umum',
+      image: params[3] || null,
+      is_pinned: params[4] === 1 || params[4] === true || params[4] === '1' ? 1 : 0,
+      is_active: params[5] === 1 || params[5] === true || params[5] === '1' ? 1 : 0,
+      published_at: params[6] || new Date().toISOString(),
+      created_at: new Date().toISOString()
+    };
+    
+    store.announcements.unshift(newItem);
+    saveStore();
+    return [{ insertId: newId, affectedRows: 1 }];
+  }
+
   // ANNOUNCEMENTS - UPDATE
   if (upper.startsWith('UPDATE ANNOUNCEMENTS')) {
     const title = params[0];
