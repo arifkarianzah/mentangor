@@ -102,11 +102,11 @@ const createAnnouncement = async (req, res) => {
   try {
     const { title, content, type, is_pinned, published_at } = req.body;
     const image = req.file ? `announcements/${req.file.filename}` : null;
-    const pinnedVal = (is_pinned === true || is_pinned === 'true' || is_pinned === '1' || is_pinned === 1) ? 1 : 0;
+    const pinnedVal = (is_pinned === true || is_pinned === 'true' || is_pinned === '1' || is_pinned === 1) ? true : false;
 
     const [result] = await db.query(
       `INSERT INTO announcements (title, content, type, image, is_pinned, is_active, created_by, published_at)
-       VALUES (?, ?, ?, ?, ?, 1, ?, ?)`,
+       VALUES (?, ?, ?, ?, ?, true, ?, ?)`,
       [title, content, type || 'umum', image, pinnedVal,
        req.user.id, published_at || new Date()]
     );
@@ -130,7 +130,7 @@ const updateAnnouncement = async (req, res) => {
     if (rows.length === 0) return notFound(res, 'Pengumuman tidak ditemukan');
 
     const image = req.file ? `announcements/${req.file.filename}` : null;
-    const pinnedVal = (is_pinned === true || is_pinned === 'true' || is_pinned === '1' || is_pinned === 1) ? 1 : 0;
+    const pinnedVal = (is_pinned === true || is_pinned === 'true' || is_pinned === '1' || is_pinned === 1) ? true : false;
 
     await db.query(
       `UPDATE announcements SET
