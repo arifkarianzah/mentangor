@@ -42,11 +42,25 @@
         .hero-section {
             position: relative;
             background-color: #0f172a;
-            background-image: url('assets/img/hero-bg-baru.jpg?v=15'), url('../assets/img/hero-bg-baru.jpg?v=15') !important;
+            background-image: url('assets/img/hero-bg-baru.jpg?v=15') !important;
             background-size: cover !important;
             background-position: center 30% !important;
             background-repeat: no-repeat !important;
             background-attachment: scroll;
+            overflow: hidden;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: 0;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
         }
 
         @media (max-width: 991.98px) {
@@ -130,7 +144,11 @@
 
     <!-- Hero Section -->
     <section class="hero-section d-flex align-items-center position-relative" style="min-height: 80vh;">
-        <div class="overlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, rgba(27,67,50,0.6) 0%, rgba(27,67,50,0.3) 50%, rgba(27,67,50,0.8) 100%);"></div>
+        <!-- Video Background -->
+        <video autoplay loop muted playsinline class="hero-video">
+            <source src="assets/video/desa.mp4" type="video/mp4">
+        </video>
+        <div class="overlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, rgba(27,67,50,0.6) 0%, rgba(27,67,50,0.3) 50%, rgba(27,67,50,0.8) 100%); z-index: 0;"></div>
         <div class="container position-relative z-1 pt-5">
             <div class="row pt-5 mt-5">
                 <div class="col-lg-8 text-white text-start">
